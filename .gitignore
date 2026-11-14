@@ -1,5 +1,20 @@
+# Dependencies and build output
 node_modules/
+dist/
+.vercel/
+
+# Environment and secrets — never commit
 .env
 .env.*
+!.env.example
 *.key
+*.pem
+*.wif
+*wif*.txt
+*seed*
+*mnemonic*
+*.secret
 *.mock.json
+
+# Private working notes
+note.md
