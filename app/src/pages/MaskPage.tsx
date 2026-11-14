@@ -1,19 +1,24 @@
 import { useState } from 'react';
 import { MASK, type Lang } from '../content/mask';
-import { T } from '../content/i18n';
+import type { Strings } from '../content/i18n';
 import { useWallet } from '../wallet/useWallet';
+import { useBchUsd, fmtUsd, fmtBch } from '../price';
+import { SplitBar } from '../components/SplitBar';
 
-const fmtSats = (n: number) => n.toLocaleString('en-US').replace(/,/g, ' ');
-
-export function MaskPage({ onConnect }: { onConnect: () => void }) {
-  const [lang, setLang] = useState<Lang>('fr');
+// Screen 1. Above the fold on a phone: photo, one headline, price, money split, one button.
+export function MaskPage({ lang, t, onConnect, onHow }: { lang: Lang; t: Strings; onConnect: () => void; onHow: () => void }) {
   const s = useWallet();
-  const t = T[lang];
+  const rate = useBchUsd();
   const [note, setNote] = useState<string | null>(null);
 
+  // USD first, BCH second. Before mint the USD price is the reference; after mint, sats are.
+  const usdPerBch = typeof rate === 'object' ? rate.usdPerBch : null;
+  const usd = MASK.priceSats !== null ? (usdPerBch ? (MASK.priceSats / 1e8) * usdPerBch : null) : MASK.priceUsd;
+  const bch = MASK.priceSats !== null ? MASK.priceSats / 1e8 : usdPerBch ? MASK.priceUsd / usdPerBch : null;
+
   const onBuy = () => {
-    if (!s.approved) { setNote(t.connectFirst); onConnect(); return; }
-    setNote(t.checkoutSoon); // Screen 2 (buy flow) replaces this
+    if (!s.approved) { onConnect(); return; }
+    setNote(t.checkoutSoon); // replaced by the buy flow (screen 2)
   };
 
   return (
@@ -21,35 +26,34 @@ export function MaskPage({ onConnect }: { onConnect: () => void }) {
       <figure className="mask-photo">
         {MASK.photo
           ? <img src={MASK.photo} alt={MASK.name} />
-          : <div className="photo-placeholder" role="img" aria-label="Mask photo placeholder">[MASK_PHOTO]</div>}
+          : <div className="photo-placeholder" role="img" aria-label="[MASK_PHOTO]">[MASK_PHOTO]</div>}
       </figure>
 
       <div className="mask-body">
-        <div className="lang-toggle" role="group" aria-label="Language">
-          {(['fr', 'en'] as const).map((l) => (
-            <button key={l} type="button" aria-pressed={lang === l} className={lang === l ? 'on' : ''} onClick={() => setLang(l)}>
-              {l.toUpperCase()}
-            </button>
-          ))}
+        <h1 className="mask-name">{MASK.name}</h1>
+        <p className="mask-artisan">{t.by} {MASK.artisan} · {MASK.origin}</p>
+        <p className="tagline">{t.tagline}</p>
+
+        <div className="price">
+          <span className="price-usd">{usd === null ? '—' : fmtUsd(usd)}</span>
+          <span className="price-bch">
+            {bch !== null ? `≈ ${fmtBch(bch)}` : rate === 'loading' ? t.rateLoading : t.rateMissing}
+          </span>
         </div>
 
-        <h1 className="mask-name">{MASK.name}</h1>
-        <p className="mask-artisan">{t.by} <span>{MASK.artisan}</span> · {MASK.origin}</p>
+        <SplitBar usd={usd} t={t} />
 
-        <p className="mask-price">
-          {MASK.priceSats === null ? '[PRICE]' : <>{fmtSats(MASK.priceSats)} <small>sats</small></>}
-        </p>
-        <p className="royalty">{t.royaltyLine}</p>
+        <div className="buy-dock">
+          <button type="button" className="btn btn-primary btn-buy" onClick={onBuy}>{t.buy}</button>
+          {note && <p className="hint" role="status">{note}</p>}
+        </div>
 
-        <button type="button" className="btn btn-primary btn-buy" onClick={onBuy}>{t.buy}</button>
-        {note && <p className="hint" role="status">{note}</p>}
+        <p className="cert">{t.certificate} <button type="button" className="link" onClick={onHow}>{t.howItWorks}</button></p>
 
         <section className="story">
           <h2>{t.story}</h2>
           <p lang={lang}>{MASK.story[lang]}</p>
         </section>
-
-        <p className="fine">{t.certificateNote}</p>
       </div>
     </article>
   );

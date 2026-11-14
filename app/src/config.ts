@@ -27,7 +27,7 @@ export const LINKS = {
   prepTag: 'https://github.com/tdeu/tribal-authentica-preparation/tree/before-blaze-14nov',
   beforeDemo: env('VITE_BEFORE_DEMO_URL', '[BEFORE_DEMO_URL]'),
   deck: env('VITE_DECK_URL', '[DECK_URL]'),
-  donation: env('VITE_DONATION_ADDRESS', '[DONATION_Z_ADDRESS]'),
+  donation: env('VITE_DONATION_ADDRESS', 'bitcoincash:zr0krft3nnzhggqah9tdl3qpvyahyzwrfvjqagkdux'),
 };
 
 export const isPlaceholder = (v: string) => v.startsWith('[') && v.endsWith(']');

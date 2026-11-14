@@ -1,13 +1,19 @@
 import { useState } from 'react';
-import { LINKS, NETWORK, isPlaceholder } from '../config';
+import { LINKS, isPlaceholder } from '../config';
 
 // Required on every demo page (BCH BLAZE 2026): repo, pre-existing code, frozen "before" demo,
-// deck, and a CashTokens donation address. Placeholders render as plain text, not links.
+// deck, CashTokens donation address. Kept to one thin line so it never pushes the mask below
+// the fold; on narrow screens the line scrolls sideways inside the banner (not the page).
 function Item({ label, href }: { label: string; href: string }) {
   return isPlaceholder(href)
-    ? <span className="blaze-item blaze-todo" title="placeholder">{label} {href}</span>
+    ? <span className="blaze-item blaze-todo" title={`${label}: coming soon`}>{label}</span>
     : <a className="blaze-item" href={href} target="_blank" rel="noreferrer">{label}</a>;
 }
+
+const shortAddr = (a: string) => {
+  const body = a.split(':')[1] ?? a;
+  return `${body.slice(0, 6)}…${body.slice(-5)}`;
+};
 
 export function BlazeBanner() {
   const [copied, setCopied] = useState(false);
@@ -15,23 +21,17 @@ export function BlazeBanner() {
     try { await navigator.clipboard.writeText(LINKS.donation); setCopied(true); setTimeout(() => setCopied(false), 1500); } catch { /* ignore */ }
   };
   return (
-    <header className="blaze" role="banner">
-      <div className="blaze-row">
-        <strong className="blaze-title">Built for BCH BLAZE 2026</strong>
-        {NETWORK !== 'mainnet' && <span className="blaze-net">{NETWORK}</span>}
-      </div>
-      <nav className="blaze-row blaze-links" aria-label="Hackathon links">
+    <header className="blaze">
+      <div className="blaze-line">
+        <strong className="blaze-title">BCH BLAZE 2026</strong>
         <Item label="Repo" href={LINKS.repo} />
         <Item label="Pre-hackathon code" href={LINKS.prepTag} />
         <Item label="Before demo" href={LINKS.beforeDemo} />
         <Item label="Deck" href={LINKS.deck} />
-      </nav>
-      <div className="blaze-row blaze-donate">
-        <span>Donate (CashTokens):</span>
-        <code className="blaze-addr">{LINKS.donation}</code>
-        {!isPlaceholder(LINKS.donation) && (
-          <button type="button" className="blaze-copy" onClick={copy}>{copied ? 'Copied' : 'Copy'}</button>
-        )}
+        <button type="button" className="blaze-donate" onClick={copy} title={LINKS.donation}
+          aria-label={`Copy donation address ${LINKS.donation}`}>
+          Donate <code>{copied ? 'copied ✓' : shortAddr(LINKS.donation)}</code>
+        </button>
       </div>
     </header>
   );

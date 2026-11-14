@@ -18,7 +18,7 @@ so the certificate can't be moved without paying the artisan.
 | Pitch deck | [DECK_URL] |
 | "Before" demo (frozen) | [BEFORE_DEMO_URL] |
 | Pre-hackathon code | [tribal-authentica-preparation @ before-blaze-14nov](https://github.com/tdeu/tribal-authentica-preparation/tree/before-blaze-14nov) |
-| Donations (CashTokens-aware) | `[DONATION_Z_ADDRESS]` |
+| Donations (CashTokens-aware) | `bitcoincash:zr0krft3nnzhggqah9tdl3qpvyahyzwrfvjqagkdux` |
 
 ## Before / During BLAZE
 
