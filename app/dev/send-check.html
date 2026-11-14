@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Send check (dev)</title>
+  <style>
+    body { font: 15px/1.5 system-ui, sans-serif; max-width: 640px; margin: 0 auto; padding: 16px; background: #fafaf7; color: #1b1b1f; }
+    h1 { font-size: 20px; } .box { background: #fff; border: 1px solid #ddd; border-radius: 10px; padding: 14px; margin: 12px 0; }
+    button { font: inherit; padding: 10px 14px; border-radius: 8px; border: 0; background: #2B3A8C; color: #fff; cursor: pointer; }
+    button:disabled { opacity: .4; cursor: default; } input[type=text] { width: 100%; font: inherit; padding: 8px; box-sizing: border-box; }
+    pre { white-space: pre-wrap; word-break: break-all; font-size: 12px; } .warn { color: #a33; font-weight: 600; } .ok { color: #1a7a3a; font-weight: 600; }
+    canvas { display: block; margin: 8px 0; }
+  </style>
+</head>
+<body>
+  <h1>First real mainnet broadcast — plain send via Selene</h1>
+  <p class="warn">MAINNET. This sends real BCH. Dev tool only, not part of the demo build.</p>
+  <div class="box" id="connectBox">
+    <button id="connect">Connect Selene (WizardConnect)</button>
+    <canvas id="qr" hidden></canvas>
+    <button id="copy" hidden>Copy connection link</button>
+    <pre id="conn"></pre>
+  </div>
+  <div class="box">
+    <label>Destination (default: your own Selene receive/0)<br><input type="text" id="to" /></label>
+    <p>Amount: <b>1 000 sats</b> + network fee (~220 sats at 1 sat/byte). Change returns to your receive/0.</p>
+    <button id="build" disabled>1. Build transaction</button>
+    <pre id="built"></pre>
+    <label><input type="checkbox" id="confirm" disabled /> I confirm: send this real mainnet transaction</label><br><br>
+    <button id="sign" disabled>2. Ask Selene to sign</button>
+    <button id="cancel" hidden>Cancel request</button>
+    <pre id="signed"></pre>
+    <button id="broadcast" disabled>3. Broadcast</button>
+    <pre id="result"></pre>
+  </div>
+  <script type="module" src="../src/dev/sendCheck.ts"></script>
+</body>
+</html>
