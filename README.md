@@ -20,7 +20,7 @@ In production, payouts go to the workshop or family that holds the mask.
 
 | | |
 |---|---|
-| Hosted demo | [DEMO_URL] |
+| Hosted demo | https://tribal-authentica.vercel.app |
 | Pitch deck | [DECK_URL] |
 | "Before" demo (frozen) | [BEFORE_DEMO_URL] |
 | Pre-hackathon code | [tribal-authentica-preparation @ before-blaze-14nov](https://github.com/tdeu/tribal-authentica-preparation/tree/before-blaze-14nov) |
