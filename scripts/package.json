@@ -9,7 +9,8 @@
     "mint": "tsx mint.ts",
     "probe": "tsx commitment-probe.ts",
     "typecheck": "tsc --noEmit",
-    "test": "vitest run"
+    "test": "vitest run",
+    "funder:new": "tsx funder-new.ts"
   },
   "dependencies": {
     "@bitauth/libauth": "3.0.0",

@@ -16,7 +16,9 @@ export function MaskPage({ lang, t, onConnect, onHow }: { lang: Lang; t: Strings
   const usd = MASK.priceSats !== null ? (usdPerBch ? (MASK.priceSats / 1e8) * usdPerBch : null) : MASK.priceUsd;
   const bch = MASK.priceSats !== null ? MASK.priceSats / 1e8 : usdPerBch ? MASK.priceUsd / usdPerBch : null;
 
+  const minted = MASK.categoryId !== null;
   const onBuy = () => {
+    if (!minted) return;
     if (!s.approved) { onConnect(); return; }
     setNote(t.checkoutSoon); // replaced by the buy flow (screen 2)
   };
@@ -45,7 +47,9 @@ export function MaskPage({ lang, t, onConnect, onHow }: { lang: Lang; t: Strings
         <SplitBar usd={usd} t={t} />
 
         <div className="buy-dock">
-          <button type="button" className="btn btn-primary btn-buy" onClick={onBuy}>{t.buy}</button>
+          <button type="button" className="btn btn-primary btn-buy" onClick={onBuy} disabled={!minted} aria-disabled={!minted}>
+            {minted ? t.buy : t.comingSoon}
+          </button>
           {note && <p className="hint" role="status">{note}</p>}
         </div>
 

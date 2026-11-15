@@ -17,6 +17,8 @@ const photos = m.photos as Photo[];
 
 export const MASK = {
   catalogueId: m.catalogueId,
+  // No category on this network = not minted yet: Buy stays disabled ("Coming soon").
+  categoryId: m.categoryId[NETWORK] as string | null,
   name: m.title,
   custodian: m.custodianLabel,
   // Demo price ≈ $1. Once minted, the on-chain price (sats, fixed in the commitment) takes over and

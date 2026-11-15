@@ -20,6 +20,12 @@ if (network !== 'chipnet' && network !== 'mainnet') throw new Error('usage: --ne
 const maskArg = arg('--mask');
 if (!maskArg) throw new Error('--mask <catalogueId>|all is required');
 
+const provider = makeProvider(network);
+const funder = loadFunder(network);
+const funderUtxos = (await provider.getUtxos(funder.address)).filter((u) => !u.token);
+const balance = funderUtxos.reduce((s, u) => s + u.satoshis, 0n);
+console.log(`funder (${network}) ${funder.address}  balance ${balance} sats`);
+
 const data = loadMasks();
 const stale = refreshFingerprints(data);
 if (stale.length) throw new Error(`masks.json is stale (${stale.join(', ')}). Run: npm run fingerprint, review, commit, then mint.`);
@@ -30,9 +36,6 @@ if (!selected.length) throw new Error(`no mask with catalogueId ${maskArg}`);
 const platform = parsePayout(data.platformPayoutAddress[network], network, 'platform payout address');
 const { vaultSats: vs, platformBps } = data.contract;
 const vaultSats = BigInt(vs);
-
-const provider = makeProvider(network);
-const funder = loadFunder(network);
 
 // ---------------------------------------------------------------- plan (all checks before anything is sent)
 
@@ -69,8 +72,6 @@ const plan = selected.map((m) => {
 
 const perMask = vaultSats + GENESIS_FEE + PREP_FEE_EST;
 const total = perMask * BigInt(plan.length);
-const funderUtxos = (await provider.getUtxos(funder.address)).filter((u) => !u.token);
-const balance = funderUtxos.reduce((s, u) => s + u.satoshis, 0n);
 
 console.log(`\nMINT PLAN — ${network.toUpperCase()}`);
 console.log(`funder   ${funder.address}  balance ${balance} sats${usd(balance)}`);
