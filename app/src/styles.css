@@ -168,3 +168,35 @@ main { max-width: 1040px; margin: 0 auto; padding: 0 16px 40px; }
   border: 1px dashed var(--muted); color: var(--muted); font-size: 13px; line-height: 1.4;
 }
 .status { font-weight: 600; }
+
+/* Gallery */
+.gallery { display: grid; gap: 10px; }
+.cards { list-style: none; margin: 6px 0 0; padding: 0; display: grid; gap: 12px; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+@media (min-width: 720px) { .cards { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.card { display: grid; text-decoration: none; color: inherit; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; height: 100%; }
+.card:hover, .card:focus-visible { border-color: var(--indigo); }
+.card-photo { aspect-ratio: 4 / 5; display: grid; place-items: center; background: var(--indigo-soft); color: var(--muted); font-size: 12px; }
+.card-photo img { width: 100%; height: 100%; object-fit: cover; }
+.card-body { display: grid; gap: 2px; padding: 10px 12px 12px; min-width: 0; }
+.card-ref { font-size: 11px; color: var(--muted); letter-spacing: .08em; }
+.card-name { font-family: Georgia, "Times New Roman", serif; font-size: 16px; overflow-wrap: anywhere; }
+.card-price { font-weight: 700; font-variant-numeric: tabular-nums; font-size: 15px; }
+.card-price small { font-weight: 400; color: var(--muted); }
+.status-not-sold, .status-resale { color: var(--accent-text); }
+.status-just-sold, .status-yours { color: var(--ok); }
+.status-coming-soon, .status-loading, .status-sold, .status-error { color: var(--muted); }
+.card .status { font-size: 13px; font-weight: 600; }
+.back { display: inline-block; margin: 0 0 8px; }
+a.brand { text-decoration: none; }
+
+/* Buy sheet: the bill, shown before signing */
+.bill { margin: 8px 0 6px; display: grid; gap: 6px; }
+.bill > div { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; }
+.bill dt { color: var(--muted); font-size: 14px; }
+.bill dd { margin: 0; text-align: right; font-weight: 600; font-variant-numeric: tabular-nums; }
+.bill dd small { display: block; font-weight: 400; color: var(--muted); font-size: 12px; }
+.bill-total { border-bottom: 1px solid var(--line); padding-bottom: 8px; }
+.bill-total dt { color: var(--ink); font-weight: 600; }
+.bill-total dd { font-size: 20px; }
+.bill-cap dt { font-size: 12px; text-transform: uppercase; letter-spacing: .08em; }
+.split-line { margin: 4px 0 12px; font-size: 14px; font-weight: 600; color: var(--accent-text); }

@@ -4,32 +4,44 @@
 import data from '../data/masks.json';
 import { NETWORK } from '../config';
 import type { Photo } from '../data/fingerprint';
+import type { MintRecord } from '../chain/vault';
 
 export type Lang = 'fr' | 'en';
 
 export const COLLECTION = data;
 export const DEMO_NOTICE: Record<Lang, string> = data.demoNotice;
+export const CONTRACT = data.contract;
 
-// Screen 1 shows the first mask until the gallery lands (step 2).
-const m = data.masks[0];
-const mint = m.mint[NETWORK] as { priceSats: number } | null;
-const photos = m.photos as Photo[];
-
-export const MASK = {
-  catalogueId: m.catalogueId,
-  // No category on this network = not minted yet: Buy stays disabled ("Coming soon").
-  categoryId: m.categoryId[NETWORK] as string | null,
-  name: m.title,
-  custodian: m.custodianLabel,
-  // Demo price ≈ $1. Once minted, the on-chain price (sats, fixed in the commitment) takes over and
-  // the USD figure is derived from it at the live rate.
-  priceUsd: 1,
-  priceSats: mint ? mint.priceSats : null,
-  photo: photos.length ? `/${photos[0].file}` : null,
-  story: m.story satisfies Record<Lang, string>,
-  // Before the first sale the on-chain owner is the custodian's key: that is "not yet sold".
-  sold: false,
+export type MaskView = {
+  catalogueId: number;
+  ref: string;                 // "001"
+  name: string;
+  custodian: string;
+  story: Record<Lang, string>;
+  photo: string | null;
+  // Set on this network once minted. No mint = not for sale yet: Buy says "Coming soon".
+  mint: MintRecord | null;
+  // Demo price ≈ $1 (USD before mint; after mint the on-chain sats are the reference)
+  priceUsd: number;
 };
+
+export const MASKS: MaskView[] = data.masks.map((m) => {
+  const photos = m.photos as Photo[];
+  const mint = (m.mint as Record<string, MintRecord | null>)[NETWORK] ?? null;
+  const categoryId = (m.categoryId as Record<string, string | null>)[NETWORK] ?? null;
+  return {
+    catalogueId: m.catalogueId,
+    ref: String(m.catalogueId).padStart(3, '0'),
+    name: m.title,
+    custodian: m.custodianLabel,
+    story: m.story,
+    photo: photos.length ? `/${photos[0].file}` : null,
+    mint: mint && categoryId ? mint : null,
+    priceUsd: 1,
+  };
+});
+
+export const maskById = (id: number) => MASKS.find((m) => m.catalogueId === id);
 
 // Split rules, mirrored from the contract parameters (contracts/SPEC.md)
 export const CUSTODIAN_SHARE_FIRST_SALE = 1 - data.contract.platformBps / 10000;
