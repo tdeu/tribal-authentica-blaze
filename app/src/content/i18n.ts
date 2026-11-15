@@ -1,16 +1,18 @@
 import type { Lang } from './mask';
 
-// UI strings. Main path: no crypto jargon (certificate, artisan, paid, owner).
+// UI strings. Main path: no crypto jargon (certificate, custodian, paid, owner).
 // Technical words only appear inside "How it works".
 export const T = {
   fr: {
-    tagline: 'L’artisan est payé maintenant, et à chaque revente.',
-    by: 'par',
-    split: { artisan: 'Artisan', platform: 'Emtée', firstSale: 'À l’achat' },
-    resale: 'Puis 10 % pour l’artisan à chaque revente, pour toujours.',
+    tagline: 'Le gardien du masque est payé maintenant, et à chaque revente.',
+    custodian: 'Gardé par',
+    notSold: 'Pas encore vendu',
+    stays: 'Le masque reste avec son gardien en Côte d’Ivoire. Vous achetez son titre numérique unique et son histoire. Pas d’expédition.',
+    split: { custodian: 'Gardien', platform: 'Emtée', firstSale: 'À l’achat' },
+    resale: 'Puis 10 % pour le gardien à chaque revente, pour toujours.',
     buy: 'Acheter avec Bitcoin Cash',
     checkoutSoon: 'Portefeuille connecté. Le paiement arrive à l’étape suivante.',
-    certificate: 'Livré avec un certificat d’authenticité à votre nom.',
+    certificate: 'Avec un certificat à votre nom, empreinte verrouillée par le contrat.',
     howItWorks: 'Comment ça marche',
     story: 'L’histoire',
     rateLoading: 'cours BCH…',
@@ -41,13 +43,15 @@ export const T = {
     },
   },
   en: {
-    tagline: 'The artisan is paid now, and on every resale.',
-    by: 'by',
-    split: { artisan: 'Artisan', platform: 'Emtée', firstSale: 'When you buy' },
-    resale: 'Then 10% to the artisan on every resale, forever.',
+    tagline: 'The mask’s custodian is paid now, and on every resale.',
+    custodian: 'Kept by',
+    notSold: 'Not yet sold',
+    stays: 'The mask stays with its custodian in Côte d’Ivoire. You buy its one-of-one digital title and its story. No shipping.',
+    split: { custodian: 'Custodian', platform: 'Emtée', firstSale: 'When you buy' },
+    resale: 'Then 10% to the custodian on every resale, forever.',
     buy: 'Buy with Bitcoin Cash',
     checkoutSoon: 'Wallet connected. Checkout comes in the next step.',
-    certificate: 'Comes with a certificate of authenticity in your name.',
+    certificate: 'Comes with a certificate in your name, fingerprint locked by the contract.',
     howItWorks: 'How it works',
     story: 'The story',
     rateLoading: 'BCH rate…',

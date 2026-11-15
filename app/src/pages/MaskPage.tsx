@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { MASK, type Lang } from '../content/mask';
+import { MASK, DEMO_NOTICE, type Lang } from '../content/mask';
 import type { Strings } from '../content/i18n';
 import { useWallet } from '../wallet/useWallet';
 import { useBchUsd, fmtUsd, fmtBch } from '../price';
@@ -30,8 +30,9 @@ export function MaskPage({ lang, t, onConnect, onHow }: { lang: Lang; t: Strings
       </figure>
 
       <div className="mask-body">
+        <p className="demo-notice" role="note" lang={lang}>{DEMO_NOTICE[lang]}</p>
         <h1 className="mask-name">{MASK.name}</h1>
-        <p className="mask-artisan">{t.by} {MASK.artisan} · {MASK.origin}</p>
+        <p className="mask-artisan">{t.custodian} {MASK.custodian} · <span className="status">{t.notSold}</span></p>
         <p className="tagline">{t.tagline}</p>
 
         <div className="price">
@@ -48,6 +49,7 @@ export function MaskPage({ lang, t, onConnect, onHow }: { lang: Lang; t: Strings
           {note && <p className="hint" role="status">{note}</p>}
         </div>
 
+        <p className="cert">{t.stays}</p>
         <p className="cert">{t.certificate} <button type="button" className="link" onClick={onHow}>{t.howItWorks}</button></p>
 
         <section className="story">
