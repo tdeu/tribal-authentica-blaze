@@ -1,0 +1,25 @@
+{
+  "name": "tribal-authentica-scripts",
+  "private": true,
+  "type": "module",
+  "license": "MIT",
+  "description": "Fingerprint + mint tooling. Keys come from scripts/.env (gitignored), never from the command line.",
+  "scripts": {
+    "fingerprint": "tsx fingerprint.ts",
+    "mint": "tsx mint.ts",
+    "probe": "tsx commitment-probe.ts",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@bitauth/libauth": "3.0.0",
+    "cashscript": "0.14.0",
+    "dotenv": "18.0.10"
+  },
+  "devDependencies": {
+    "@types/node": "26.6.6",
+    "tsx": "4.23.15",
+    "typescript": "5.9.3",
+    "vitest": "^3.2.4"
+  }
+}
