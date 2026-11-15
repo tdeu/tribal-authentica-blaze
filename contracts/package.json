@@ -4,7 +4,7 @@
   "type": "module",
   "license": "MIT",
   "scripts": {
-    "compile": "cashc src/RoyaltyVault.cash -o artifacts/RoyaltyVault.json",
+    "compile": "cashc src/RoyaltyVault.cash -o artifacts/RoyaltyVault.json && node -e \"require('fs').copyFileSync('artifacts/RoyaltyVault.json','../app/src/data/RoyaltyVault.artifact.json')\"",
     "test": "npm run compile && vitest run"
   },
   "dependencies": {

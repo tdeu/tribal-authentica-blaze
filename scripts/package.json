@@ -10,7 +10,8 @@
     "probe": "tsx commitment-probe.ts",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
-    "funder:new": "tsx funder-new.ts"
+    "funder:new": "tsx funder-new.ts",
+    "buy:chipnet": "tsx buy-chipnet.ts"
   },
   "dependencies": {
     "@bitauth/libauth": "3.0.0",
