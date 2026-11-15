@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { wallet, RECEIVE, PATH_NAME } from '../wallet/wizard';
+import { useWallet } from '../wallet/useWallet';
 import { walletUtxos, checkSigned, broadcast, provider } from '../wallet/chain';
 import { toWire } from '../wallet/wire';
 import { buildBuy, payoutsOf, readState, type BuiltBuy, type Payout } from '../chain/vault';
@@ -18,7 +19,8 @@ type Phase =
   | { k: 'confirmed'; txid: string }
   | { k: 'error'; message: string; signedHex?: string };
 
-export function BuySheet({ mask, live, t, onClose }: { mask: MaskView; live: Live; t: Strings; onClose: () => void }) {
+export function BuySheet({ mask, live, t, onClose, onConnect }: { mask: MaskView; live: Live; t: Strings; onClose: () => void; onConnect: () => void }) {
+  const ws = useWallet();
   const b = t.buySheet;
   const [phase, setPhase] = useState<Phase>({ k: 'review' });
   const [fee, setFee] = useState<bigint>();
@@ -100,9 +102,12 @@ export function BuySheet({ mask, live, t, onClose }: { mask: MaskView; live: Liv
         </p>
 
         <div className="wbody" aria-live="polite">
-          {phase.k === 'review' && (
-            <button type="button" className="btn btn-primary btn-buy" onClick={start} disabled={wallet.state.pending}>{b.confirm}</button>
-          )}
+          {phase.k === 'review' && (ws.approved
+            ? <button type="button" className="btn btn-primary btn-buy" onClick={start} disabled={ws.pending}>{b.confirm}</button>
+            : (<>
+                <button type="button" className="btn btn-primary btn-buy" onClick={onConnect}>{t.wallet.title}</button>
+                <p className="fine center">{b.connectFirst}</p>
+              </>))}
           {(phase.k === 'building' || phase.k === 'signing' || phase.k === 'broadcasting') && (
             <p className="wstatus"><span className="spinner" aria-hidden />{b[phase.k]}</p>
           )}

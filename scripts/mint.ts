@@ -56,7 +56,7 @@ const plan = selected.map((m) => {
     if (ph.length) throw new Error(`${where}: refusing a mainnet mint with placeholder content (${ph.join(' | ')}). The fingerprint would freeze it forever.`);
   }
   const custodian = parsePayout(m.payoutAddress[network], network, `${where} payout address`);
-  const price = BigInt(m.priceSats);
+  const price = BigInt(m.priceSats[network]);
   const cut = price * BigInt(platformBps) / 10000n;
   if (cut < 546n || price - cut < 546n) throw new Error(`${where}: price ${price} gives a dust share (platform ${cut}, custodian ${price - cut})`);
   const commitment = encodeCommitment({ catalogueId: m.catalogueId, fingerprint: m.fingerprint!, ownerPkh: custodian.pkh, price, lastSalePrice: 0n });

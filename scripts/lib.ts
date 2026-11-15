@@ -32,7 +32,7 @@ export type MintRecord = {
 
 export type Mask = MaskContent & {
   payoutAddress: PerNetwork<string>;
-  priceSats: number;
+  priceSats: PerNetwork<number>; // chipnet = test price
   fingerprint: string | null;
   categoryId: PerNetwork<string | null>;
   mint: PerNetwork<MintRecord | null>;

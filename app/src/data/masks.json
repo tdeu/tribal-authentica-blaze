@@ -1,5 +1,5 @@
 {
-  "_comment": "Demo collection. [BRACKETED] values are placeholders: never replace them with invented names, places or stories. fingerprint is written by scripts/fingerprint.ts, categoryId and mint by scripts/mint.ts.",
+  "_comment": "Demo collection. [BRACKETED] values are placeholders: never replace them with invented names, places or stories. fingerprint is written by scripts/fingerprint.ts, categoryId and mint by scripts/mint.ts. priceSats is per network: chipnet is a test price (never shown on mainnet); it must leave both first-sale shares >= 546 sats.",
   "demoNotice": {
     "en": "Demo collection — masks photographed by Emtée; payout goes to a pilot custodian in Abidjan. In production, payouts go to the workshop or family that holds the mask.",
     "fr": "Collection de démonstration — masques photographiés par Emtée ; le paiement va à un gardien pilote à Abidjan. En production, les paiements vont à l’atelier ou à la famille qui garde le masque."
@@ -28,7 +28,10 @@
         "chipnet": "bchtest:zpqhvj30rjduwezx7fhuenyjs4mh4xzaqvjen7dfk6",
         "mainnet": "[PILOT_CUSTODIAN_Z_ADDRESS]"
       },
-      "priceSats": 470000,
+      "priceSats": {
+        "chipnet": 6000,
+        "mainnet": 470000
+      },
       "fingerprint": "093c8b739d26e30e283c95476713ca681476f26adb1f99cedabeb11133729b40",
       "categoryId": {
         "chipnet": null,
@@ -52,7 +55,10 @@
         "chipnet": "bchtest:zpqhvj30rjduwezx7fhuenyjs4mh4xzaqvjen7dfk6",
         "mainnet": "[PILOT_CUSTODIAN_Z_ADDRESS]"
       },
-      "priceSats": 470000,
+      "priceSats": {
+        "chipnet": 6000,
+        "mainnet": 470000
+      },
       "fingerprint": "9d070da9312e69b03f722774916552e7e6e449750ff15486c48ffd5893b77a8c",
       "categoryId": {
         "chipnet": null,
@@ -76,7 +82,10 @@
         "chipnet": "bchtest:zpqhvj30rjduwezx7fhuenyjs4mh4xzaqvjen7dfk6",
         "mainnet": "[PILOT_CUSTODIAN_Z_ADDRESS]"
       },
-      "priceSats": 470000,
+      "priceSats": {
+        "chipnet": 6000,
+        "mainnet": 470000
+      },
       "fingerprint": "57ca781fc4447dbf93cb7370039d6b18efe4b0043d8b6e410ad051d705d3d072",
       "categoryId": {
         "chipnet": null,
@@ -100,7 +109,10 @@
         "chipnet": "bchtest:zpqhvj30rjduwezx7fhuenyjs4mh4xzaqvjen7dfk6",
         "mainnet": "[PILOT_CUSTODIAN_Z_ADDRESS]"
       },
-      "priceSats": 470000,
+      "priceSats": {
+        "chipnet": 6000,
+        "mainnet": 470000
+      },
       "fingerprint": "52948bcf538c8446f61d72fe672fc115dbed449a3c3c0daa8bf15f0ac7697786",
       "categoryId": {
         "chipnet": null,
@@ -124,7 +136,10 @@
         "chipnet": "bchtest:zpqhvj30rjduwezx7fhuenyjs4mh4xzaqvjen7dfk6",
         "mainnet": "[PILOT_CUSTODIAN_Z_ADDRESS]"
       },
-      "priceSats": 470000,
+      "priceSats": {
+        "chipnet": 6000,
+        "mainnet": 470000
+      },
       "fingerprint": "c1f77e16a0ead8186450fc4ad81632ceac3b5b2c0e8e809f428e5a2d71864350",
       "categoryId": {
         "chipnet": null,
@@ -148,7 +163,10 @@
         "chipnet": "bchtest:zpqhvj30rjduwezx7fhuenyjs4mh4xzaqvjen7dfk6",
         "mainnet": "[PILOT_CUSTODIAN_Z_ADDRESS]"
       },
-      "priceSats": 470000,
+      "priceSats": {
+        "chipnet": 6000,
+        "mainnet": 470000
+      },
       "fingerprint": "1d8d1fd1fa11258412d85f2d0d09eab4afe2be355880f246ecb1cc3ea752bd99",
       "categoryId": {
         "chipnet": null,

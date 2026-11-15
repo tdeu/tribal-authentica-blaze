@@ -25,7 +25,6 @@ export function MaskPage({ mask, lang, t, onConnect, onHow }: {
 
   const onBuy = () => {
     if (!buyable) return;
-    if (!s.approved) { onConnect(); return; }
     setBuying(true);
   };
 
@@ -55,7 +54,6 @@ export function MaskPage({ mask, lang, t, onConnect, onHow }: {
           <button type="button" className="btn btn-primary btn-buy" onClick={onBuy} disabled={!buyable} aria-disabled={!buyable}>
             {buyLabel}
           </button>
-          {buyable && !s.approved && <p className="fine center">{t.buySheet.connectFirst}</p>}
           {live.status === 'error' && <p className="fine center">{live.error}</p>}
         </div>
 
@@ -69,7 +67,7 @@ export function MaskPage({ mask, lang, t, onConnect, onHow }: {
       </div>
 
       {buying && live.state && live.vault && (
-        <BuySheet mask={mask} live={live} t={t} onClose={() => setBuying(false)} />
+        <BuySheet mask={mask} live={live} t={t} onClose={() => setBuying(false)} onConnect={onConnect} />
       )}
     </article>
   );
