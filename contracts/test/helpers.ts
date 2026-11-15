@@ -36,8 +36,12 @@ export const fakeTxid = () => binToHex(sha256.hash(new TextEncoder().encode(`txi
 // Category as explorers show it (txid order) → VM byte order for contract parameters
 export const vmOrder = (categoryHex: string) => hexToBin(categoryHex).reverse();
 
-export const commitment = (ownerPkh: Uint8Array, price: bigint, lastSalePrice: bigint) =>
-  binToHex(new Uint8Array([...ownerPkh, ...bigIntToBinUint64LE(price), ...bigIntToBinUint64LE(lastSalePrice)]));
+// Frozen head of every test certificate: catalogueId (2, LE) || fingerprint (32)
+export const HEAD = new Uint8Array([7, 0, ...sha256.hash(new TextEncoder().encode('test mask fingerprint'))]);
+
+// 70-byte commitment: head (34) || ownerPkh (20) || price (8 LE) || lastSalePrice (8 LE)
+export const commitment = (ownerPkh: Uint8Array, price: bigint, lastSalePrice: bigint, head: Uint8Array = HEAD) =>
+  binToHex(new Uint8Array([...head, ...ownerPkh, ...bigIntToBinUint64LE(price), ...bigIntToBinUint64LE(lastSalePrice)]));
 
 export const bchUtxo = (satoshis: bigint, owner: Party): Utxo =>
   ({ txid: fakeTxid(), vout: 0, satoshis, lockingBytecode: binToHex(owner.lock) });

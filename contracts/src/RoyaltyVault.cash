@@ -2,37 +2,40 @@ pragma cashscript ^0.14.0;
 
 // Tribal Authentica — RoyaltyVault (spec: contracts/SPEC.md)
 //
-// One contract per artisan. Each mask is one MUTABLE NFT of the platform's mask category,
-// locked in this contract forever. The owner is whoever the commitment names:
+// One contract per mask. Each mask has its own CashTokens category holding exactly one MUTABLE NFT,
+// locked in this contract forever. No minting baton is ever created for the category. The owner is
+// whoever the commitment names:
 //
-//   commitment (36 bytes) = ownerPkh (20) || price (8 LE, 0 = not for sale) || lastSalePrice (8 LE)
+//   commitment (70 bytes) = catalogueId (2) || fingerprint (32)        <- frozen by this contract
+//                        || ownerPkh (20) || price (8 LE, 0 = not for sale) || lastSalePrice (8 LE)
 //
-// The vault input is always input 0 and the NFT always comes back as output 0, so a tx can
-// never spend two vault UTXOs that both "use" the same output 0.
+// The vault input is always input 0 and the NFT always comes back as output 0, same category and
+// capability, with the first 34 bytes (catalogueId + fingerprint) unchanged.
 //
-// First sale (seller == artisan): artisan >= price - platformCut, platform >= platformCut.
-// Resale:                         seller  >= price - royalty,     artisan  >= royalty.
+// First sale (seller == custodian): custodian >= price - platformCut, platform >= platformCut.
+// Resale:                           seller    >= price - royalty,     custodian >= royalty.
 //   platformCut = price * platformBps / 10000
 //   royalty     = max(price * royaltyBps / 10000, lastSalePrice * royaltyBps / 10000, minRoyaltySats)
 //
-// The contract cannot check its own constructor arguments. The deploy script enforces:
-//   artisanLockingBytecode and platformLockingBytecode are P2PKH, minRoyaltySats >= 546,
+// The contract cannot check its own constructor arguments. The mint script enforces:
+//   custodianLockingBytecode and platformLockingBytecode are P2PKH, minRoyaltySats >= 546,
 //   0 < platformBps < 10000, 0 < royaltyBps < 10000, maskCategory in VM byte order.
 contract RoyaltyVault(
     bytes32 maskCategory,
-    bytes artisanLockingBytecode,
+    bytes custodianLockingBytecode,
     bytes platformLockingBytecode,
     int royaltyBps,
     int platformBps,
     int minRoyaltySats
 ) {
-    // The owner sets a new price, or 0 to delist. Owner and lastSalePrice never change here.
+    // The owner sets a new price, or 0 to delist. Fingerprint, owner and lastSalePrice never change here.
     function list(pubkey ownerPk, sig ownerSig, int newPrice) {
         require(this.activeInputIndex == 0, "vault must be input 0");
-        require(tx.inputs[0].tokenCategory == maskCategory + 0x01, "not a mask certificate");
+        require(tx.inputs[0].tokenCategory == maskCategory + 0x01, "not this mask's certificate");
         bytes commitment = tx.inputs[0].nftCommitment;
-        require(commitment.length == 36, "bad commitment length");
-        bytes ownerPkh, bytes tail = commitment.split(20);
+        require(commitment.length == 70, "bad commitment length");
+        bytes fingerprint, bytes rest = commitment.split(34);
+        bytes ownerPkh, bytes tail = rest.split(20);
         bytes lastSaleBytes = tail.split(8)[1];
         int lastSalePrice = int(lastSaleBytes);
 
@@ -42,11 +45,11 @@ contract RoyaltyVault(
         require(newPrice >= 0, "negative price");
         if (newPrice > 0) {
             bytes25 ownerLock = new LockingBytecodeP2PKH(unsafe_bytes20(ownerPkh));
-            if (ownerLock == artisanLockingBytecode) {
+            if (ownerLock == custodianLockingBytecode) {
                 // First-sale split: both shares must be spendable (not dust)
                 int platformCut = newPrice * platformBps / 10000;
                 require(platformCut >= 546, "platform share below dust");
-                require(newPrice - platformCut >= 546, "artisan share below dust");
+                require(newPrice - platformCut >= 546, "custodian share below dust");
             } else {
                 // Resale: the seller's share must be spendable after the royalty
                 int royalty = max(max(newPrice * royaltyBps / 10000, lastSalePrice * royaltyBps / 10000), minRoyaltySats);
@@ -58,16 +61,17 @@ contract RoyaltyVault(
         require(tx.outputs[0].tokenCategory == tx.inputs[0].tokenCategory, "NFT category or capability changed");
         require(tx.outputs[0].tokenAmount == 0, "fungible amount on the NFT output");
         require(tx.outputs[0].value >= tx.inputs[0].value, "vault value drained");
-        require(tx.outputs[0].nftCommitment == ownerPkh + toPaddedBytes(newPrice, 8) + lastSaleBytes, "wrong new commitment");
+        require(tx.outputs[0].nftCommitment == fingerprint + ownerPkh + toPaddedBytes(newPrice, 8) + lastSaleBytes, "wrong new commitment");
     }
 
     // Anyone can buy a listed mask. No signature here: the buyer signs their own payment inputs.
     function buy(bytes20 buyerPkh) {
         require(this.activeInputIndex == 0, "vault must be input 0");
-        require(tx.inputs[0].tokenCategory == maskCategory + 0x01, "not a mask certificate");
+        require(tx.inputs[0].tokenCategory == maskCategory + 0x01, "not this mask's certificate");
         bytes commitment = tx.inputs[0].nftCommitment;
-        require(commitment.length == 36, "bad commitment length");
-        bytes ownerPkh, bytes tail = commitment.split(20);
+        require(commitment.length == 70, "bad commitment length");
+        bytes fingerprint, bytes rest = commitment.split(34);
+        bytes ownerPkh, bytes tail = rest.split(20);
         bytes priceBytes, bytes lastSaleBytes = tail.split(8);
         int price = int(priceBytes);
         int lastSalePrice = int(lastSaleBytes);
@@ -77,14 +81,14 @@ contract RoyaltyVault(
         require(tx.outputs[0].tokenCategory == tx.inputs[0].tokenCategory, "NFT category or capability changed");
         require(tx.outputs[0].tokenAmount == 0, "fungible amount on the NFT output");
         require(tx.outputs[0].value >= tx.inputs[0].value, "vault value drained");
-        require(tx.outputs[0].nftCommitment == buyerPkh + toPaddedBytes(0, 8) + priceBytes, "wrong new commitment");
+        require(tx.outputs[0].nftCommitment == fingerprint + buyerPkh + toPaddedBytes(0, 8) + priceBytes, "wrong new commitment");
 
         bytes25 sellerLock = new LockingBytecodeP2PKH(unsafe_bytes20(ownerPkh));
-        if (sellerLock == artisanLockingBytecode) {
-            // First sale (or the artisan selling again): 90 % artisan / 10 % platform
+        if (sellerLock == custodianLockingBytecode) {
+            // First sale (or the custodian selling again): 90 % custodian / 10 % platform
             int platformCut = price * platformBps / 10000;
-            require(tx.outputs[1].lockingBytecode == artisanLockingBytecode, "output 1 must pay the artisan");
-            require(tx.outputs[1].value >= price - platformCut, "artisan underpaid");
+            require(tx.outputs[1].lockingBytecode == custodianLockingBytecode, "output 1 must pay the custodian");
+            require(tx.outputs[1].value >= price - platformCut, "custodian underpaid");
             require(tx.outputs[2].lockingBytecode == platformLockingBytecode, "output 2 must pay the platform");
             require(tx.outputs[2].value >= platformCut, "platform underpaid");
         } else {
@@ -92,7 +96,7 @@ contract RoyaltyVault(
             int royalty = max(max(price * royaltyBps / 10000, lastSalePrice * royaltyBps / 10000), minRoyaltySats);
             require(tx.outputs[1].lockingBytecode == sellerLock, "output 1 must pay the seller");
             require(tx.outputs[1].value >= price - royalty, "seller underpaid");
-            require(tx.outputs[2].lockingBytecode == artisanLockingBytecode, "output 2 must pay the artisan");
+            require(tx.outputs[2].lockingBytecode == custodianLockingBytecode, "output 2 must pay the custodian");
             require(tx.outputs[2].value >= royalty, "royalty underpaid");
         }
     }

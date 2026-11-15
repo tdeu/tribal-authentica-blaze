@@ -4,7 +4,7 @@
   "type": "module",
   "license": "MIT",
   "scripts": {
-    "compile": "cashc src/RoyaltyVault.cash -o artifacts/RoyaltyVault.json && cashc src/PatronDispenser.cash -o artifacts/PatronDispenser.json",
+    "compile": "cashc src/RoyaltyVault.cash -o artifacts/RoyaltyVault.json",
     "test": "npm run compile && vitest run"
   },
   "dependencies": {
