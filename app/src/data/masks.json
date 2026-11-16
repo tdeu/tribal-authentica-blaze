@@ -34,11 +34,21 @@
       },
       "fingerprint": "093c8b739d26e30e283c95476713ca681476f26adb1f99cedabeb11133729b40",
       "categoryId": {
-        "chipnet": null,
+        "chipnet": "a218a53e9813f18b639d4344e88df497ecaa7b11dc7ef9418a86f9c84fac8f00",
         "mainnet": null
       },
       "mint": {
-        "chipnet": null,
+        "chipnet": {
+          "categoryId": "a218a53e9813f18b639d4344e88df497ecaa7b11dc7ef9418a86f9c84fac8f00",
+          "vaultTokenAddress": "bchtest:rvq3ge85n5qq3parx60gaddgr0dgekl930jpa6fhydcsu4yjtyelywjsxnd4a",
+          "prepTxid": "a218a53e9813f18b639d4344e88df497ecaa7b11dc7ef9418a86f9c84fac8f00",
+          "genesisTxid": "aa225bb5705d86428d8aac06e91d599444d0c37462ac7fdb9f3f74a31ab0f24c",
+          "commitment": "0100093c8b739d26e30e283c95476713ca681476f26adb1f99cedabeb11133729b4041764a2f1c9bc76446f26fcccc9285777a985d0370170000000000000000000000000000",
+          "priceSats": 6000,
+          "custodianAddress": "bchtest:zpqhvj30rjduwezx7fhuenyjs4mh4xzaqvjen7dfk6",
+          "platformAddress": "bchtest:qz40cx8yr95m8kh8zrtyhru8c4f708u86gvyjmug8u",
+          "mintedAt": "2026-11-16T10:50:53.772Z"
+        },
         "mainnet": null
       }
     },
@@ -61,11 +71,21 @@
       },
       "fingerprint": "9d070da9312e69b03f722774916552e7e6e449750ff15486c48ffd5893b77a8c",
       "categoryId": {
-        "chipnet": null,
+        "chipnet": "5fc11cfea727c8b43a38c8354babcee2be519f88079594060c28dae25dd78718",
         "mainnet": null
       },
       "mint": {
-        "chipnet": null,
+        "chipnet": {
+          "categoryId": "5fc11cfea727c8b43a38c8354babcee2be519f88079594060c28dae25dd78718",
+          "vaultTokenAddress": "bchtest:rv77y0yhfs8qsv55fv855d0ed34z729eeuaz9k04682r64ewupcdwlgnf53kr",
+          "prepTxid": "5fc11cfea727c8b43a38c8354babcee2be519f88079594060c28dae25dd78718",
+          "genesisTxid": "2e3b28fb8d8dba05dc12b22f0660b40f7c1f0158fa1dd9d9512f3428b5082e03",
+          "commitment": "02009d070da9312e69b03f722774916552e7e6e449750ff15486c48ffd5893b77a8c41764a2f1c9bc76446f26fcccc9285777a985d0370170000000000000000000000000000",
+          "priceSats": 6000,
+          "custodianAddress": "bchtest:zpqhvj30rjduwezx7fhuenyjs4mh4xzaqvjen7dfk6",
+          "platformAddress": "bchtest:qz40cx8yr95m8kh8zrtyhru8c4f708u86gvyjmug8u",
+          "mintedAt": "2026-11-16T10:51:10.736Z"
+        },
         "mainnet": null
       }
     },
