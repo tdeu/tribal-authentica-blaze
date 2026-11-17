@@ -119,7 +119,7 @@ export function BuySheet({ mask, live, t, onClose, onConnect }: { mask: MaskView
               <p className="wstatus wstatus-ok">{b.confirmed}</p>
               <p className="fine center">{b.confirmedNote}</p>
               <a className="btn btn-ghost" href={explorerTx(phase.txid)} target="_blank" rel="noreferrer">{b.viewTx}</a>
-              <button type="button" className="btn btn-primary" onClick={onClose}>{b.viewCert}</button>
+              <a className="btn btn-primary" href={`#/mask/${mask.catalogueId}/certificate`} onClick={onClose}>{b.viewCert}</a>
             </>
           )}
           {phase.k === 'error' && (

@@ -59,6 +59,7 @@ export function MaskPage({ mask, lang, t, onConnect, onHow }: {
 
         <p className="cert">{t.stays}</p>
         <p className="cert">{t.certificate} <button type="button" className="link" onClick={onHow}>{t.howItWorks}</button></p>
+        {mask.mint && <p className="cert"><a className="link" href={`#/mask/${mask.catalogueId}/certificate`}>{t.cert.open} →</a></p>}
 
         <section className="story">
           <h2>{t.story}</h2>

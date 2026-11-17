@@ -200,3 +200,24 @@ a.brand { text-decoration: none; }
 .bill-total dd { font-size: 20px; }
 .bill-cap dt { font-size: 12px; text-transform: uppercase; letter-spacing: .08em; }
 .split-line { margin: 4px 0 12px; font-size: 14px; font-weight: 600; color: var(--accent-text); }
+
+/* Certificate page */
+.certificate { display: grid; gap: 14px; max-width: 640px; }
+.certificate > .fine:first-child { text-transform: uppercase; letter-spacing: .08em; margin: 0; }
+.cert-card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 14px 16px; }
+.cert-card h2 { font-size: 12px; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin: 0 0 8px; }
+.cert-owner { margin: 0; font-size: 17px; overflow-wrap: anywhere; }
+.cert-card .btn { margin-top: 10px; }
+.checks { list-style: none; margin: 12px 0 0; padding: 0; display: grid; gap: 8px; font-size: 14px; }
+.checks li.ok > span { color: var(--ok); font-weight: 700; }
+.checks li.bad > span { color: var(--warn); font-weight: 700; }
+.hash { display: block; font-size: 12px; color: var(--muted); overflow-wrap: anywhere; margin: 2px 0 0 18px; }
+.history { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; }
+.history li { border-left: 3px solid var(--indigo-soft); padding-left: 10px; }
+.history-what { font-size: 15px; }
+.history .fine { margin: 2px 0; }
+.history a.link { min-height: 0; }
+.field { display: grid; gap: 4px; font-size: 14px; color: var(--muted); margin-top: 6px; }
+.field input { font: inherit; font-size: 20px; font-variant-numeric: tabular-nums; color: var(--ink); background: var(--bg);
+  border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; min-height: var(--tap); width: 100%; }
+.field input[aria-invalid="true"] { border-color: var(--warn); }

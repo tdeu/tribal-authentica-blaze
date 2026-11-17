@@ -6,15 +6,17 @@ import { WalletChip, WalletConnect } from './components/WalletConnect';
 import { HowItWorks } from './components/HowItWorks';
 import { MaskPage } from './pages/MaskPage';
 import { Gallery } from './pages/Gallery';
+import { CertificatePage } from './pages/CertificatePage';
 import { maskById } from './content/mask';
 import { wallet } from './wallet/wizard';
 import { T } from './content/i18n';
 import type { Lang } from './content/mask';
 
-// Hash routes: #/ = gallery, #/mask/<catalogueId> = one mask
+// Hash routes: #/ = gallery, #/mask/<catalogueId> = one mask, #/mask/<catalogueId>/certificate = its certificate
 const parseRoute = () => {
-  const m = /^#\/mask\/(\d+)/.exec(window.location.hash);
-  return m ? maskById(Number(m[1])) : undefined;
+  const m = /^#\/mask\/(\d+)(\/certificate)?/.exec(window.location.hash);
+  const mask = m ? maskById(Number(m[1])) : undefined;
+  return mask ? { mask, certificate: !!m![2] } : undefined;
 };
 function useRoute() {
   const [mask, setMask] = useState(parseRoute);
@@ -36,7 +38,8 @@ function App() {
   const [connectOpen, setConnectOpen] = useState(false);
   const [howOpen, setHowOpen] = useState(false);
   const t = T[lang];
-  const mask = useRoute();
+  const route = useRoute();
+  const mask = route?.mask;
 
   useEffect(() => { wallet.resume(); }, []);
   useEffect(() => {
@@ -61,7 +64,12 @@ function App() {
         </div>
       </div>
       <main>
-        {mask
+        {mask && route?.certificate
+          ? (<>
+              <a className="back link" href={`#/mask/${mask.catalogueId}`}>{t.cert.back}</a>
+              <CertificatePage key={mask.catalogueId} mask={mask} lang={lang} t={t} />
+            </>)
+          : mask
           ? (<>
               <a className="back link" href="#/">{t.back}</a>
               <MaskPage key={mask.catalogueId} mask={mask} lang={lang} t={t} onConnect={() => setConnectOpen(true)} onHow={() => setHowOpen(true)} />
