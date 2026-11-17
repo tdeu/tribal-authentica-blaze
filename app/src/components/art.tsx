@@ -1,40 +1,6 @@
 // Visual primitives of the redesign (design/*.dc.html). Pure rendering, no logic.
 import { useMemo, type CSSProperties } from 'react';
 
-// ---------------------------------------------------------------- DotMask
-// 24×34 dot-matrix mask, same shape function as design/Main.dc.html.
-const W = 24, H = 34, CX = 11.5;
-function maskDots(): (number | null)[] {
-  const out: (number | null)[] = [];
-  for (let y = 0; y < H; y++) {
-    for (let x = 0; x < W; x++) {
-      let on = false;
-      const dx = (x - CX) / 9.5, dy = (y - 19) / 14.5;
-      if (dx * dx + dy * dy <= 1) on = true;
-      if (y >= 1 && y <= 5) { const hw = 2 + (5 - y) * 0.2 + (y - 1); if (Math.abs(x - CX) <= Math.min(hw, 6)) on = true; }
-      const eye = (y === 15 || y === 16) && ((x >= 6 && x <= 9) || (x >= 14 && x <= 17));
-      const mouth = y === 27 && x >= 10 && x <= 13;
-      const nose = y >= 17 && y <= 23 && (x === 11 || x === 12);
-      const brow = y === 13 && ((x >= 5 && x <= 10) || (x >= 13 && x <= 18));
-      if (!on || eye || mouth) { out.push(null); continue; }
-      const d = Math.sqrt(((x - 6) / 18) ** 2 + ((y - 8) / 30) ** 2);
-      out.push(nose || brow ? 1 : Math.max(0.28, 1 - d * 0.9));
-    }
-  }
-  return out;
-}
-const MASK_DOTS = maskDots();
-
-export function DotMask({ label }: { label: string }) {
-  return (
-    <div className="dotmask" role="img" aria-label={label}>
-      {MASK_DOTS.map((a, i) => (
-        <span key={i} aria-hidden className={a === null ? 'off' : undefined} style={a === null ? undefined : { opacity: a.toFixed(2) }} />
-      ))}
-    </div>
-  );
-}
-
 // ---------------------------------------------------------------- PixelDigits
 // 5×7 pixel font for digits and %. The 9, 0 and % glyphs are the design's.
 const FONT: Record<string, string[]> = {

@@ -1,0 +1,33 @@
+/* Colour tokens: the only place colours are defined. Components use var(--…), never hex.
+   Palette: "true laterite", the red earth of Africa, on a warm near-black.
+   Contrast (WCAG): --accent on --bg 5.0:1 · --on-primary on --primary 5.2:1 · --on-block on --block 8.2:1.
+   Never put --accent text on --block (too low): inside the block use --on-block. */
+:root {
+  /* Neutrals */
+  --bg: #12100E;
+  --panel: #1A1714;
+  --ink: #EDE3D0;
+  --ink-2: #C8BDAE;
+  --muted: #A39889;
+  --line: #2B2622;
+  --line-2: #3A332D;
+  --corner: #6B6157;
+  --dot-off: #241F1B;
+  --dot-off-2: #1C1916;
+  --split-off: #5A5047;
+  --vignette: #2E2420;
+  --scrim: rgba(8, 7, 6, .78);
+  --qr-ink: #16161A;           /* QR code: dark on white so every wallet camera can scan it */
+  --qr-bg: #FFFFFF;
+
+  /* Laterite */
+  --accent: #E0582A;          /* text, dots, highlights on dark */
+  --accent-wash: rgba(224, 88, 42, .10);
+  --primary: #C2401A;         /* primary buttons, selected tab */
+  --primary-hover: #A8360F;
+  --on-primary: #FFFFFF;
+  --block: #7E2A12;           /* full-colour blocks: how the title works, MATCH bar */
+  --on-block: #FBEDE4;
+  --block-line: #9A3A1E;
+  --pixel-off: #8F3318;       /* PixelDigits off cells on --block */
+}

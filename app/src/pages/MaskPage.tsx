@@ -69,7 +69,7 @@ export function MaskPage({ mask, lang, setLang, t, c, onConnect, onHow }: {
           )}
         </div>
       </section>
-      <Ticker quiet items={[...m.details, status]} />
+      <Ticker quiet items={[...m.details.slice(0, 3), mask.country, ...m.details.slice(3), status]} />
 
       <div className="mask-cols">
         <section className="story-col" aria-labelledby="story-label">

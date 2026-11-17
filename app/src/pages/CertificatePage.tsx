@@ -209,7 +209,7 @@ export function CertificatePage({ mask, lang, t, c }: { mask: MaskView; lang: La
         <div>
           <p className="label">{k.tag(mask.ref)}</p>
           <h1 className="headline h-l">{mask.name}</h1>
-          <p className="lead">{!st ? '' : yours ? k.leadYours : st.ownerIsCustodian ? k.leadUnsold : k.leadOther}</p>
+          <p className="lead">{!st ? '' : yours ? k.leadYours(mask.country) : st.ownerIsCustodian ? k.leadUnsold(mask.country) : k.leadOther(mask.country)}</p>
           {live.status === 'error' && <p className="fine">{live.error}</p>}
         </div>
         <div className="cert-photo vignette">
@@ -219,7 +219,7 @@ export function CertificatePage({ mask, lang, t, c }: { mask: MaskView; lang: La
 
       <dl className="facts">
         <div><dt>{k.holder}</dt><dd style={{ fontWeight: 700 }}>{holder}</dd></div>
-        <div><dt>{k.keeper}</dt><dd>{k.keeperValue(mask.custodian)}</dd></div>
+        <div><dt>{k.keeper}</dt><dd>{k.keeperValue(mask.custodian, mask.country)}</dd></div>
         <div><dt>{k.paid}</dt><dd>{paid === undefined ? '…' : `${fmtNum(paid)} ${k.sats}`}</dd></div>
         <div><dt>{k.everyResale}</dt><dd className="accent" style={{ fontWeight: 700 }}>{k.tenPct}</dd></div>
       </dl>

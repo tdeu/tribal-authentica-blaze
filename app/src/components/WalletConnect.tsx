@@ -22,6 +22,9 @@ const short = (a: string) => {
   const [prefix, body] = a.split(':');
   return body ? `${prefix}:${body.slice(0, 8)}…${body.slice(-6)}` : a;
 };
+// Colours come from tokens.css (the QR library needs concrete values)
+const token = (name: string, fallback: string) =>
+  getComputedStyle(document.documentElement).getPropertyValue(name).trim() || fallback;
 const isTouch = () => typeof window !== 'undefined' && window.matchMedia('(pointer: coarse)').matches;
 
 export function WalletConnect({ open, onClose, t }: { open: boolean; onClose: () => void; t: Strings }) {
@@ -47,7 +50,7 @@ export function WalletConnect({ open, onClose, t }: { open: boolean; onClose: ()
 
   useEffect(() => {
     if (canvas.current && s.qrUri && phase === 'scan') {
-      QRCode.toCanvas(canvas.current, s.qrUri, { width: 220, margin: 1, color: { dark: '#16161a', light: '#ffffff' } })
+      QRCode.toCanvas(canvas.current, s.qrUri, { width: 220, margin: 1, color: { dark: token('--qr-ink', '#16161A'), light: token('--qr-bg', '#FFFFFF') } })
         .catch(() => { /* the copy-link fallback stays available */ });
     }
   }, [s.qrUri, phase, open]);

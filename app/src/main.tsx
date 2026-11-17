@@ -1,5 +1,6 @@
 import { StrictMode, useEffect, useState } from 'react';
 import { createRoot } from 'react-dom/client';
+import './tokens.css';
 import './styles.css';
 import { BlazeBanner } from './components/BlazeBanner';
 import { WalletChip, WalletConnect } from './components/WalletConnect';

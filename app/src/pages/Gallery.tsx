@@ -7,7 +7,8 @@ import { wallet, RECEIVE } from '../wallet/wizard';
 import { useMaskLive } from '../chain/live';
 import { fmtUsd } from '../price';
 import { useUsdOf } from '../components/Price';
-import { Corners, DotMask, PixelDigits, Ticker } from '../components/art';
+import { PixelDigits, Ticker } from '../components/art';
+import { SandstormPanel } from '../components/Sandstorm';
 
 const TOTAL = String(MASKS.length).padStart(3, '0');
 const fmtNum = (n: bigint | number) => Number(n).toLocaleString('en-US');
@@ -34,7 +35,7 @@ function ViewerInfo({ mask, t, c, myPkh, controls }: { mask: MaskView; t: String
       <div className="viewer-tags">
         <span className="tag">{t.status[live.status].toUpperCase()}</span>
         <span className="tag">{v.token}</span>
-        <span className="tag">{v.keeper}</span>
+        <span className="tag">{v.keeper(mask.country)}</span>
       </div>
       <div><span className="price-big">{fmtNum(sats)}</span><span className="price-sub"> sats{usd !== null ? ` ≈ ${fmtUsd(usd)}` : ''}</span></div>
       <div className="viewer-actions">
@@ -64,13 +65,8 @@ export function Gallery({ lang, t, c }: { lang: Lang; t: Strings; c: Copy }) {
       <section className="hero">
         <h1 className="headline h-xl">{c.hero.line1}<br /><span className="accent">{c.hero.line2}</span></h1>
         <p className="lead hero-lead">{c.hero.lead[0]}<b>{c.hero.lead[1]}</b>{c.hero.lead[2]}</p>
-        <div className="hero-panel">
-          <div className="hero-panel-bar"><span>{c.hero.panel}</span><span>[ {mask.ref} / {TOTAL} ]</span></div>
-          <div className="hero-panel-art">
-            <Corners />
-            <DotMask label={c.hero.maskLabel} />
-          </div>
-        </div>
+        <SandstormPanel label={c.hero.maskLabel} caption={c.hero.caption} replay={c.hero.replay} replayLabel={c.hero.replayLabel}
+          bar={<><span>{c.hero.panel}</span><span>[ {mask.ref} / {TOTAL} ]</span></>} />
         <p className="demo-notice" role="note" lang={lang}>{DEMO_NOTICE[lang]}</p>
       </section>
 

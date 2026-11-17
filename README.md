@@ -2,8 +2,8 @@
 
 **Built for BCH BLAZE 2026** (DoraHacks, Mainnet track).
 
-Digital titles for **traditional Ivorian masks**. Each mask stays physically with its custodian in
-Côte d'Ivoire; the buyer (diaspora, art lovers abroad) buys the mask's one-of-one digital title and its story.
+Digital titles for **traditional African masks**. Each mask stays physically with its custodian in
+Africa; the buyer (diaspora, art lovers abroad) buys the mask's one-of-one digital title and its story.
 Nothing is shipped.
 
 Each mask has its own CashTokens category with one certificate NFT, locked forever in that mask's
