@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Gallery</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@500;800&amp;family=JetBrains+Mono:wght@400;500;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#12100E}
+a{color:#EDE3D0}a:hover{color:#E07A50}
+</style>
+</helmet>
+<div style="background: #12100E; color: #EDE3D0; font-family: 'JetBrains Mono', monospace; min-height: 2300px">
+  <div style="display: flex; flex-wrap: wrap; gap: 8px 20px; align-items: center; padding: 8px 40px; border-bottom: 1px solid #2B2622; font-size: 11px; color: #A39889; letter-spacing: 0.06em">
+    <span style="color: #E07A50; font-weight: 700">BCH BLAZE 2026</span>
+    <a href="#" style="color: #A39889">REPO ↗</a><a href="#" style="color: #A39889">PRE-HACKATHON CODE ↗</a><a href="#" style="color: #A39889">BEFORE DEMO ↗</a><a href="#" style="color: #A39889">DECK ↗</a>
+    <span style="margin-left: auto">DONATE EMBER2026 · bitcoincash:zr0krf…kdux</span>
+  </div>
+  <header style="display: flex; flex-wrap: wrap; gap: 16px; align-items: center; padding: 20px 40px; border-bottom: 1px solid #2B2622">
+    <div style="display: flex; align-items: center; gap: 12px">
+      <div aria-hidden="true" style="display: grid; grid-template-columns: repeat(5, 6px); gap: 2px">
+        <sc-for list="{{logo}}" as="c" hint-placeholder-count="35"><span style="{{c}}"></span></sc-for>
+      </div>
+      <span style="font-weight: 700; font-size: 15px; letter-spacing: 0.08em">TRIBAL AUTHENTICA</span>
+    </div>
+    <nav style="display: flex; flex-wrap: wrap; gap: 28px; margin: 0 auto; font-size: 14px">
+      <a href="#" style="text-decoration: none">Collection</a>
+      <a href="#" style="text-decoration: none">How it works</a>
+      <a href="Certificate.dc.html" style="text-decoration: none">Verify</a>
+      <a href="#" style="text-decoration: none">FR / EN</a>
+    </nav>
+    <a href="#" style="background: #E07A50; color: #12100E; text-decoration: none; padding: 14px 22px; font-weight: 700; font-size: 14px">Connect wallet ↗</a>
+  </header>
+
+  <section style="padding: 72px 40px 40px; display: flex; flex-direction: column; align-items: center; gap: 24px; text-align: center">
+    <h1 style="margin: 0; font-family: 'Inter Tight', sans-serif; font-weight: 800; font-size: 104px; line-height: 0.92; letter-spacing: -0.03em">IT STAYS HOME.<br><span style="color: #E07A50">ITS STORY TRAVELS.</span></h1>
+    <p style="margin: 0; max-width: 760px; font-size: 17px; line-height: 1.6; color: #C8BDAE">Own the one-of-one title to a traditional Ivorian mask. Its keeper in Abidjan is paid on the first sale — and on <span style="color: #E07A50; font-weight: 700">every resale, forever</span>, by Bitcoin Cash script.</p>
+    <div style="width: 100%; max-width: 960px; margin-top: 24px; border: 1px solid #2B2622; position: relative; background-image: linear-gradient(#1C1916 1px, transparent 1px), linear-gradient(90deg, #1C1916 1px, transparent 1px); background-size: 32px 32px">
+      <div style="display: flex; justify-content: space-between; padding: 14px 18px; font-size: 12px; color: #A39889">
+        <span>Make it yours on Bitcoin Cash</span><span>[ 001 / 006 ]</span>
+      </div>
+      <div style="display: flex; justify-content: center; padding: 16px 0 56px; position: relative">
+        <span aria-hidden="true" style="position: absolute; left: 48px; top: 8px; width: 24px; height: 24px; border-left: 1px solid #6B6157; border-top: 1px solid #6B6157"></span>
+        <span aria-hidden="true" style="position: absolute; right: 48px; top: 8px; width: 24px; height: 24px; border-right: 1px solid #6B6157; border-top: 1px solid #6B6157"></span>
+        <span aria-hidden="true" style="position: absolute; left: 48px; bottom: 32px; width: 24px; height: 24px; border-left: 1px solid #6B6157; border-bottom: 1px solid #6B6157"></span>
+        <span aria-hidden="true" style="position: absolute; right: 48px; bottom: 32px; width: 24px; height: 24px; border-right: 1px solid #6B6157; border-bottom: 1px solid #6B6157"></span>
+        <div role="img" aria-label="A traditional mask drawn in dots" style="display: grid; grid-template-columns: repeat(24, 11px); gap: 3px">
+          <sc-for list="{{mask}}" as="c" hint-placeholder-count="816"><span style="{{c}}"></span></sc-for>
+        </div>
+      </div>
+    </div>
+    <p style="margin: 0; max-width: 960px; width: 100%; box-sizing: border-box; padding: 10px 14px; border: 1px dashed #3A332D; font-size: 12px; color: #A39889; text-align: left">Demo collection — masks photographed by Emtée; payout goes to a pilot custodian in Abidjan. In production, payouts go to the workshop or family that holds the mask.</p>
+  </section>
+
+  <section style="display: flex; flex-wrap: wrap; gap: 24px; align-items: center; padding: 28px 40px; border-top: 1px solid #2B2622">
+    <div style="font-size: 15px; line-height: 1.6; color: #A39889">Heritage that stays home.<br><span style="color: #EDE3D0; font-weight: 700">A title that pays its keeper.</span></div>
+    <a href="#collection" style="margin-left: auto; font-size: 14px">Explore the collection</a>
+    <a href="Mask.dc.html" style="background: #E07A50; color: #12100E; text-decoration: none; padding: 18px 26px; font-weight: 700; font-size: 14px">Enter the first story ↗</a>
+  </section>
+  <div aria-hidden="true" style="overflow: hidden; white-space: nowrap; border-top: 1px solid #2B2622; border-bottom: 1px solid #2B2622; padding: 16px 0; font-size: 14px; font-weight: 700; letter-spacing: 0.06em">
+    IT STAYS HOME <span style="color: #E07A50; padding: 0 28px">✱</span> 90% TO ITS KEEPER <span style="color: #E07A50; padding: 0 28px">✱</span> 10% OF EVERY RESALE <span style="color: #E07A50; padding: 0 28px">✱</span> ONE MASK, ONE TOKEN <span style="color: #E07A50; padding: 0 28px">✱</span> SECURED BY BITCOIN CASH <span style="color: #E07A50; padding: 0 28px">✱</span> IT STAYS HOME <span style="color: #E07A50; padding: 0 28px">✱</span> 90% TO ITS KEEPER
+  </div>
+
+  <section style="background: #A8401D; color: #F4EBDD; padding: 72px 40px; display: flex; flex-wrap: wrap; gap: 56px">
+    <div style="flex: 1 1 420px; min-width: 0; display: flex; flex-direction: column; gap: 24px">
+      <div style="font-size: 13px; letter-spacing: 0.08em">00 / HOW THE TITLE WORKS</div>
+      <h2 style="margin: 0; font-family: 'Inter Tight', sans-serif; font-weight: 800; font-size: 64px; line-height: 0.95; letter-spacing: -0.02em">ONE MASK.<br>ONE TITLE.<br>FOREVER PAID.</h2>
+      <p style="margin: 0; font-size: 15px; line-height: 1.7; max-width: 440px">The mask never leaves its keeper. You buy its one-of-one CashToken, which carries a fingerprint of its photos and story. A royalty vault holds the title in your name and enforces every payment.</p>
+    </div>
+    <div style="flex: 1 1 520px; min-width: 0; display: flex; flex-direction: column; gap: 24px">
+      <div style="font-size: 13px; letter-spacing: 0.08em">TO THE KEEPER, ON THE FIRST SALE</div>
+      <div aria-label="90 percent" role="img" style="display: flex; gap: 14px">
+        <sc-for list="{{big}}" as="d" hint-placeholder-count="3">
+          <div style="display: grid; grid-template-columns: repeat(5, 14px); gap: 4px"><sc-for list="{{d}}" as="c" hint-placeholder-count="35"><span style="{{c}}"></span></sc-for></div>
+        </sc-for>
+      </div>
+      <div style="font-size: 13px">
+        <div style="display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1.2fr) minmax(0, 0.6fr); padding: 10px 0; border-bottom: 1px solid #C76A47; opacity: 0.85"><span>EVENT</span><span>PAID TO</span><span style="text-align: right">SHARE</span></div>
+        <div style="display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1.2fr) minmax(0, 0.6fr); padding: 12px 0; border-bottom: 1px solid #C76A47; font-weight: 700"><span>FIRST SALE</span><span>KEEPER, ABIDJAN</span><span style="text-align: right">90%</span></div>
+        <div style="display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1.2fr) minmax(0, 0.6fr); padding: 12px 0; border-bottom: 1px solid #C76A47"><span>FIRST SALE</span><span>EMTÉE</span><span style="text-align: right">10%</span></div>
+        <div style="display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1.2fr) minmax(0, 0.6fr); padding: 12px 0; border-bottom: 1px solid #C76A47; font-weight: 700"><span>EVERY RESALE</span><span>KEEPER, ABIDJAN</span><span style="text-align: right">10%</span></div>
+        <div style="display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1.2fr) minmax(0, 0.6fr); padding: 12px 0"><span>EVERY RESALE</span><span>SELLER</span><span style="text-align: right">90%</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="collection" style="padding: 80px 40px 64px; display: flex; flex-direction: column; gap: 40px">
+    <div style="display: flex; flex-wrap: wrap; gap: 24px; align-items: flex-end">
+      <div>
+        <div style="font-size: 13px; color: #E07A50; letter-spacing: 0.08em">01 / THE COLLECTION</div>
+        <h2 style="margin: 12px 0 0; font-family: 'Inter Tight', sans-serif; font-weight: 800; font-size: 64px; line-height: 0.95; letter-spacing: -0.02em">ONE MASK<br><span style="color: #E07A50">AT A TIME</span></h2>
+      </div>
+      <p style="margin: 0 0 0 auto; font-size: 15px; line-height: 1.7; color: #C8BDAE; max-width: 400px">Six masks, six keepers.<br>Walk past each vitrine. Read its story. Make it yours.</p>
+    </div>
+    <div style="display: flex; flex-wrap: wrap; border: 1px solid #2B2622">
+      <div style="flex: 3 1 520px; min-width: 0; height: 560px; border-right: 1px solid #2B2622; display: flex; align-items: center; justify-content: center; background: radial-gradient(ellipse 50% 55% at 50% 42%, #2E2420 0%, #12100E 75%)">
+        <div style="width: 240px; height: 360px; border: 1px dashed #6B6157; display: flex; align-items: center; justify-content: center; text-align: center; font-size: 12px; color: #A39889; padding: 16px; box-sizing: border-box">[MASK PHOTO {{current.num}}]<br>on black, side light</div>
+      </div>
+      <div style="flex: 2 1 360px; min-width: 0; padding: 36px; display: flex; flex-direction: column; gap: 18px">
+        <div style="font-size: 13px; color: #A39889">[ {{current.num}} / [REGION] ]</div>
+        <h3 style="margin: 0; font-family: 'Inter Tight', sans-serif; font-weight: 800; font-size: 44px; line-height: 1">{{current.name}}</h3>
+        <div style="font-size: 14px; color: #C8BDAE">[People] · [Material] · [Approx. age]</div>
+        <div style="display: flex; flex-wrap: wrap; gap: 8px; font-size: 12px">
+          <span style="border: 1px solid #3A332D; padding: 6px 10px">NOT YET SOLD</span>
+          <span style="border: 1px solid #3A332D; padding: 6px 10px">1 / 1 CASHTOKEN</span>
+          <span style="border: 1px solid #3A332D; padding: 6px 10px">KEEPER · ABIDJAN</span>
+        </div>
+        <div style="margin-top: 8px"><span style="font-family: 'Inter Tight', sans-serif; font-weight: 800; font-size: 36px">470,000</span><span style="font-size: 14px; color: #A39889"> sats ≈ $1.00</span></div>
+        <div style="display: flex; flex-wrap: wrap; gap: 12px; margin-top: auto; border-top: 1px solid #2B2622; padding-top: 20px; align-items: center">
+          <a href="Mask.dc.html" style="background: #E07A50; color: #12100E; text-decoration: none; padding: 16px 22px; font-weight: 700; font-size: 14px">Enter the story ↗</a>
+          <a href="Certificate.dc.html" style="font-size: 14px">Verify ↗</a>
+          <div style="margin-left: auto; display: flex; gap: 8px">
+            <button type="button" aria-label="Previous mask" onClick="{{prev}}" style="width: 48px; height: 48px; border: 1px solid #3A332D; background: transparent; color: #EDE3D0; font: inherit; font-size: 18px">←</button>
+            <button type="button" aria-label="Next mask" onClick="{{next}}" style="width: 48px; height: 48px; border: 1px solid #3A332D; background: transparent; color: #EDE3D0; font: inherit; font-size: 18px">→</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div style="display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 0; border: 1px solid #2B2622">
+      <sc-for list="{{masks}}" as="m" hint-placeholder-count="6">
+        <button type="button" onClick="{{m.pick}}" style="{{m.style}}">[ {{m.num}} ]</button>
+      </sc-for>
+    </div>
+  </section>
+
+  <footer style="display: flex; flex-wrap: wrap; gap: 8px 32px; padding: 24px 40px; border-top: 1px solid #2B2622; font-size: 12px; color: #A39889">
+    <span style="color: #E07A50">● SECURED BY BITCOIN CASH</span>
+    <span>CASHTOKENS · CASHSCRIPT ROYALTY VAULT</span>
+    <span>BUILT BY EMTÉE STUDIO FOR BCH BLAZE 2026</span>
+  </footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":2300}}'>
+class Component extends DCLogic {
+  constructor(p){ super(p); this.state = { idx: 0 }; }
+  renderVals() {
+    var self = this;
+    var idx = this.state.idx;
+    var nums = ['001','002','003','004','005','006'];
+    var W = 24, H = 34, cx = 11.5;
+    var mask = [];
+    for (var y = 0; y < H; y++) {
+      for (var x = 0; x < W; x++) {
+        var on = false;
+        var dx = (x - cx) / 9.5, dy = (y - 19) / 14.5;
+        if (dx * dx + dy * dy <= 1) on = true;
+        if (y >= 1 && y <= 5) { var hw = 2 + (5 - y) * 0.2 + (y - 1); if (Math.abs(x - cx) <= Math.min(hw, 6)) on = true; }
+        var eye = (y === 15 || y === 16) && ((x >= 6 && x <= 9) || (x >= 14 && x <= 17));
+        var mouth = y === 27 && x >= 10 && x <= 13;
+        var nose = y >= 17 && y <= 23 && (x === 11 || x === 12);
+        var brow = y === 13 && ((x >= 5 && x <= 10) || (x >= 13 && x <= 18));
+        var s = 'width: 11px; height: 11px; ';
+        if (!on || eye || mouth) { s += 'background: #1C1916;'; }
+        else {
+          var d = Math.sqrt(Math.pow((x - 6) / 18, 2) + Math.pow((y - 8) / 30, 2));
+          var a = Math.max(0.28, 1 - d * 0.9);
+          if (nose || brow) a = 1;
+          s += 'background: #E07A50; opacity: ' + a.toFixed(2) + ';';
+        }
+        mask.push(s);
+      }
+    }
+    var font = { '9': ['01110','10001','10001','01111','00001','00010','01100'], '0': ['01110','10001','10011','10101','11001','10001','01110'], '%': ['11001','11010','00010','00100','01000','01011','10011'] };
+    function digit(ch, onC, offC) {
+      var out = []; var rows = font[ch];
+      for (var r = 0; r < 7; r++) for (var c = 0; c < 5; c++) out.push('width: 14px; height: 14px; background: ' + (rows[r][c] === '1' ? onC : offC) + ';');
+      return out;
+    }
+    var big = ['9','0','%'].map(function(ch){ return digit(ch, '#F4EBDD', '#B9532E'); });
+    var logoRows = ['01110','11111','10101','11111','11011','01110','00100'];
+    var logo = [];
+    for (var r = 0; r < 7; r++) for (var c = 0; c < 5; c++) logo.push('width: 6px; height: 6px; background: ' + (logoRows[r][c] === '1' ? '#E07A50' : '#241F1B') + ';');
+    var base = 'height: 64px; background: transparent; color: #A39889; border: 0; border-right: 1px solid #2B2622; font-family: inherit; font-size: 13px; cursor: pointer; ';
+    var masks = nums.map(function(n, i){
+      return { num: n, pick: function(){ self.setState({ idx: i }); },
+        style: base + (i === idx ? 'background: #E07A50; color: #12100E; font-weight: 700;' : '') };
+    });
+    return {
+      mask: mask, big: big, logo: logo, masks: masks,
+      current: { num: nums[idx], name: '[MASK NAME ' + nums[idx] + ']' },
+      prev: function(){ self.setState({ idx: (idx + 5) % 6 }); },
+      next: function(){ self.setState({ idx: (idx + 1) % 6 }); }
+    };
+  }
+}
+</script>
+</body>
+</html>
