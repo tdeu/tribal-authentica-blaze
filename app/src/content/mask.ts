@@ -17,6 +17,7 @@ export type MaskView = {
   ref: string;                 // "001"
   name: string;
   custodian: string;
+  country: string;             // where this mask is kept ([COUNTRY] until provided)
   story: Record<Lang, string>;
   photo: string | null;
   photos: string[];            // every photo, in fingerprint order
@@ -37,6 +38,7 @@ export const MASKS: MaskView[] = data.masks.map((m) => {
     ref: String(m.catalogueId).padStart(3, '0'),
     name: m.title,
     custodian: m.custodianLabel,
+    country: (m as { country?: string }).country ?? '[COUNTRY]',
     story: m.story,
     photo: photos.length ? `/${photos[0].file}` : null,
     photos: photos.map((p) => `/${p.file}`),

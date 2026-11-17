@@ -24,6 +24,7 @@
       },
       "photos": [],
       "custodianLabel": "[PILOT_CUSTODIAN_LABEL]",
+      "country": "[COUNTRY]",
       "payoutAddress": {
         "chipnet": "bchtest:zpqhvj30rjduwezx7fhuenyjs4mh4xzaqvjen7dfk6",
         "mainnet": "[PILOT_CUSTODIAN_Z_ADDRESS]"
@@ -61,6 +62,7 @@
       },
       "photos": [],
       "custodianLabel": "[PILOT_CUSTODIAN_LABEL]",
+      "country": "[COUNTRY]",
       "payoutAddress": {
         "chipnet": "bchtest:zpqhvj30rjduwezx7fhuenyjs4mh4xzaqvjen7dfk6",
         "mainnet": "[PILOT_CUSTODIAN_Z_ADDRESS]"
@@ -98,6 +100,7 @@
       },
       "photos": [],
       "custodianLabel": "[PILOT_CUSTODIAN_LABEL]",
+      "country": "[COUNTRY]",
       "payoutAddress": {
         "chipnet": "bchtest:zpqhvj30rjduwezx7fhuenyjs4mh4xzaqvjen7dfk6",
         "mainnet": "[PILOT_CUSTODIAN_Z_ADDRESS]"
@@ -125,6 +128,7 @@
       },
       "photos": [],
       "custodianLabel": "[PILOT_CUSTODIAN_LABEL]",
+      "country": "[COUNTRY]",
       "payoutAddress": {
         "chipnet": "bchtest:zpqhvj30rjduwezx7fhuenyjs4mh4xzaqvjen7dfk6",
         "mainnet": "[PILOT_CUSTODIAN_Z_ADDRESS]"
@@ -152,6 +156,7 @@
       },
       "photos": [],
       "custodianLabel": "[PILOT_CUSTODIAN_LABEL]",
+      "country": "[COUNTRY]",
       "payoutAddress": {
         "chipnet": "bchtest:zpqhvj30rjduwezx7fhuenyjs4mh4xzaqvjen7dfk6",
         "mainnet": "[PILOT_CUSTODIAN_Z_ADDRESS]"
@@ -179,6 +184,7 @@
       },
       "photos": [],
       "custodianLabel": "[PILOT_CUSTODIAN_LABEL]",
+      "country": "[COUNTRY]",
       "payoutAddress": {
         "chipnet": "bchtest:zpqhvj30rjduwezx7fhuenyjs4mh4xzaqvjen7dfk6",
         "mainnet": "[PILOT_CUSTODIAN_Z_ADDRESS]"
