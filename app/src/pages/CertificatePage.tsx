@@ -121,7 +121,7 @@ export function CertificatePage({ mask, lang, t }: { mask: MaskView; lang: Lang;
         {!st ? <p className="fine">{live.error ?? t.status.loading}</p> : (
           <>
             <p className="cert-owner">
-              {st.ownerIsCustodian ? c.notSoldOwner : live.status === 'yours' ? <b>{c.you} ✓</b> : <code>{short(addrOf(st.ownerPkh))}</code>}
+              {st.ownerIsCustodian ? c.notSoldOwner : live.status === 'yours' ? <b>{c.yours}</b> : <code>{short(addrOf(st.ownerPkh))}</code>}
             </p>
             <p className="fine">
               {st.price > 0n ? `${c.forSale} ${fmtSats(st.price)}` : c.notForSale}
