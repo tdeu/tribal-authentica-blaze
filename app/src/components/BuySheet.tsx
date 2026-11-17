@@ -7,6 +7,7 @@ import { buildBuy, payoutsOf, readState, type BuiltBuy, type Payout } from '../c
 import type { Live } from '../chain/live';
 import { CONTRACT, type MaskView } from '../content/mask';
 import type { Strings } from '../content/i18n';
+import type { Copy } from '../content/copy';
 import { explorerTx } from '../config';
 import { fmtUsd } from '../price';
 import { fmtSats, useUsdOf } from './Price';
@@ -19,7 +20,7 @@ type Phase =
   | { k: 'confirmed'; txid: string }
   | { k: 'error'; message: string; signedHex?: string };
 
-export function BuySheet({ mask, live, t, onClose, onConnect }: { mask: MaskView; live: Live; t: Strings; onClose: () => void; onConnect: () => void }) {
+export function BuySheet({ mask, live, t, c, refLabel, onClose, onConnect }: { mask: MaskView; live: Live; t: Strings; c: Copy; refLabel: string; onClose: () => void; onConnect: () => void }) {
   const ws = useWallet();
   const b = t.buySheet;
   const [phase, setPhase] = useState<Phase>({ k: 'review' });
@@ -32,9 +33,10 @@ export function BuySheet({ mask, live, t, onClose, onConnect }: { mask: MaskView
   const state = live.state!;
   const vault = live.vault!;
   const { kind, payouts } = payoutsOf(state, vault, CONTRACT);
-  const usd = (sats: bigint) => { const u = usdOf(sats); return u === null ? '' : `≈ ${fmtUsd(u)} `; };
+  const usd = (sats: bigint) => { const u = usdOf(sats); return u === null ? '' : `≈ ${fmtUsd(u)}`; };
+  const k = c.buy;
   const label = (p: Payout) =>
-    p.role === 'custodian' ? (kind === 'first' ? b.toCustodian : b.royalty) : p.role === 'platform' ? b.toPlatform : b.toSeller;
+    p.role === 'custodian' ? (kind === 'first' ? k.keeper : k.royalty) : p.role === 'platform' ? k.platform : k.seller;
 
   const send = async (signedHex: string) => {
     set({ k: 'broadcasting' });
@@ -80,36 +82,46 @@ export function BuySheet({ mask, live, t, onClose, onConnect }: { mask: MaskView
   const retry = () => (phase.k === 'error' && phase.signedHex ? send(phase.signedHex) : start());
   const busy = phase.k === 'building' || phase.k === 'signing' || phase.k === 'broadcasting';
 
+  // Numbered steps: [1] wallet [2] approve in wallet [3] broadcast [4] the title is yours
+  const stepNow = phase.k === 'confirmed' ? 5 : phase.k === 'broadcasting' ? 3
+    : phase.k === 'building' || phase.k === 'signing' ? 2 : ws.approved ? 2 : 1;
+  const stepState = (n: number) => (n < stepNow ? 'done' : n === stepNow ? 'now' : '');
+
   return (
     <div className="sheet-backdrop" onClick={busy ? undefined : onClose}>
-      <div className="sheet" role="dialog" aria-modal="true" aria-label={b.title} onClick={(e) => e.stopPropagation()}>
+      <div className="sheet" role="dialog" aria-modal="true" aria-label={k.title} onClick={(e) => e.stopPropagation()}>
         <div className="sheet-head">
-          <h2>{b.title}</h2>
-          {!busy && <button type="button" className="icon-btn" onClick={onClose} aria-label={b.close}>×</button>}
+          <h2>{k.title} · {refLabel}</h2>
+          {!busy && <button type="button" className="sheet-close" onClick={onClose} aria-label={b.close}>×</button>}
         </div>
-        <p className="fine">{mask.name} · {mask.ref}</p>
+        <p className="sheet-sub">{mask.name}</p>
+        <p className="sheet-price">{fmtSats(state.price).replace(' sats', '')}<span className="price-sub"> sats {usd(state.price)}</span></p>
 
-        <dl className="bill">
-          <div className="bill-total"><dt>{b.youPay}</dt><dd>{usd(state.price)}<small>{fmtSats(state.price)}</small></dd></div>
-          <div className="bill-cap"><dt>{b.where}</dt></div>
+        <dl className="rows" style={{ marginTop: 16 }}>
           {payouts.map((p) => (
-            <div key={p.role}><dt>{label(p)}</dt><dd>{usd(p.sats)}<small>{fmtSats(p.sats)}</small></dd></div>
+            <div key={p.role} className={p.role === 'custodian' ? 'accent' : undefined}>
+              <dt>{label(p)}</dt><dd>{fmtSats(p.sats)} {usd(p.sats)}</dd>
+            </div>
           ))}
-          <div className="bill-fee"><dt>{b.fee}</dt><dd><small>{fee !== undefined ? fmtSats(fee) : '≈ 1,000 sats'}</small></dd></div>
+          <div><dt>{k.fee}</dt><dd>{fee !== undefined ? fmtSats(fee) : '≈ 1,000 sats'}</dd></div>
+          <div className="total"><dt>{k.total}</dt><dd>{fee !== undefined ? fmtSats(state.price + fee) : `≈ ${fmtSats(state.price + 1000n)}`}</dd></div>
         </dl>
-        <p className="split-line">
-          {payouts.map((p) => `${usd(p.sats) || fmtSats(p.sats) + ' '}${label(p)}`).join(' · ')}
-        </p>
+
+        <ol className="numsteps">
+          {k.steps.map((label, i) => (
+            <li key={label} className={stepState(i + 1)}><span className="n">[{i + 1}]</span>{label}{stepState(i + 1) === 'done' ? ' ✓' : ''}</li>
+          ))}
+        </ol>
 
         <div className="wbody" aria-live="polite">
           {phase.k === 'review' && (ws.approved
-            ? <button type="button" className="btn btn-primary btn-buy" onClick={start} disabled={ws.pending}>{b.confirm}</button>
+            ? <button type="button" className="btn btn-primary btn-big" onClick={start} disabled={ws.pending}>{b.confirm} ↗</button>
             : (<>
-                <button type="button" className="btn btn-primary btn-buy" onClick={onConnect}>{t.wallet.title}</button>
+                <button type="button" className="btn btn-primary btn-big" onClick={onConnect}>{t.wallet.title} ↗</button>
                 <p className="fine center">{b.connectFirst}</p>
               </>))}
           {(phase.k === 'building' || phase.k === 'signing' || phase.k === 'broadcasting') && (
-            <p className="wstatus"><span className="spinner" aria-hidden />{b[phase.k]}</p>
+            <p className="wstatus">{b[phase.k]}</p>
           )}
           {phase.k === 'signing' && (
             <button type="button" className="btn btn-text" onClick={() => wallet.cancelPending()}>{b.cancel}</button>
@@ -117,9 +129,9 @@ export function BuySheet({ mask, live, t, onClose, onConnect }: { mask: MaskView
           {phase.k === 'confirmed' && (
             <>
               <p className="wstatus wstatus-ok">{b.confirmed}</p>
-              <p className="fine center">{b.confirmedNote}</p>
-              <a className="btn btn-ghost" href={explorerTx(phase.txid)} target="_blank" rel="noreferrer">{b.viewTx}</a>
-              <a className="btn btn-primary" href={`#/mask/${mask.catalogueId}/certificate`} onClick={onClose}>{b.viewCert}</a>
+              <p className="fine">{b.confirmedNote}</p>
+              <a className="btn btn-ghost" href={explorerTx(phase.txid)} target="_blank" rel="noreferrer">{b.viewTx} ↗</a>
+              <a className="btn btn-primary" href={`#/mask/${mask.catalogueId}/certificate`} onClick={onClose}>{b.viewCert} ↗</a>
             </>
           )}
           {phase.k === 'error' && (
@@ -130,6 +142,7 @@ export function BuySheet({ mask, live, t, onClose, onConnect }: { mask: MaskView
             </div>
           )}
         </div>
+        <p className="fine" style={{ marginTop: 12 }}>{k.vault}</p>
       </div>
     </div>
   );

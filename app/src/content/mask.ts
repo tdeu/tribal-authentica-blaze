@@ -19,6 +19,9 @@ export type MaskView = {
   custodian: string;
   story: Record<Lang, string>;
   photo: string | null;
+  photos: string[];            // every photo, in fingerprint order
+  fingerprint: string | null;  // as recorded in masks.json (Verify recomputes it)
+  priceSats: number;           // this network's listed price (before mint too)
   // Set on this network once minted. No mint = not for sale yet: Buy says "Coming soon".
   mint: MintRecord | null;
   // Demo price ≈ $1 (USD before mint; after mint the on-chain sats are the reference)
@@ -36,6 +39,9 @@ export const MASKS: MaskView[] = data.masks.map((m) => {
     custodian: m.custodianLabel,
     story: m.story,
     photo: photos.length ? `/${photos[0].file}` : null,
+    photos: photos.map((p) => `/${p.file}`),
+    fingerprint: m.fingerprint,
+    priceSats: (m.priceSats as Record<string, number>)[NETWORK],
     mint: mint && categoryId ? mint : null,
     priceUsd: 1,
   };

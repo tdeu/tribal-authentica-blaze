@@ -35,7 +35,7 @@ export function HowItWorks({ open, onClose, lang }: { open: boolean; onClose: ()
       <div className="sheet" role="dialog" aria-modal="true" aria-label={c.title} onClick={(e) => e.stopPropagation()}>
         <div className="sheet-head">
           <h2>{c.title}</h2>
-          <button type="button" className="icon-btn" onClick={onClose} aria-label={c.close}>×</button>
+          <button type="button" className="sheet-close" onClick={onClose} aria-label={c.close}>×</button>
         </div>
         <dl className="how">
           {c.items.map(([dt, dd]) => (<div key={dt}><dt>{dt}</dt><dd>{dd}</dd></div>))}

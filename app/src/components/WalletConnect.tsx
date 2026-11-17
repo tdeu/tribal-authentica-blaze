@@ -66,7 +66,7 @@ export function WalletConnect({ open, onClose, t }: { open: boolean; onClose: ()
       <div className="sheet" role="dialog" aria-modal="true" aria-label={w.title} onClick={(e) => e.stopPropagation()}>
         <div className="sheet-head">
           <h2>{phase === 'connected' ? w.connectedTitle : w.title}</h2>
-          <button type="button" className="icon-btn" onClick={onClose} aria-label={w.done}>×</button>
+          <button type="button" className="sheet-close" onClick={onClose} aria-label={w.done}>×</button>
         </div>
 
         {phase !== 'connected' && (
@@ -142,13 +142,15 @@ export function WalletConnect({ open, onClose, t }: { open: boolean; onClose: ()
   );
 }
 
-export function WalletChip({ onOpen, t }: { onOpen: () => void; t: Strings }) {
+export function WalletChip({ onOpen, label, connectedLabel }: { onOpen: () => void; label: string; connectedLabel: string }) {
   const s = useWallet();
-  const phase = phaseOf(s);
+  const on = phaseOf(s) === 'connected';
+  const addr = s.tokenAddress?.split(':')[1];
   return (
-    <button type="button" className={`chip ${phase === 'connected' ? 'chip-on' : ''}`} onClick={onOpen}>
-      <span className={`dot dot-${phase === 'connected' ? (s.relay === 'connected' ? 'ok' : 'wait') : 'off'}`} aria-hidden />
-      {phase === 'connected' && s.tokenAddress ? short(s.tokenAddress).split(':')[1] : t.wallet.connect}
+    <button type="button" className={`btn wallet-chip ${on ? 'on' : 'btn-primary'}`} onClick={onOpen}>
+      {on && addr
+        ? <><span className="dot" aria-hidden>{s.relay === 'connected' ? '●' : '○'}</span>{connectedLabel} · {addr.slice(0, 3)}…{addr.slice(-4)}</>
+        : label}
     </button>
   );
 }

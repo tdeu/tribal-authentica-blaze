@@ -4,12 +4,14 @@ import './styles.css';
 import { BlazeBanner } from './components/BlazeBanner';
 import { WalletChip, WalletConnect } from './components/WalletConnect';
 import { HowItWorks } from './components/HowItWorks';
+import { Logo } from './components/art';
 import { MaskPage } from './pages/MaskPage';
 import { Gallery } from './pages/Gallery';
 import { CertificatePage } from './pages/CertificatePage';
-import { maskById } from './content/mask';
+import { MASKS, maskById, type MaskView } from './content/mask';
 import { wallet } from './wallet/wizard';
 import { T } from './content/i18n';
+import { copyFor, type Copy } from './content/copy';
 import type { Lang } from './content/mask';
 
 // Hash routes: #/ = gallery, #/mask/<catalogueId> = one mask, #/mask/<catalogueId>/certificate = its certificate
@@ -19,13 +21,13 @@ const parseRoute = () => {
   return mask ? { mask, certificate: !!m![2] } : undefined;
 };
 function useRoute() {
-  const [mask, setMask] = useState(parseRoute);
+  const [route, setRoute] = useState(parseRoute);
   useEffect(() => {
-    const on = () => { setMask(parseRoute()); window.scrollTo(0, 0); };
+    const on = () => { setRoute(parseRoute()); window.scrollTo(0, 0); };
     window.addEventListener('hashchange', on);
     return () => window.removeEventListener('hashchange', on);
   }, []);
-  return mask;
+  return route;
 }
 
 const initialLang = (): Lang => {
@@ -33,11 +35,49 @@ const initialLang = (): Lang => {
   return navigator.language?.toLowerCase().startsWith('fr') ? 'fr' : 'en';
 };
 
+// "Verify" in the gallery nav: the first mask that has a certificate on this network
+const verifyHref = () => `#/mask/${(MASKS.find((m) => m.mint) ?? MASKS[0]).catalogueId}/certificate`;
+const refOf = (m: MaskView) => `[ ${m.ref} / ${String(MASKS.length).padStart(3, '0')} ]`;
+
+function Header({ c, lang, setLang, mask, certificate, onConnect, onHow }: {
+  c: Copy; lang: Lang; setLang: (l: Lang) => void; mask?: MaskView; certificate: boolean; onConnect: () => void; onHow: () => void;
+}) {
+  const toggle = <button type="button" className="lang-btn" onClick={() => setLang(lang === 'fr' ? 'en' : 'fr')} aria-label={c.nav.langLabel}>{c.nav.lang}</button>;
+  const chip = <WalletChip onOpen={onConnect} label={c.connect} connectedLabel={c.connected} />;
+  return (
+    <header className="site-head">
+      <a className="brand" href="#/"><Logo />TRIBAL AUTHENTICA</a>
+      {!mask && (
+        <>
+          <nav className="site-nav" aria-label="Main">
+            <button type="button" onClick={() => document.getElementById('collection')?.scrollIntoView({ behavior: 'smooth' })}>{c.nav.collection}</button>
+            <button type="button" onClick={onHow}>{c.nav.how}</button>
+            <a href={verifyHref()}>{c.nav.verify}</a>
+          </nav>
+          <div className="head-right">{toggle}{chip}</div>
+        </>
+      )}
+      {mask && (
+        <>
+          {certificate
+            ? <a className="head-back" href={`#/mask/${mask.catalogueId}`}>{c.cert.back}</a>
+            : <a className="head-back" href="#/">{c.mask.back}</a>}
+          <div className="head-right">
+            {!certificate && <span className="head-ref">{refOf(mask)}</span>}
+            {toggle}{chip}
+          </div>
+        </>
+      )}
+    </header>
+  );
+}
+
 function App() {
   const [lang, setLang] = useState<Lang>(initialLang);
   const [connectOpen, setConnectOpen] = useState(false);
   const [howOpen, setHowOpen] = useState(false);
   const t = T[lang];
+  const c = copyFor(lang);
   const route = useRoute();
   const mask = route?.mask;
 
@@ -47,35 +87,21 @@ function App() {
     try { localStorage.setItem('lang', lang); } catch { /* ignore */ }
   }, [lang]);
 
+  const onConnect = () => setConnectOpen(true);
+  const onHow = () => setHowOpen(true);
+
   return (
     <>
-      <BlazeBanner />
-      <div className="topbar">
-        <a className="brand" href="#/">Tribal Authentica</a>
-        <div className="topbar-right">
-          <div className="lang-toggle" role="group" aria-label="Language">
-            {(['fr', 'en'] as const).map((l) => (
-              <button key={l} type="button" aria-pressed={lang === l} className={lang === l ? 'on' : ''} onClick={() => setLang(l)}>
-                {l.toUpperCase()}
-              </button>
-            ))}
-          </div>
-          <WalletChip onOpen={() => setConnectOpen(true)} t={t} />
-        </div>
-      </div>
+      <BlazeBanner donate={c.donate} />
+      <Header c={c} lang={lang} setLang={setLang} mask={mask} certificate={!!route?.certificate} onConnect={onConnect} onHow={onHow} />
       <main>
         {mask && route?.certificate
-          ? (<>
-              <a className="back link" href={`#/mask/${mask.catalogueId}`}>{t.cert.back}</a>
-              <CertificatePage key={mask.catalogueId} mask={mask} lang={lang} t={t} />
-            </>)
+          ? <CertificatePage key={`c${mask.catalogueId}`} mask={mask} lang={lang} t={t} c={c} />
           : mask
-          ? (<>
-              <a className="back link" href="#/">{t.back}</a>
-              <MaskPage key={mask.catalogueId} mask={mask} lang={lang} t={t} onConnect={() => setConnectOpen(true)} onHow={() => setHowOpen(true)} />
-            </>)
-          : <Gallery lang={lang} t={t} />}
+          ? <MaskPage key={mask.catalogueId} mask={mask} lang={lang} setLang={setLang} t={t} c={c} onConnect={onConnect} onHow={onHow} />
+          : <Gallery lang={lang} t={t} c={c} />}
       </main>
+      <footer className="site-foot">{c.footer.map((f) => <span key={f}>{f}</span>)}</footer>
       <WalletConnect open={connectOpen} onClose={() => setConnectOpen(false)} t={t} />
       <HowItWorks open={howOpen} onClose={() => setHowOpen(false)} lang={lang} />
     </>

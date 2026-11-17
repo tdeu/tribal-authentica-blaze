@@ -1,7 +1,8 @@
-import { useEffect, useState } from 'react';
-import { binToHex, encodeCashAddress, sha256 } from '@bitauth/libauth';
+import { useEffect, useRef, useState } from 'react';
+import { binToHex, encodeCashAddress, hexToBin, sha256 } from '@bitauth/libauth';
 import { COLLECTION, CONTRACT, type Lang, type MaskView } from '../content/mask';
 import type { Strings } from '../content/i18n';
+import type { Copy } from '../content/copy';
 import { useWallet } from '../wallet/useWallet';
 import { wallet, RECEIVE } from '../wallet/wizard';
 import { provider } from '../wallet/chain';
@@ -9,47 +10,111 @@ import { useMaskLive } from '../chain/live';
 import { readHistory, readState, vaultOf, type HistoryEvent } from '../chain/vault';
 import { fingerprintHex, type MaskContent } from '../data/fingerprint';
 import { ADDRESS_PREFIX, explorerTx } from '../config';
-import { fmtSats } from '../components/Price';
-import { ResellSheet } from '../components/ResellSheet';
+import { HashGrid } from '../components/art';
+import { ResellPanel } from '../components/ResellPanel';
 
-const addrOf = (pkh: Uint8Array) => encodeCashAddress({ prefix: ADDRESS_PREFIX, type: 'p2pkh', payload: pkh }).address;
-const short = (s: string) => (s.length > 24 ? `${s.slice(0, 16)}…${s.slice(-6)}` : s);
+const fmtNum = (n: bigint | number) => Number(n).toLocaleString('en-US');
+const sats = (n: bigint | number) => `${fmtNum(n)} sats`;
+const addrOf = (pkh: Uint8Array) => encodeCashAddress({ prefix: ADDRESS_PREFIX, type: 'p2pkhWithTokens', payload: pkh }).address;
+const shortAddr = (a: string) => { const b = a.split(':')[1] ?? a; return `${b.slice(0, 3)}…${b.slice(-4)}`; };
 
 // ---------------------------------------------------------------- Verify (all in the browser)
 
-type Check = { label: string; ok: boolean; detail?: string };
-type VerifyResult = { checks: Check[]; ok: boolean; computed: string; onchain: string } | { error: string };
+type Verdict =
+  | { error: string }
+  | { photos: { n: number; bad: string[] }; computed: Uint8Array; onchain: Uint8Array; firstDiff: number; ok: boolean };
 
-async function verify(mask: MaskView, t: Strings): Promise<VerifyResult> {
-  const v = t.cert.verify;
+async function verify(mask: MaskView): Promise<Verdict> {
   try {
     const raw = COLLECTION.masks.find((m) => m.catalogueId === mask.catalogueId) as unknown as MaskContent;
-    const checks: Check[] = [];
-    // 1. Every photo's bytes, as served, hash to what the fingerprint lists
-    if (raw.photos.length) {
-      const bad: string[] = [];
-      for (const p of raw.photos) {
-        const bytes = new Uint8Array(await (await fetch(`/${p.file}`, { cache: 'no-store' })).arrayBuffer());
-        if (binToHex(sha256.hash(bytes)) !== p.sha256) bad.push(p.file);
-      }
-      checks.push({ label: v.photos, ok: bad.length === 0, detail: bad.length ? bad.join(', ') : `${raw.photos.length}` });
-    } else {
-      checks.push({ label: v.noPhotos, ok: true });
+    // 1. Every published photo, as served, hashes to what the fingerprint lists
+    const bad: string[] = [];
+    for (const p of raw.photos) {
+      const bytes = new Uint8Array(await (await fetch(`/${p.file}`, { cache: 'no-store' })).arrayBuffer());
+      if (binToHex(sha256.hash(bytes)) !== p.sha256) bad.push(p.file);
     }
-    // 2. Fingerprint recomputed from the content (not the stored value)
-    const computed = fingerprintHex(raw);
-    // 3. Fresh read of the commitment locked in the vault; vaultOf already refused a vault that
-    //    does not rebuild from the contract terms + mint record
+    // 2. Fingerprint recomputed here from the content (never the stored value)
+    const computed = hexToBin(fingerprintHex(raw));
+    // 3. Fresh read of the commitment in the vault (vaultOf refuses a vault that doesn't rebuild from its terms)
     const vault = vaultOf(mask.mint!, CONTRACT, provider);
-    checks.push({ label: v.vault, ok: true, detail: short(vault.contract.tokenAddress) });
     const st = await readState(provider, vault, mask.mint!);
-    const ok = st.fingerprint === computed && st.catalogueId === raw.catalogueId;
-    checks.push({ label: v.content, ok, detail: computed });
-    checks.push({ label: v.onchain, ok, detail: st.fingerprint });
-    return { checks, ok: ok && checks.every((c) => c.ok), computed, onchain: st.fingerprint };
+    const commitment = hexToBin(st.utxo.token!.nft!.commitment);
+    const onchain = commitment.slice(2, 34);
+    let firstDiff = -1;
+    for (let i = 0; i < 32; i++) if (computed[i] !== onchain[i]) { firstDiff = i; break; }
+    const idOk = st.catalogueId === raw.catalogueId;
+    return { photos: { n: raw.photos.length, bad }, computed, onchain, firstDiff: idOk ? firstDiff : Math.max(firstDiff, 0), ok: idOk && firstDiff === -1 && bad.length === 0 };
   } catch (e) {
     return { error: String((e as Error)?.message ?? e) };
   }
+}
+
+function VerifySection({ mask, c }: { mask: MaskView; c: Copy }) {
+  const k = c.cert;
+  const [verdict, setVerdict] = useState<Verdict>();
+  const [phase, setPhase] = useState(0); // 0 idle, 1 source, 2 fingerprint, 3 on-chain, 4 verdict
+  const [running, setRunning] = useState(false);
+  const timers = useRef<number[]>([]);
+  useEffect(() => () => timers.current.forEach(clearTimeout), []);
+
+  const run = async () => {
+    timers.current.forEach(clearTimeout);
+    setRunning(true); setPhase(0); setVerdict(undefined);
+    const v = await verify(mask);
+    setVerdict(v);
+    setRunning(false);
+    if ('error' in v) { setPhase(4); return; }
+    // Reveal step by step (opacity only)
+    setPhase(1);
+    timers.current = [450, 1000, 1600].map((ms, i) => window.setTimeout(() => setPhase(i + 2), ms));
+  };
+
+  const ok = verdict && !('error' in verdict) ? verdict : undefined;
+  const mark = ok && ok.firstDiff >= 0 ? ok.firstDiff : undefined;
+  return (
+    <section className="verify" aria-labelledby="verify-label">
+      <div className="verify-head">
+        <div>
+          <p className="label" id="verify-label">{k.verifyLabel}</p>
+          <h2 className="headline h-m" style={{ marginTop: 12 }}>{k.verifyTitle[0]}<br /><span className="accent">{k.verifyTitle[1]}</span></h2>
+        </div>
+        <button type="button" className="btn btn-primary" onClick={run} disabled={running}>
+          {running ? k.running : phase >= 4 ? k.again : k.run}
+        </button>
+      </div>
+      <div className="steps3">
+        <div className={`step${phase >= 1 ? ' on' : ''}`}>
+          <p className="fine">{k.s1[0]}</p>
+          <div className="step-art">
+            {mask.photos.length
+              ? mask.photos.slice(0, 3).map((p) => <img key={p} src={p} alt="" />)
+              : [0, 1, 2].map((i) => <div key={i} className="photo-ph" aria-hidden />)}
+          </div>
+          <div className="step-title">{k.s1[1]}</div>
+          <p className="step-text">{k.s1[2]}</p>
+          {ok && phase >= 1 && <p className="step-text">{ok.photos.bad.length ? k.photosBad(ok.photos.bad.join(', ')) : `✓ ${k.photosOk(ok.photos.n)}`}</p>}
+        </div>
+        <div className={`step${phase >= 2 ? ' on' : ''}`}>
+          <p className="fine">{k.s2[0]}</p>
+          <div className="step-art"><HashGrid bytes={ok?.computed} revealed={phase >= 2} mark={mark} label={k.gridA} /></div>
+          <div className="step-title">{k.s2[1]}</div>
+          <p className="step-text">{ok && phase >= 2 ? binToHex(ok.computed) : '[SHA256 · 32 BYTES]'}</p>
+        </div>
+        <div className={`step${phase >= 3 ? ' on' : ''}`}>
+          <p className="fine">{k.s3[0]}</p>
+          <div className="step-art"><HashGrid bytes={ok?.onchain} revealed={phase >= 3} mark={mark} label={k.gridB} /></div>
+          <div className="step-title">{k.s3[1]}</div>
+          <p className="step-text">{ok && phase >= 3 ? binToHex(ok.onchain) : k.s3[2]}</p>
+        </div>
+      </div>
+      <div aria-live="polite">
+        {verdict && 'error' in verdict && <p className="warn">{k.failed} {verdict.error}</p>}
+        {ok && phase >= 4 && (ok.ok
+          ? <div className="verdict verdict-ok"><strong>{k.match}</strong><p>{k.matchText(mask.ref)}</p></div>
+          : <div className="verdict verdict-bad"><strong>{k.noMatch}</strong><p>{ok.firstDiff >= 0 ? k.noMatchText(ok.firstDiff + 2) : k.photoMismatch}</p></div>)}
+      </div>
+    </section>
+  );
 }
 
 // ---------------------------------------------------------------- History
@@ -59,117 +124,114 @@ function useHistory(mask: MaskView, key: string | undefined) {
   useEffect(() => {
     if (!mask.mint || !key) return;
     let on = true;
-    (async () => {
-      try {
-        const ev = await readHistory(provider, vaultOf(mask.mint!, CONTRACT, provider), mask.mint!, CONTRACT);
-        if (on) setEvents(ev);
-      } catch { if (on) setEvents('error'); }
-    })();
+    readHistory(provider, vaultOf(mask.mint, CONTRACT, provider), mask.mint, CONTRACT)
+      .then((ev) => { if (on) setEvents(ev); })
+      .catch(() => { if (on) setEvents('error'); });
     return () => { on = false; };
   }, [mask, key]);
   return events;
 }
 
-function HistoryList({ events, t, myPkh }: { events: HistoryEvent[]; t: Strings; myPkh?: Uint8Array }) {
-  const h = t.cert.history;
-  const who = (pkh: Uint8Array) => (myPkh && binToHex(myPkh) === binToHex(pkh) ? t.cert.you : short(addrOf(pkh)));
-  const role = (r: string) => (r === 'seller' ? h.seller : r === 'custodian' ? h.custodian : h.platform);
+const dateOf = (e: HistoryEvent, lang: Lang, pending: string) =>
+  e.height <= 0 ? pending : e.time ? new Date(e.time * 1000).toLocaleDateString(lang === 'fr' ? 'fr-FR' : 'en-GB', { day: '2-digit', month: 'short', year: 'numeric' }) : `#${e.height}`;
+
+function HistoryTable({ events, c, lang }: { events: HistoryEvent[]; c: Copy; lang: Lang }) {
+  const k = c.cert;
+  const text = (e: HistoryEvent) => {
+    if (e.kind === 'minted') return k.minted;
+    if (e.kind === 'listed') return k.listed(sats(e.price));
+    if (e.kind === 'delisted') return k.delisted;
+    const keeper = e.payouts?.find((p) => p.role === 'custodian')?.sats ?? 0n;
+    if (e.saleKind === 'first') {
+      const emtee = e.payouts?.find((p) => p.role === 'platform')?.sats ?? 0n;
+      const [a, b, d] = k.firstSale(sats(e.price), fmtNum(keeper), fmtNum(emtee));
+      return <>{a}<span className="accent">{b}</span>{d}</>;
+    }
+    const [a, b] = k.resold(sats(e.price), sats(keeper));
+    return <>{a}<span className="accent">{b}</span></>;
+  };
   return (
-    <ol className="history">
-      {[...events].reverse().map((e) => (
-        <li key={e.txid}>
-          <div className="history-what">
-            {e.kind === 'minted' && <>{h.minted} <b>{fmtSats(e.price)}</b></>}
-            {e.kind === 'sold' && <>{e.saleKind === 'first' ? h.firstSale : h.resale} <b>{fmtSats(e.price)}</b> → {who(e.ownerPkh)}</>}
-            {e.kind === 'listed' && <>{h.listed} <b>{fmtSats(e.price)}</b></>}
-            {e.kind === 'delisted' && <>{h.delisted}</>}
-          </div>
-          {e.payouts && <div className="fine">{e.payouts.map((p) => `${fmtSats(p.sats)} → ${role(p.role)}`).join(' · ')}</div>}
-          <a className="fine link" href={explorerTx(e.txid)} target="_blank" rel="noreferrer">
-            {short(e.txid)}{e.height <= 0 ? ` · ${h.pending}` : ''}
-          </a>
-        </li>
+    <div className="htable" role="table">
+      <div className="hrow hhead" role="row">{k.cols.map((h, i) => <span key={h} role="columnheader" style={i === 2 ? { textAlign: 'right' } : undefined}>{h}</span>)}</div>
+      {events.map((e) => (
+        <div className="hrow" role="row" key={e.txid}>
+          <span role="cell">{dateOf(e, lang, k.pending)}</span>
+          <span role="cell">{text(e)}</span>
+          <span role="cell"><a href={explorerTx(e.txid)} target="_blank" rel="noreferrer" aria-label={`${k.txLabel} ${e.txid}`}>↗</a></span>
+        </div>
       ))}
-    </ol>
+    </div>
   );
 }
 
 // ---------------------------------------------------------------- Page
 
-export function CertificatePage({ mask, lang, t }: { mask: MaskView; lang: Lang; t: Strings }) {
-  const c = t.cert;
+export function CertificatePage({ mask, lang, t, c }: { mask: MaskView; lang: Lang; t: Strings; c: Copy }) {
+  const k = c.cert;
   const s = useWallet();
   const myPkh = s.approved ? wallet.addressAt(RECEIVE, 0)?.pkh : undefined;
   const live = useMaskLive(mask, myPkh);
   const st = live.state;
   const history = useHistory(mask, st?.utxo.txid);
-  const [result, setResult] = useState<VerifyResult | 'running'>();
-  const [reselling, setReselling] = useState(false);
 
   if (!mask.mint) {
-    return (<section className="certificate"><h1 className="mask-name">{c.title} · {mask.ref}</h1><p className="fine">{t.comingSoon}</p></section>);
+    return (
+      <section className="cert-hero">
+        <div>
+          <p className="label">{k.tag(mask.ref)}</p>
+          <h1 className="headline h-l">{mask.name}</h1>
+          <p className="lead">{t.comingSoon}</p>
+        </div>
+      </section>
+    );
   }
 
+  const yours = live.status === 'yours';
+  const holder = !st ? '…' : st.ownerIsCustodian ? k.notSold
+    : yours ? `${k.you} · ${shortAddr(s.tokenAddress ?? addrOf(st.ownerPkh))}` : shortAddr(addrOf(st.ownerPkh));
+  const paid = Array.isArray(history)
+    ? history.flatMap((e) => e.payouts ?? []).filter((p) => p.role === 'custodian').reduce((a, p) => a + p.sats, 0n)
+    : undefined;
+
   return (
-    <section className="certificate" lang={lang}>
-      <p className="fine">{c.title} · {mask.ref}</p>
-      <h1 className="mask-name">{mask.name}</h1>
-      <p className="mask-artisan">{t.custodian} {mask.custodian} · <span className={`status status-${live.status}`}>{t.status[live.status]}</span></p>
+    <>
+      <section className="cert-hero">
+        <div>
+          <p className="label">{k.tag(mask.ref)}</p>
+          <h1 className="headline h-l">{mask.name}</h1>
+          <p className="lead">{!st ? '' : yours ? k.leadYours : st.ownerIsCustodian ? k.leadUnsold : k.leadOther}</p>
+          {live.status === 'error' && <p className="fine">{live.error}</p>}
+        </div>
+        <div className="cert-photo vignette">
+          {mask.photo ? <img src={mask.photo} alt={mask.name} /> : <div className="photo-ph" role="img" aria-label={c.collection.photo(mask.ref)}>{c.collection.photo(mask.ref)}</div>}
+        </div>
+      </section>
 
-      <div className="cert-card">
-        <h2>{c.owner}</h2>
-        {!st ? <p className="fine">{live.error ?? t.status.loading}</p> : (
-          <>
-            <p className="cert-owner">
-              {st.ownerIsCustodian ? c.notSoldOwner : live.status === 'yours' ? <b>{c.yours}</b> : <code>{short(addrOf(st.ownerPkh))}</code>}
-            </p>
-            <p className="fine">
-              {st.price > 0n ? `${c.forSale} ${fmtSats(st.price)}` : c.notForSale}
-              {st.lastSalePrice > 0n && ` · ${c.lastSale} ${fmtSats(st.lastSalePrice)}`}
-            </p>
-            {live.status === 'yours' && (
-              <button type="button" className="btn btn-primary" onClick={() => setReselling(true)}>
-                {st.price > 0n ? c.resell.change : c.resell.open}
-              </button>
-            )}
-          </>
+      <dl className="facts">
+        <div><dt>{k.holder}</dt><dd style={{ fontWeight: 700 }}>{holder}</dd></div>
+        <div><dt>{k.keeper}</dt><dd>{k.keeperValue(mask.custodian)}</dd></div>
+        <div><dt>{k.paid}</dt><dd>{paid === undefined ? '…' : `${fmtNum(paid)} ${k.sats}`}</dd></div>
+        <div><dt>{k.everyResale}</dt><dd className="accent" style={{ fontWeight: 700 }}>{k.tenPct}</dd></div>
+      </dl>
+
+      <VerifySection mask={mask} c={c} />
+
+      <section className="cert-lower">
+        <div className="history">
+          <p className="label">{k.historyLabel}</p>
+          {history === 'loading' ? <p className="fine" style={{ marginTop: 16 }}>{k.loading}</p>
+            : history === 'error' ? <p className="fine" style={{ marginTop: 16 }}>{k.error}</p>
+            : <HistoryTable events={history} c={c} lang={lang} />}
+        </div>
+        {st && live.vault && yours && <ResellPanel mask={mask} live={live} t={t} c={c} />}
+        {st && !yours && st.price > 0n && (
+          <div className="side-box">
+            <p className="label">{k.forSale}</p>
+            <div><span className="price-big">{fmtNum(st.price)}</span><span className="price-sub"> sats</span></div>
+            <a className="btn btn-primary btn-block" href={`#/mask/${mask.catalogueId}`}>{k.buyIt}</a>
+          </div>
         )}
-      </div>
-
-      <div className="cert-card">
-        <h2>{c.verify.title}</h2>
-        <p className="fine">{c.verify.lead}</p>
-        <button type="button" className="btn btn-ghost" disabled={result === 'running'}
-          onClick={async () => { setResult('running'); setResult(await verify(mask, t)); }}>
-          {result === 'running' ? c.verify.running : c.verify.run}
-        </button>
-        {result && result !== 'running' && ('error' in result
-          ? <p className="warn" role="alert">{c.verify.failed} {result.error}</p>
-          : (
-            <div role="status">
-              <ul className="checks">
-                {result.checks.map((k) => (
-                  <li key={k.label} className={k.ok ? 'ok' : 'bad'}>
-                    <span aria-hidden>{k.ok ? '✓' : '✗'}</span> {k.label}
-                    {k.detail && <code className="hash">{k.detail}</code>}
-                  </li>
-                ))}
-              </ul>
-              <p className={result.ok ? 'wstatus wstatus-ok' : 'warn'}>{result.ok ? c.verify.ok : c.verify.bad}</p>
-            </div>
-          ))}
-      </div>
-
-      <div className="cert-card">
-        <h2>{c.history.title}</h2>
-        {history === 'loading' ? <p className="fine">{c.history.loading}</p>
-          : history === 'error' ? <p className="fine">{c.history.error}</p>
-          : <HistoryList events={history} t={t} myPkh={myPkh} />}
-      </div>
-
-      {reselling && st && live.vault && (
-        <ResellSheet mask={mask} live={live} t={t} onClose={() => setReselling(false)} />
-      )}
-    </section>
+      </section>
+    </>
   );
 }
