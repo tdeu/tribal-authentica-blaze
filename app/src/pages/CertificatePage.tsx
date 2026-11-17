@@ -24,13 +24,22 @@ type Verdict =
   | { error: string }
   | { photos: { n: number; bad: string[] }; computed: Uint8Array; onchain: Uint8Array; firstDiff: number; ok: boolean };
 
+// DEV ONLY: ?tamper=1 flips one byte of the story (and of the first photo, if any) before hashing, to show
+// the NO MATCH state. import.meta.env.DEV is false in production builds, so this code is removed there.
+const TAMPER = import.meta.env.DEV && new URLSearchParams(window.location.search).get('tamper') === '1';
+
 async function verify(mask: MaskView): Promise<Verdict> {
   try {
-    const raw = COLLECTION.masks.find((m) => m.catalogueId === mask.catalogueId) as unknown as MaskContent;
+    let raw = COLLECTION.masks.find((m) => m.catalogueId === mask.catalogueId) as unknown as MaskContent;
+    if (TAMPER) {
+      const en = raw.story.en;
+      raw = { ...raw, story: { ...raw.story, en: String.fromCharCode(en.charCodeAt(0) ^ 1) + en.slice(1) } };
+    }
     // 1. Every published photo, as served, hashes to what the fingerprint lists
     const bad: string[] = [];
     for (const p of raw.photos) {
       const bytes = new Uint8Array(await (await fetch(`/${p.file}`, { cache: 'no-store' })).arrayBuffer());
+      if (TAMPER && p === raw.photos[0] && bytes.length) bytes[0] ^= 1;
       if (binToHex(sha256.hash(bytes)) !== p.sha256) bad.push(p.file);
     }
     // 2. Fingerprint recomputed here from the content (never the stored value)
@@ -82,6 +91,7 @@ function VerifySection({ mask, c }: { mask: MaskView; c: Copy }) {
           {running ? k.running : phase >= 4 ? k.again : k.run}
         </button>
       </div>
+      {TAMPER && <p className="warn">DEV · ?tamper=1: one byte of the story is flipped before hashing.</p>}
       <div className="steps3">
         <div className={`step${phase >= 1 ? ' on' : ''}`}>
           <p className="fine">{k.s1[0]}</p>

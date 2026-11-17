@@ -355,3 +355,4 @@ code { font-family: var(--mono); }
   .buy-dock .btn { padding: 14px 10px; font-size: 13px; }
 }
 .price-sub { white-space: nowrap; display: inline-block; }
+.price-sub { margin-left: .45em; }

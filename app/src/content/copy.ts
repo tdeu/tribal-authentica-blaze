@@ -8,7 +8,7 @@ export const COPY = {
     connect: 'Connect wallet ↗',
     connected: 'Connected',
     footer: ['● SECURED BY BITCOIN CASH', 'CASHTOKENS · CASHSCRIPT ROYALTY VAULT', 'BUILT BY EMTÉE STUDIO FOR BCH BLAZE 2026'],
-    donate: 'DONATE',
+    donate: 'DONATE / VOTE · EMBER2026',
     hero: {
       line1: 'IT STAYS HOME.',
       line2: 'ITS STORY TRAVELS.',
@@ -138,7 +138,7 @@ export const COPY = {
     connect: 'Connecter un portefeuille ↗',
     connected: 'Connecté',
     footer: ['● SÉCURISÉ PAR BITCOIN CASH', 'CASHTOKENS · COFFRE DE REDEVANCES CASHSCRIPT', 'CONSTRUIT PAR EMTÉE STUDIO POUR BCH BLAZE 2026'],
-    donate: 'DON',
+    donate: 'DON / VOTE · EMBER2026',
     hero: {
       line1: 'IL RESTE CHEZ LUI.',
       line2: 'SON HISTOIRE VOYAGE.',
