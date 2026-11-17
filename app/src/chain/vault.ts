@@ -245,6 +245,7 @@ export type HistoryEvent = {
   kind: 'minted' | 'sold' | 'listed' | 'delisted';
   txid: string;
   height: number;              // <= 0 = not yet in a block
+  time?: number;               // block time (unix seconds), when known
   ownerPkh: Uint8Array;        // owner after this tx
   price: bigint;               // minted/listed: asking price; sold: sale price
   sellerPkh?: Uint8Array;      // sold only
@@ -299,9 +300,20 @@ export function historyFromTxs(vault: Vault, mint: MintRecord, params: ContractP
 
 /** Fetches every tx of the vault address (Electrum) and builds the history. */
 export async function readHistory(provider: NetworkProvider, vault: Vault, mint: MintRecord, params: ContractParams): Promise<HistoryEvent[]> {
-  const electrum = provider as NetworkProvider & { performRequest?: (m: string, ...p: string[]) => Promise<unknown> };
+  const electrum = provider as NetworkProvider & { performRequest?: (m: string, ...p: (string | number)[]) => Promise<unknown> };
   if (!electrum.performRequest) throw new Error('history needs an Electrum provider');
   const list = await electrum.performRequest('blockchain.address.get_history', vault.contract.address) as { tx_hash: string; height: number }[];
   const txs = await Promise.all(list.map(async (h) => ({ txid: h.tx_hash, height: h.height, hex: await provider.getRawTransaction(h.tx_hash) })));
-  return historyFromTxs(vault, mint, params, txs);
+  const events = historyFromTxs(vault, mint, params, txs);
+  // Block times for the dates column (header bytes 68..71 = timestamp, little-endian); display only
+  const heights = [...new Set(events.map((e) => e.height).filter((h) => h > 0))];
+  const times = new Map<number, number>();
+  await Promise.all(heights.map(async (h) => {
+    try {
+      const hex = await electrum.performRequest!('blockchain.block.header', h) as string;
+      const b = hexToBin(hex);
+      times.set(h, b[68] | (b[69] << 8) | (b[70] << 16) | (b[71] * 2 ** 24));
+    } catch { /* no date */ }
+  }));
+  return events.map((e) => ({ ...e, time: times.get(e.height) }));
 }
