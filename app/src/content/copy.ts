@@ -41,7 +41,7 @@ export const COPY = {
     collection: {
       label: 'THE COLLECTION',
       title: ['ONE MASK', 'AT A TIME'],
-      lead: ['Five masks. Each one stays home.', 'Walk past each vitrine. Read its story. Make it yours.'],
+      lead: ['Each one stays home.', 'Walk past each vitrine. Read its story. Make it yours.'],
       photoSoon: 'Photo coming soon',
       token: '1 / 1 CASHTOKEN',
       origin: (country: string) => `ORIGIN · ${country}`,
@@ -180,7 +180,7 @@ export const COPY = {
     collection: {
       label: 'LA COLLECTION',
       title: ['UN MASQUE', 'À LA FOIS'],
-      lead: ['Cinq masques. Chacun reste chez lui.', 'Passez devant chaque vitrine. Lisez son histoire. Faites-le vôtre.'],
+      lead: ['Chacun reste chez lui.', 'Passez devant chaque vitrine. Lisez son histoire. Faites-le vôtre.'],
       photoSoon: 'Photo à venir',
       token: '1 / 1 CASHTOKEN',
       origin: (country: string) => `ORIGINE · ${country}`,

@@ -2,10 +2,9 @@
 //  - "IT STAYS HOME." never moves. Dune ripples rest on its baseline and slowly migrate; grains hop
 //    along them (saltation) and flow on past it.
 //  - "ITS STORY TRAVELS." is a migrating dune: every letter keeps shedding sand from its trailing
-//    (right) edge, which streams right and down towards the collection, and keeps absorbing grains
-//    that arrive at its leading (left) edge. The line sways a few pixels. Erosion is capped at ~12 %
+//    (right) edge, which falls down towards the collection. The line sways a few pixels. Erosion is capped at ~12 %
 //    of each letter's area, so it is always legible.
-//  - A low wind band carries grains left → right with near/far parallax and short motion streaks.
+//  - The wind blows DOWN from line 2 to the collection below: near/far parallax, short motion streaks.
 // Performance: one canvas, one requestAnimationFrame loop, fixed pools (no allocation per frame),
 // fillRect only. Layout and glyph shapes are read once (start, resize), never per frame. The only
 // per-frame DOM write is line 2's transform (no layout). Paused off-screen. Reduced motion: static.
@@ -49,10 +48,10 @@ export function WindHero({ line1, line2, label, children }: { line1: string; lin
 
     const spawnBand = (g: Grain, isFar: boolean, anywhere = false) => {
       g.on = true;
-      g.x = anywhere ? rand(-20, W) : rand(-60, -4);
-      g.y = rand(band0 + (isFar ? 0 : (H - band0) * 0.15), H - 4);
-      g.vx = isFar ? rand(70, 140) : rand(170, 300);
-      g.vy = rand(-6, 10);
+      g.x = rand(-20, W + 20);
+      g.y = anywhere ? rand(band0, H - 4) : band0 + rand(0, 24);     // enter at line 2, never above it
+      g.vx = isFar ? rand(4, 22) : rand(10, 40);                        // slight drift right
+      g.vy = isFar ? rand(45, 95) : rand(110, 210);                     // the wind blows DOWN, to the collection
       g.s = isFar ? unit * rand(0.45, 0.8) : unit * rand(0.8, 1.35);
       g.a = isFar ? rand(0.18, 0.38) : rand(0.45, 0.85);
       g.c = Math.floor(Math.random() * 5); g.age = rand(0, 10);
@@ -67,7 +66,7 @@ export function WindHero({ line1, line2, label, children }: { line1: string; lin
     };
     const emitShed = (x: number, y: number) => {
       const g = shed[shedNext]; shedNext = (shedNext + 1) % shed.length;
-      g.on = true; g.x = x; g.y = y; g.vx = rand(60, 170); g.vy = rand(10, 60);
+      g.on = true; g.x = x; g.y = y; g.vx = rand(10, 60); g.vy = rand(50, 120);
       g.s = unit * rand(0.55, 1.1); g.a = rand(0.55, 0.95); g.c = Math.floor(Math.random() * 5); g.age = 0; g.life = rand(1.4, 2.6);
     };
 
@@ -146,10 +145,10 @@ export function WindHero({ line1, line2, label, children }: { line1: string; lin
 
       // far layer
       for (const g of far) {
-        g.x += g.vx * dt; g.y += (g.vy + Math.sin(g.age * 1.3 + g.x * 0.01) * 6) * dt; g.age += dt;
-        if (g.x > W + 10 || g.y > H) spawnBand(g, true);
+        g.x += (g.vx + Math.sin(g.age * 1.3 + g.y * 0.01) * 8) * dt; g.y += g.vy * dt; g.age += dt;
+        if (g.y > H + 6 || g.x > W + 20) spawnBand(g, true);
         ctx.globalAlpha = g.a; ctx.fillStyle = palette[g.c];
-        ctx.fillRect(g.x - g.vx * 0.008, g.y, g.vx * 0.008 + g.s, g.s);
+        ctx.fillRect(g.x - g.vx * 0.012, g.y - g.vy * 0.012, g.s, g.vy * 0.012 + g.s);
       }
 
       // dune ripples on line 1's baseline (from just before to just after line 1)
@@ -196,24 +195,17 @@ export function WindHero({ line1, line2, label, children }: { line1: string; lin
         if (!g.on) continue;
         g.age += dt;
         if (g.age > g.life || g.y > H + 4 || g.x > W + 4) { g.on = false; continue; }
-        g.vx += 40 * dt; g.vy += 70 * dt;
+        g.vx += 6 * dt; g.vy += 140 * dt;
         g.x += g.vx * dt; g.y += g.vy * dt;
         ctx.globalAlpha = g.a * Math.min(1, (g.life - g.age) / (g.life * 0.5)); ctx.fillStyle = palette[g.c];
-        ctx.fillRect(g.x - g.vx * 0.01, g.y, g.vx * 0.01 + g.s, g.s);
+        ctx.fillRect(g.x - g.vx * 0.012, g.y - g.vy * 0.012, g.s, g.vy * 0.012 + g.s);
       }
-      // near layer: grains reaching a letter's leading edge are absorbed (the dune rebuilds from the front)
+      // near layer: larger, brighter grains falling towards the collection
       for (const g of near) {
-        const px = g.x;
-        g.x += g.vx * dt; g.y += (g.vy + Math.sin(g.age * 1.7 + g.x * 0.013) * 10) * dt; g.age += dt;
-        if (g.x > W + 10 || g.y > H) { spawnBand(g, false); continue; }
-        let absorbed = false;
-        for (const L of letters) {
-          const lx = L.lead + sway;
-          if (px < lx && g.x >= lx && g.y >= L.top && g.y <= L.bot) { absorbed = true; break; }
-        }
-        if (absorbed) { spawnBand(g, false); continue; }
+        g.x += (g.vx + Math.sin(g.age * 1.7 + g.y * 0.013) * 12) * dt; g.y += g.vy * dt; g.age += dt;
+        if (g.y > H + 6 || g.x > W + 20) { spawnBand(g, false); continue; }
         ctx.globalAlpha = g.a; ctx.fillStyle = palette[g.c];
-        ctx.fillRect(g.x - g.vx * 0.014, g.y, g.vx * 0.014 + g.s, g.s);
+        ctx.fillRect(g.x - g.vx * 0.016, g.y - g.vy * 0.016, g.s, g.vy * 0.016 + g.s);
       }
     };
 
