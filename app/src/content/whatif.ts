@@ -32,7 +32,7 @@ export type WhatIf = { q: string; a: string; proofs: Proof[] };
 
 export const WHAT_IF: Record<Lang, { label: string; title: [string, string]; proof: string; items: WhatIf[] }> = {
   en: {
-    label: '01 / WHAT IF SOMETHING GOES WRONG?',
+    label: '7 CASES · EACH WITH ITS PROOF',
     title: ['WHAT IF', 'SOMETHING GOES WRONG?'],
     proof: 'Proof',
     items: [
@@ -83,7 +83,7 @@ export const WHAT_IF: Record<Lang, { label: string; title: [string, string]; pro
     ],
   },
   fr: {
-    label: '01 / ET SI QUELQUE CHOSE TOURNE MAL ?',
+    label: '7 CAS · CHACUN AVEC SA PREUVE',
     title: ['ET SI QUELQUE CHOSE', 'TOURNE MAL ?'],
     proof: 'Preuve',
     items: [

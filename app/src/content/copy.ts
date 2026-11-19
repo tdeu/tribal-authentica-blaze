@@ -4,7 +4,8 @@ import type { Lang } from './mask';
 
 export const COPY = {
   en: {
-    nav: { collection: 'Collection', how: 'How it works', verify: 'Verify', lang: 'FR / EN', langLabel: 'Passer en français' },
+    whatIfLink: 'What if something goes wrong? →',
+    nav: { collection: 'Collection', how: 'How it works', whatIf: 'What if?', verify: 'Verify', lang: 'FR / EN', langLabel: 'Passer en français' },
     connect: 'Connect wallet ↗',
     connected: 'Connected',
     footer: ['● SECURED BY BITCOIN CASH', 'CASHTOKENS · CASHSCRIPT ROYALTY VAULT', 'Sankofa is built by Emtée Studio.', 'BCH BLAZE 2026'],
@@ -23,7 +24,12 @@ export const COPY = {
     cta: { a: 'Heritage that stays home.', b: 'A title that pays its keeper.', explore: 'Explore the collection', enter: 'Enter the first story ↗' },
     ticker: ['IT STAYS HOME', '90% TO ITS KEEPER', '10% OF EVERY RESALE', 'ONE MASK, ONE TOKEN', 'SECURED BY BITCOIN CASH'],
     how: {
-      label: '00 / HOW THE TITLE WORKS',
+      label: '02 / HOW IT WORKS',
+      steps: [
+        'You buy the title. 90% goes straight to the keeper and 10% to Sankofa, in the same transaction.',
+        'The title stays in the mask’s vault, in your name. Anyone can check its photos and story against the chain.',
+        'Resell whenever you like. The keeper earns 10% of every resale, forever.',
+      ],
       title: ['ONE MASK.', 'ONE TITLE.', 'FOREVER PAID.'],
       body: 'The mask never leaves its keeper. You buy its one-of-one CashToken, which carries a fingerprint of its photos and story. A royalty vault holds the title in your name and enforces every payment.',
       digitsCap: 'TO THE KEEPER, ON THE FIRST SALE',
@@ -32,7 +38,7 @@ export const COPY = {
       rows: [['FIRST SALE', 'KEEPER, AFRICA', true], ['FIRST SALE', 'SANKOFA', false], ['EVERY RESALE', 'KEEPER, AFRICA', true], ['EVERY RESALE', 'SELLER', false]] as const,
     },
     collection: {
-      label: '02 / THE COLLECTION',
+      label: '01 / THE COLLECTION',
       title: ['ONE MASK', 'AT A TIME'],
       lead: ['Five masks. Each one stays home.', 'Walk past each vitrine. Read its story. Make it yours.'],
       photoSoon: 'Photo coming soon',
@@ -135,7 +141,8 @@ export const COPY = {
     },
   },
   fr: {
-    nav: { collection: 'Collection', how: 'Comment ça marche', verify: 'Vérifier', lang: 'FR / EN', langLabel: 'Switch to English' },
+    whatIfLink: 'Et si quelque chose tourne mal ? →',
+    nav: { collection: 'Collection', how: 'Comment ça marche', whatIf: 'Et si… ?', verify: 'Vérifier', lang: 'FR / EN', langLabel: 'Switch to English' },
     connect: 'Connecter un portefeuille ↗',
     connected: 'Connecté',
     footer: ['● SÉCURISÉ PAR BITCOIN CASH', 'CASHTOKENS · COFFRE DE REDEVANCES CASHSCRIPT', 'Sankofa est conçu par Emtée Studio.', 'BCH BLAZE 2026'],
@@ -154,7 +161,12 @@ export const COPY = {
     cta: { a: 'Un patrimoine qui reste chez lui.', b: 'Un titre qui paie son gardien.', explore: 'Explorer la collection', enter: 'Découvrir la première histoire ↗' },
     ticker: ['IL RESTE CHEZ LUI', '90 % À SON GARDIEN', '10 % DE CHAQUE REVENTE', 'UN MASQUE, UN JETON', 'SÉCURISÉ PAR BITCOIN CASH'],
     how: {
-      label: '00 / COMMENT FONCTIONNE LE TITRE',
+      label: '02 / COMMENT ÇA MARCHE',
+      steps: [
+        'Vous achetez le titre. 90 % vont directement au gardien et 10 % à Sankofa, dans la même transaction.',
+        'Le titre reste dans le coffre du masque, à votre nom. Chacun peut vérifier ses photos et son histoire sur la blockchain.',
+        'Revendez quand vous voulez. Le gardien touche 10 % de chaque revente, pour toujours.',
+      ],
       title: ['UN MASQUE.', 'UN TITRE.', 'PAYÉ POUR TOUJOURS.'],
       body: 'Le masque ne quitte jamais son gardien. Vous achetez son CashToken unique, qui porte l’empreinte de ses photos et de son histoire. Un coffre de redevances garde le titre à votre nom et impose chaque paiement.',
       digitsCap: 'AU GARDIEN, À LA PREMIÈRE VENTE',
@@ -163,7 +175,7 @@ export const COPY = {
       rows: [['PREMIÈRE VENTE', 'GARDIEN, AFRIQUE', true], ['PREMIÈRE VENTE', 'SANKOFA', false], ['CHAQUE REVENTE', 'GARDIEN, AFRIQUE', true], ['CHAQUE REVENTE', 'VENDEUR', false]] as const,
     },
     collection: {
-      label: '02 / LA COLLECTION',
+      label: '01 / LA COLLECTION',
       title: ['UN MASQUE', 'À LA FOIS'],
       lead: ['Cinq masques. Chacun reste chez lui.', 'Passez devant chaque vitrine. Lisez son histoire. Faites-le vôtre.'],
       photoSoon: 'Photo à venir',

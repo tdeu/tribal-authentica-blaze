@@ -3,5 +3,18 @@
   "framework": "vite",
   "installCommand": "cd app && npm ci",
   "buildCommand": "cd app && npm run build",
-  "outputDirectory": "app/dist"
+  "outputDirectory": "app/dist",
+  "redirects": [
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "tribal-authentica.vercel.app"
+        }
+      ],
+      "destination": "https://sankofa-bch.vercel.app/:path*",
+      "permanent": true
+    }
+  ]
 }

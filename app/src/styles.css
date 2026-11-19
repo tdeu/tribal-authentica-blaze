@@ -106,18 +106,6 @@ code { font-family: var(--mono); }
 .photo-ph { border: 1px dashed var(--corner); display: flex; align-items: center; justify-content: center; text-align: center; font-size: 12px; color: var(--muted); padding: 16px; }
 .vignette { background: radial-gradient(ellipse 50% 55% at 50% 42%, var(--vignette) 0%, var(--bg) 75%); }
 
-/* Hero dot mask: fixed-size box, dots absolutely positioned (the sandstorm only moves transforms) */
-.dotmask { --dot: clamp(6px, 2.6vw, 11px); --gap: calc(var(--dot) * .27); --step: calc(var(--dot) + var(--gap));
-  position: relative; width: calc(24 * var(--step) - var(--gap)); height: calc(34 * var(--step) - var(--gap)); }
-.dotmask span { position: absolute; left: calc(var(--x) * var(--step)); top: calc(var(--y) * var(--step)); width: var(--dot); height: var(--dot); background: var(--accent); }
-.dotmask span.off { background: var(--dot-off-2); }
-.dotmask.pending span.on { opacity: 0 !important; }
-.hero-panel { overflow: hidden; }
-.replay { position: absolute; right: 8px; bottom: 4px; z-index: 1; background: none; border: 0; color: var(--muted); font-size: 12px; min-height: 44px; min-width: 44px; padding: 0 8px; cursor: pointer; }
-.replay:hover { color: var(--accent); }
-.storm-caption { margin: 0; max-width: 960px; width: 100%; font-size: 13px; color: var(--muted); text-align: center; opacity: 0; transition: opacity .8s ease; min-height: 1.6em; }
-.storm-caption.shown { opacity: 1; }
-@media (prefers-reduced-motion: reduce) { .storm-caption { transition: none; } }
 
 .pixeldigits { display: flex; gap: clamp(8px, 1.4vw, 14px); }
 .pixelglyph { --px: clamp(8px, 1.4vw, 14px); display: grid; grid-template-columns: repeat(5, var(--px)); gap: calc(var(--px) * .29); }
@@ -146,16 +134,8 @@ code { font-family: var(--mono); }
 .hero { padding: clamp(40px, 6vw, 72px) var(--pad) 40px; display: flex; flex-direction: column; align-items: center; gap: 24px; text-align: center; }
 .hero .lead { max-width: 760px; }
 .hero-lead b { color: var(--accent); }
-.hero-panel { width: 100%; max-width: 960px; margin-top: 24px; border: 1px solid var(--line); position: relative;
   background-image: linear-gradient(var(--dot-off-2) 1px, transparent 1px), linear-gradient(90deg, var(--dot-off-2) 1px, transparent 1px); background-size: 32px 32px; }
-.hero-panel-bar { display: flex; justify-content: space-between; gap: 12px; padding: 14px 18px; font-size: 12px; color: var(--muted); }
-.hero-panel-art { display: flex; justify-content: center; padding: 16px 0 56px; position: relative; --cx: clamp(12px, 5vw, 48px); }
 .hero .demo-notice { max-width: 960px; width: 100%; }
-.cta-row { display: flex; flex-wrap: wrap; gap: 16px 24px; align-items: center; padding: 28px var(--pad); border-top: 1px solid var(--line); }
-.cta-row .tag-line { font-size: 15px; line-height: 1.6; color: var(--muted); }
-.cta-row .tag-line b { color: var(--ink); }
-.cta-row .explore { margin-left: auto; }
-@media (max-width: 600px) { .cta-row .explore { margin-left: 0; } .cta-row .btn { width: 100%; } }
 
 .how-block { background: var(--block); color: var(--on-block); padding: clamp(48px, 6vw, 72px) var(--pad); display: flex; flex-wrap: wrap; gap: 56px; }
 .how-block > div { flex: 1 1 420px; min-width: 0; display: flex; flex-direction: column; gap: 24px; }
@@ -338,8 +318,6 @@ code { font-family: var(--mono); }
 .how dd { margin: 4px 0 0; color: var(--ink-2); font-size: 13px; }
 .sheet .btn { display: flex; width: 100%; }
 .sheet .icon-btn { width: 44px; height: 44px; font-size: 20px; }
-.hero-panel-bar { text-align: left; }
-.hero-panel-bar span:last-child { white-space: nowrap; }
 .price-sub { font-family: var(--mono); font-weight: 400; letter-spacing: 0; font-size: 14px; color: var(--muted); }
 .btn, .lang-btn, .head-back, .brand { white-space: nowrap; }
 @media (max-width: 600px) {
@@ -349,7 +327,6 @@ code { font-family: var(--mono); }
 }
 .price-sub { white-space: nowrap; display: inline-block; }
 .price-sub { margin-left: .45em; }
-.storm-canvas { position: absolute; left: 0; top: 0; width: 100%; height: 100%; pointer-events: none; }
 
 /* What if something goes wrong? */
 .whatif { padding: clamp(48px, 7vw, 80px) var(--pad) 24px; border-bottom: 1px solid var(--line); }
@@ -357,7 +334,7 @@ code { font-family: var(--mono); }
 .whatif-list li { display: grid; grid-template-columns: 56px minmax(0, 1fr); gap: 16px; padding: 22px 0; border-bottom: 1px solid var(--line); }
 .whatif-list li:last-child { border-bottom: 0; }
 .whatif-n { color: var(--accent); font-size: 13px; letter-spacing: .08em; padding-top: 3px; }
-.whatif-list h3 { margin: 0 0 6px; font-size: 15px; font-weight: 700; color: var(--ink); }
+.whatif-list h2, .whatif-list h3 { margin: 0 0 6px; font-size: 15px; font-weight: 700; color: var(--ink); }
 .whatif-list p { margin: 0; max-width: 820px; font-size: 14px; line-height: 1.65; color: var(--ink-2); }
 .whatif-list .whatif-proof { margin-top: 8px; font-size: 12px; color: var(--muted); }
 .whatif-proof a { color: var(--muted); text-underline-offset: 3px; }
@@ -369,3 +346,26 @@ code { font-family: var(--mono); }
 .demo-notice p { margin: 0; }
 .demo-notice .demo-by { margin-top: 6px; color: var(--ink-2); }
 .viewer-tags .tag { white-space: normal; max-width: 100%; }
+
+/* Hero: title + wind (WindHero) */
+.hero { position: relative; overflow: hidden; padding-bottom: clamp(40px, 6vw, 64px); }
+.wind-title { position: relative; z-index: 1; }
+.wind-title .wl { transition: opacity .4s ease; }
+.wind-canvas { position: absolute; inset: 0; z-index: 2; pointer-events: none; }
+.hero .lead, .hero .demo-notice { position: relative; z-index: 3; }
+.hero-notice { max-width: 760px; width: 100%; font-size: 12px; }
+@media (prefers-reduced-motion: reduce) { .wind-title .wl { transition: none; } }
+
+/* Collection: Buy + what-if link */
+.viewer-buy { display: flex; flex-direction: column; gap: 6px; align-items: flex-start; }
+.whatif-link { font-size: 12px; color: var(--muted); text-underline-offset: 3px; min-height: 28px; display: inline-flex; align-items: center; }
+.whatif-link:hover { color: var(--accent); }
+
+/* How it works: 3 steps */
+.how-steps { list-style: none; margin: 0; padding: 0; display: grid; gap: 14px; max-width: 520px; }
+.how-steps li { display: grid; grid-template-columns: 34px minmax(0, 1fr); gap: 8px; font-size: 15px; line-height: 1.6; }
+.how-steps li span { opacity: .75; font-size: 13px; padding-top: 2px; }
+.how-block > div + div { justify-content: center; }
+.site-foot a { color: var(--muted); }
+.site-foot a:hover { color: var(--accent); }
+.whatif { border-bottom: 0; }

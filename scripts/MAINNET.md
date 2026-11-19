@@ -60,8 +60,8 @@ npm run mint -- --network mainnet --mask all --confirm
 ```
 cd .. && git add app/src/data/masks.json && git commit -m "Mainnet: masks minted" && git push
 ```
-The push deploys on its own (root `vercel.json`). Then check `vercel ls tribal-authentica --scope tdeus-projects`
-shows **Ready**, and https://tribal-authentica.vercel.app shows "Not yet sold" + an active Buy button.
+The push deploys on its own (root `vercel.json`). Then check `vercel ls sankofa --scope tdeus-projects`
+shows **Ready**, and https://sankofa-bch.vercel.app shows "Not yet sold" + an active Buy button.
 
 ## 4. Early Selene test purchase (you, on your phone)
 
@@ -85,4 +85,4 @@ or of the last sale, whichever is higher).
 - No mainnet broadcast without your explicit go and the amount (mint uses `--confirm`).
 - Never commit `scripts/.env` or any WIF.
 - Don't redeploy `tribal-authentica-before` (frozen "before" demo).
-- Deploy only to `tdeus-projects/tribal-authentica` for the main site.
+- Deploy only to `tdeus-projects/sankofa` (formerly tribal-authentica) for the main site.

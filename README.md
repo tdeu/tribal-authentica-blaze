@@ -23,7 +23,7 @@ Sankofa is built by Emtée Studio.
 
 | | |
 |---|---|
-| Hosted demo | https://tribal-authentica.vercel.app |
+| Hosted demo | https://sankofa-bch.vercel.app (the old https://tribal-authentica.vercel.app redirects there) |
 | What if something goes wrong? | [7 answers, each with its proof](#what-if-something-goes-wrong) |
 | Pitch deck | [DECK_URL] |
 | "Before" demo (frozen) | https://tribal-authentica-before.vercel.app |

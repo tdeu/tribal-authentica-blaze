@@ -96,6 +96,7 @@ export function MaskPage({ mask, lang, setLang, t, c, onConnect, onHow }: {
             <SplitBar accent={keeperSquares} label={m.splitLabel(keeperPct, 100 - keeperPct, resale ? 'the seller' : 'Sankofa')} />
             <div className="split-legend"><span>{keeperPct}% {legend[0]}</span><span>{100 - keeperPct}% {legend[1]}</span></div>
             <button type="button" className="btn btn-primary btn-block btn-big" onClick={onBuy} disabled={!buyable}>{buyLabel}</button>
+            <a className="whatif-link" href="#/what-if">{c.whatIfLink}</a>
             {live.status === 'error' && <p className="fine">{live.error}</p>}
             <ul className="perks">{m.perks.map((p) => <li key={p}>{p}</li>)}</ul>
             <button type="button" className="link" style={{ alignSelf: 'flex-start', fontSize: 13 }} onClick={onHow}>{m.how}</button>
