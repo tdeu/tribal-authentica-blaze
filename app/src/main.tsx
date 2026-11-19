@@ -47,7 +47,7 @@ function Header({ c, lang, setLang, mask, certificate, onConnect, onHow }: {
   const chip = <WalletChip onOpen={onConnect} label={c.connect} connectedLabel={c.connected} />;
   return (
     <header className="site-head">
-      <a className="brand" href="#/"><Logo />TRIBAL AUTHENTICA</a>
+      <a className="brand" href="#/"><Logo />SANKOFA</a>
       {!mask && (
         <>
           <nav className="site-nav" aria-label="Main">

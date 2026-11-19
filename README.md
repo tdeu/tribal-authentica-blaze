@@ -1,4 +1,6 @@
-# Tribal Authentica
+# Sankofa
+
+Formerly Tribal Authentica (repo name kept).
 
 **Built for BCH BLAZE 2026** (DoraHacks, Mainnet track).
 
@@ -15,8 +17,8 @@ photos and story), and the contract keeps that fingerprint unchanged on every sa
   The royalty is `max(10 % × price, 10 % × last sale price, floor)`, so a cheap "wash" resale can't dodge it.
 - No minting baton exists for any mask, so nobody can issue a second certificate.
 
-The current collection is a **demo**: masks photographed by Emtée, payout to a pilot custodian in Abidjan.
-In production, payouts go to the workshop or family that holds the mask.
+**Demo collection** — masks from Emtée's own collection, photographed by Emtée. Keeper payouts go to demo
+wallets held by Emtée. In production, payouts go to the workshop or family that keeps the mask.
 
 | | |
 |---|---|

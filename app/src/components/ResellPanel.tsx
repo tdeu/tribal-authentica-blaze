@@ -63,7 +63,7 @@ export function ResellPanel({ mask, live, t, c }: { mask: MaskView; live: Live; 
       const utxos = (await walletUtxos()).map((u) => ({ ...u, pathName: PATH_NAME[u.path] }));
       built = buildList(provider, vault, fresh, CONTRACT,
         { pkh: me.pkh, changeAddress: me.address, utxos, path: [PATH_NAME[RECEIVE], 0] }, newPrice,
-        newPrice === 0n ? `Tribal Authentica — take mask ${mask.ref} off sale` : `Tribal Authentica — resell mask ${mask.ref}`);
+        newPrice === 0n ? `Sankofa — take mask ${mask.ref} off sale` : `Sankofa — resell mask ${mask.ref}`);
       setFee(built.fee);
     } catch (e) {
       set({ k: 'error', message: `${r.errorOurs} ${String((e as Error)?.message ?? e)}` });

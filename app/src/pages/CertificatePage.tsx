@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { binToHex, encodeCashAddress, hexToBin, sha256 } from '@bitauth/libauth';
-import { COLLECTION, CONTRACT, type Lang, type MaskView } from '../content/mask';
+import { COLLECTION, CONTRACT, DEMO_NOTICE, type Lang, type MaskView } from '../content/mask';
 import type { Strings } from '../content/i18n';
 import type { Copy } from '../content/copy';
 import { useWallet } from '../wallet/useWallet';
@@ -191,6 +191,7 @@ export function CertificatePage({ mask, lang, t, c }: { mask: MaskView; lang: La
           <p className="label">{k.tag(mask.ref)}</p>
           <h1 className="headline h-l">{mask.name}</h1>
           <p className="lead">{t.comingSoon}</p>
+          <p className="demo-notice cert-notice" role="note" lang={lang}>{DEMO_NOTICE[lang]}</p>
         </div>
       </section>
     );
@@ -211,6 +212,7 @@ export function CertificatePage({ mask, lang, t, c }: { mask: MaskView; lang: La
           <h1 className="headline h-l">{mask.name}</h1>
           <p className="lead">{!st ? '' : yours ? k.leadYours(mask.country) : st.ownerIsCustodian ? k.leadUnsold(mask.country) : k.leadOther(mask.country)}</p>
           {live.status === 'error' && <p className="fine">{live.error}</p>}
+          <p className="demo-notice cert-notice" role="note" lang={lang}>{DEMO_NOTICE[lang]}</p>
         </div>
         <div className="cert-photo vignette">
           {mask.photo ? <img src={mask.photo} alt={mask.name} /> : <div className="photo-ph" role="img" aria-label={c.collection.photo(mask.ref)}>{c.collection.photo(mask.ref)}</div>}

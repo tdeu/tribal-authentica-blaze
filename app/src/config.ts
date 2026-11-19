@@ -32,4 +32,4 @@ export const LINKS = {
 
 export const isPlaceholder = (v: string) => v.startsWith('[') && v.endsWith(']');
 
-export const DAPP_NAME = 'Tribal Authentica';
+export const DAPP_NAME = 'Sankofa'; // shown in Selene's WizardConnect dialog

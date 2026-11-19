@@ -61,7 +61,7 @@ export function BuySheet({ mask, live, t, c, refLabel, onClose, onConnect }: { m
       const fresh = await readState(provider, vault, mask.mint!); // never build on a stale read
       if (fresh.price <= 0n || fresh.utxo.txid !== state.utxo.txid) { set({ k: 'error', message: b.soldMeanwhile }); live.refresh(); return; }
       const utxos = (await walletUtxos()).map((u) => ({ ...u, pathName: PATH_NAME[u.path] }));
-      built = buildBuy(provider, vault, fresh, CONTRACT, { pkh: me.pkh, changeAddress: me.address, utxos }, `Tribal Authentica — buy mask ${mask.ref}`);
+      built = buildBuy(provider, vault, fresh, CONTRACT, { pkh: me.pkh, changeAddress: me.address, utxos }, `Sankofa — buy mask ${mask.ref}`);
       setFee(built.fee);
     } catch (e) {
       set({ k: 'error', message: `${b.errorOurs} ${String((e as Error)?.message ?? e)}` });

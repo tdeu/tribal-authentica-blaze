@@ -1,4 +1,4 @@
-/* Tribal Authentica — visual spec: design/*.dc.html. Dark only, square corners, 1px lines,
+/* Sankofa — visual spec: design/*.dc.html. Dark only, square corners, 1px lines,
    JetBrains Mono for all UI, Inter Tight 800 for headlines, Instrument Serif for the story only.
    Animation: the ticker (CSS, ≥ 40 s), the Verify reveal (opacity) and the hero sandstorm (WAAPI).
    Colours: tokens.css only. */
@@ -367,3 +367,4 @@ code { font-family: var(--mono); }
 @media (max-width: 600px) { .whatif-list li { grid-template-columns: 1fr; gap: 6px; } }
 .held { margin: 0; font-size: 13px; color: var(--ink); border: 1px solid var(--line-2); padding: 10px 12px; }
 .held a { color: var(--accent); }
+.cert-notice { margin-top: 20px; max-width: 640px; }

@@ -40,7 +40,7 @@ $('build').onclick = async () => {
   built = undefined; signedHex = undefined;
   $<HTMLButtonElement>('broadcast').disabled = true; $('signed').textContent = ''; $('result').textContent = '';
   try {
-    built = await buildPlainSend($<HTMLInputElement>('to').value.trim(), AMOUNT, `Tribal Authentica: send ${AMOUNT} sats (broadcast test)`);
+    built = await buildPlainSend($<HTMLInputElement>('to').value.trim(), AMOUNT, `Sankofa: send ${AMOUNT} sats (broadcast test)`);
     const s = built.summary;
     $('built').textContent = [
       `inputs total: ${s.inputs} sats  (${built.inputPaths.map((p) => `${p[1]}/${p[2]}`).join(', ')})`,
