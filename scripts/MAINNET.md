@@ -11,10 +11,10 @@ in `scripts/.env`, which is gitignored.
 
 | # | Item | Goes into `app/src/data/masks.json` | Notes |
 |---|---|---|---|
-| 1 | **Emtée payout address**, mainnet `bitcoincash:q…` or `z…` (P2PKH) | `platformPayoutAddress.mainnet` | Receives 10 % of each first sale (47,000 sats at 470,000) |
-| 2 | **Custodian payout address(es)**, mainnet `z…` or `q…` (P2PKH) | `masks[i].payoutAddress.mainnet` | One per mask, or the same one for all. Receives 90 % of the first sale and every royalty. **Frozen into each vault at mint, can't be changed later** |
+| 1 | ✅ **Emtée payout address** `bitcoincash:zzdp7rlydlkn5xfqcnvads57yyj5sfcpmgmlxll8dj` (19 Nov, validated) | `platformPayoutAddress.mainnet` | Receives 10 % of each first sale (47,000 sats at 470,000) |
+| 2 | ✅ **Keeper payout addresses** (demo wallets held by Emtée, 19 Nov, validated): A `bitcoincash:zzlxp6zyqwazynfaj87388mdhn4em2ac6gykt8f735` for masks 1, 3, 5 · B `bitcoincash:zzufp366rmcjnc65cxalurmpagcxky74c5xk95tw8m` for 2, 4, 6 | `masks[i].payoutAddress.mainnet` | One per mask, or the same one for all. Receives 90 % of the first sale and every royalty. **Frozen into each vault at mint, can't be changed later** |
 | 3 | **Final content per mask**: title, story FR + EN, custodian label | `title`, `story.fr`, `story.en`, `custodianLabel` | Mainnet mint refuses any `[PLACEHOLDER]`. Fingerprinted at mint, so **frozen forever** |
-| 4 | **Photos** (optional but recommended) | files in `app/public/masks/`, listed in `masks[i].photos` as `{ "file": "masks/001-a.jpg", "sha256": null }` | The photo bytes are fingerprinted. Don't recompress or rename them after mint |
+| 4 | **Photos** (optional but recommended) | drop into `app/public/masks/` named `001-1.jpg`, `001-2.jpg`…; I list them in `masks[i].photos` | The photo bytes are fingerprinted. Don't recompress or rename them after mint |
 | 5 | **Which masks to mint**, all 6 or a subset | `--mask <id>` or `--mask all` | Cost per mask is below |
 | 6 | **Mainnet price** per mask, if not 470,000 sats | `masks[i].priceSats.mainnet` | Locked in the first commitment; the custodian key can relist later |
 | 7 | **Fund the funder** from Selene | send to `bitcoincash:qp8syd9hwppgm5nvlgyhlcxw50lvym454ytp2mkg0e` | 1 mask ≈ 1,850 sats, 2 ≈ 3,700, 6 ≈ 11,100. **Send 15,000** for headroom |

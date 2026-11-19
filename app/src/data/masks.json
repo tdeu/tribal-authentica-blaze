@@ -1,8 +1,8 @@
 {
   "_comment": "Demo collection. [BRACKETED] values are placeholders: never replace them with invented names, places or stories. fingerprint is written by scripts/fingerprint.ts, categoryId and mint by scripts/mint.ts. priceSats is per network: chipnet is a test price (never shown on mainnet); it must leave both first-sale shares >= 546 sats.",
   "demoNotice": {
-    "en": "Demo collection — masks photographed by Emtée; payout goes to a pilot custodian in Abidjan. In production, payouts go to the workshop or family that holds the mask.",
-    "fr": "Collection de démonstration — masques photographiés par Emtée ; le paiement va à un gardien pilote à Abidjan. En production, les paiements vont à l’atelier ou à la famille qui garde le masque."
+    "en": "Demo collection — masks from Emtée’s own collection, photographed by Emtée. Keeper payouts go to demo wallets held by Emtée. In production, payouts go to the workshop or family that keeps the mask.",
+    "fr": "Collection de démonstration — masques de la collection personnelle d’Emtée, photographiés par Emtée. Les paiements aux gardiens vont à des portefeuilles de démonstration détenus par Emtée. En production, les paiements vont à l’atelier ou à la famille qui garde le masque."
   },
   "contract": {
     "royaltyBps": 1000,
@@ -12,7 +12,7 @@
   },
   "platformPayoutAddress": {
     "chipnet": "bchtest:qz40cx8yr95m8kh8zrtyhru8c4f708u86gvyjmug8u",
-    "mainnet": "[EMTEE_PAYOUT_ADDRESS]"
+    "mainnet": "bitcoincash:zzdp7rlydlkn5xfqcnvads57yyj5sfcpmgmlxll8dj"
   },
   "masks": [
     {
@@ -23,17 +23,17 @@
         "en": "[MASK 001 STORY — text provided and approved by the custodian, in English]"
       },
       "photos": [],
-      "custodianLabel": "[PILOT_CUSTODIAN_LABEL]",
+      "custodianLabel": "[KEEPER_LABEL]",
       "country": "[COUNTRY]",
       "payoutAddress": {
         "chipnet": "bchtest:zpqhvj30rjduwezx7fhuenyjs4mh4xzaqvjen7dfk6",
-        "mainnet": "[PILOT_CUSTODIAN_Z_ADDRESS]"
+        "mainnet": "bitcoincash:zzlxp6zyqwazynfaj87388mdhn4em2ac6gykt8f735"
       },
       "priceSats": {
         "chipnet": 6000,
         "mainnet": 470000
       },
-      "fingerprint": "093c8b739d26e30e283c95476713ca681476f26adb1f99cedabeb11133729b40",
+      "fingerprint": "a4d7601c75cdd37512074eae4ee5cdb74b81c0c734c2d09a414e9c96072efd26",
       "categoryId": {
         "chipnet": "a218a53e9813f18b639d4344e88df497ecaa7b11dc7ef9418a86f9c84fac8f00",
         "mainnet": null
@@ -61,17 +61,17 @@
         "en": "[MASK 002 STORY — text provided and approved by the custodian, in English]"
       },
       "photos": [],
-      "custodianLabel": "[PILOT_CUSTODIAN_LABEL]",
+      "custodianLabel": "[KEEPER_LABEL]",
       "country": "[COUNTRY]",
       "payoutAddress": {
         "chipnet": "bchtest:zpqhvj30rjduwezx7fhuenyjs4mh4xzaqvjen7dfk6",
-        "mainnet": "[PILOT_CUSTODIAN_Z_ADDRESS]"
+        "mainnet": "bitcoincash:zzufp366rmcjnc65cxalurmpagcxky74c5xk95tw8m"
       },
       "priceSats": {
         "chipnet": 6000,
         "mainnet": 470000
       },
-      "fingerprint": "9d070da9312e69b03f722774916552e7e6e449750ff15486c48ffd5893b77a8c",
+      "fingerprint": "97b01824059319bd4a06dcf3c7d9881d06bbccbc1b60246ef62f994b844c1b9a",
       "categoryId": {
         "chipnet": "5fc11cfea727c8b43a38c8354babcee2be519f88079594060c28dae25dd78718",
         "mainnet": null
@@ -99,17 +99,17 @@
         "en": "[MASK 003 STORY — text provided and approved by the custodian, in English]"
       },
       "photos": [],
-      "custodianLabel": "[PILOT_CUSTODIAN_LABEL]",
+      "custodianLabel": "[KEEPER_LABEL]",
       "country": "[COUNTRY]",
       "payoutAddress": {
         "chipnet": "bchtest:zpqhvj30rjduwezx7fhuenyjs4mh4xzaqvjen7dfk6",
-        "mainnet": "[PILOT_CUSTODIAN_Z_ADDRESS]"
+        "mainnet": "bitcoincash:zzlxp6zyqwazynfaj87388mdhn4em2ac6gykt8f735"
       },
       "priceSats": {
         "chipnet": 6000,
         "mainnet": 470000
       },
-      "fingerprint": "57ca781fc4447dbf93cb7370039d6b18efe4b0043d8b6e410ad051d705d3d072",
+      "fingerprint": "353af8066d9e87f90b7d257b8f47517e2ba4de0a0524304fa085215afa3023b7",
       "categoryId": {
         "chipnet": null,
         "mainnet": null
@@ -127,17 +127,17 @@
         "en": "[MASK 004 STORY — text provided and approved by the custodian, in English]"
       },
       "photos": [],
-      "custodianLabel": "[PILOT_CUSTODIAN_LABEL]",
+      "custodianLabel": "[KEEPER_LABEL]",
       "country": "[COUNTRY]",
       "payoutAddress": {
         "chipnet": "bchtest:zpqhvj30rjduwezx7fhuenyjs4mh4xzaqvjen7dfk6",
-        "mainnet": "[PILOT_CUSTODIAN_Z_ADDRESS]"
+        "mainnet": "bitcoincash:zzufp366rmcjnc65cxalurmpagcxky74c5xk95tw8m"
       },
       "priceSats": {
         "chipnet": 6000,
         "mainnet": 470000
       },
-      "fingerprint": "52948bcf538c8446f61d72fe672fc115dbed449a3c3c0daa8bf15f0ac7697786",
+      "fingerprint": "76b3caffdbc29db0dd26b6fbb682a800b2caddb395ff55cd68e7d5b3d8f7f1b1",
       "categoryId": {
         "chipnet": null,
         "mainnet": null
@@ -155,17 +155,17 @@
         "en": "[MASK 005 STORY — text provided and approved by the custodian, in English]"
       },
       "photos": [],
-      "custodianLabel": "[PILOT_CUSTODIAN_LABEL]",
+      "custodianLabel": "[KEEPER_LABEL]",
       "country": "[COUNTRY]",
       "payoutAddress": {
         "chipnet": "bchtest:zpqhvj30rjduwezx7fhuenyjs4mh4xzaqvjen7dfk6",
-        "mainnet": "[PILOT_CUSTODIAN_Z_ADDRESS]"
+        "mainnet": "bitcoincash:zzlxp6zyqwazynfaj87388mdhn4em2ac6gykt8f735"
       },
       "priceSats": {
         "chipnet": 6000,
         "mainnet": 470000
       },
-      "fingerprint": "c1f77e16a0ead8186450fc4ad81632ceac3b5b2c0e8e809f428e5a2d71864350",
+      "fingerprint": "b47282e3bfbb4b531e2a9ff42bc4d6c0ba6fa5ecffa79d37ad9d73260d9b29f0",
       "categoryId": {
         "chipnet": null,
         "mainnet": null
@@ -183,17 +183,17 @@
         "en": "[MASK 006 STORY — text provided and approved by the custodian, in English]"
       },
       "photos": [],
-      "custodianLabel": "[PILOT_CUSTODIAN_LABEL]",
+      "custodianLabel": "[KEEPER_LABEL]",
       "country": "[COUNTRY]",
       "payoutAddress": {
         "chipnet": "bchtest:zpqhvj30rjduwezx7fhuenyjs4mh4xzaqvjen7dfk6",
-        "mainnet": "[PILOT_CUSTODIAN_Z_ADDRESS]"
+        "mainnet": "bitcoincash:zzufp366rmcjnc65cxalurmpagcxky74c5xk95tw8m"
       },
       "priceSats": {
         "chipnet": 6000,
         "mainnet": 470000
       },
-      "fingerprint": "1d8d1fd1fa11258412d85f2d0d09eab4afe2be355880f246ecb1cc3ea752bd99",
+      "fingerprint": "a2db13e75dbe09f20462fdbebfa10b757d649839b500b1b7355ffe3d340031fc",
       "categoryId": {
         "chipnet": null,
         "mainnet": null
