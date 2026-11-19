@@ -11,6 +11,7 @@ import type { Copy } from '../content/copy';
 import { explorerTx } from '../config';
 import { fmtUsd } from '../price';
 import { fmtSats, useUsdOf } from './Price';
+import { DemoTag } from './DemoTag';
 
 // Buy flow: review (split shown BEFORE signing) → building → signing → broadcasting → confirmed,
 // or error + retry. A signed tx is kept: "Try again" after a broadcast error re-sends the SAME tx
@@ -96,6 +97,7 @@ export function BuySheet({ mask, lang, live, t, c, refLabel, onClose, onConnect 
         </div>
         <p className="sheet-sub">{mask.names[lang]}</p>
         <p className="sheet-price">{fmtSats(state.price).replace(' sats', '')}<span className="price-sub"> sats {usd(state.price)}</span></p>
+        <p style={{ margin: '6px 0 0' }}><DemoTag lang={lang} /></p>
 
         <dl className="rows" style={{ marginTop: 16 }}>
           {payouts.map((p) => (

@@ -1,6 +1,6 @@
 import { useState, type KeyboardEvent, type ReactNode } from 'react';
 import { CONTRACT, MASKS, type Lang, type MaskView } from '../content/mask';
-import { DemoNotice } from '../components/DemoNotice';
+import { DemoTag } from '../components/DemoTag';
 import type { Strings } from '../content/i18n';
 import type { Copy } from '../content/copy';
 import { useWallet } from '../wallet/useWallet';
@@ -37,13 +37,13 @@ function ViewerInfo({ mask, lang, t, c, myPkh, onConnect, controls }: {
     <div className="viewer-info" id="viewer-panel" role="tabpanel" aria-label={mask.names[lang]}>
       <p className="label label-muted">[ {mask.ref}{mask.region ? ` / ${mask.region}` : ''} ]</p>
       <h3 className="headline h-s">{mask.names[lang]}</h3>
-      {mask.details && <p className="ink-2" style={{ margin: 0 }}>{mask.details[lang]}</p>}
+      {(mask.subtitle ?? mask.details) && <p className="ink-2" style={{ margin: 0 }}>{(mask.subtitle ?? mask.details)![lang]}</p>}
       <div className="viewer-tags">
         <span className="tag">{t.status[live.status].toUpperCase()}</span>
         <span className="tag">{v.token}</span>
         {mask.country && <span className="tag">{v.origin(mask.country)}</span>}
       </div>
-      <div><span className="price-big">{fmtNum(sats)}</span><span className="price-sub"> sats{usd !== null ? ` ≈ ${fmtUsd(usd)}` : ''}</span></div>
+      <div className="price-row"><div><span className="price-big">{fmtNum(sats)}</span><span className="price-sub"> sats{usd !== null ? ` ≈ ${fmtUsd(usd)}` : ''}</span></div><DemoTag lang={lang} /></div>
       <div className="viewer-actions">
         <div className="viewer-buy">
           <button type="button" className="btn btn-primary" disabled={!buyable} onClick={() => buyable && setBuying(true)}>{buyLabel}</button>
@@ -79,7 +79,6 @@ export function Gallery({ lang, t, c, onConnect }: { lang: Lang; t: Strings; c: 
     <>
       <WindHero line1={c.hero.line1} line2={c.hero.line2} label={`${c.hero.line1} ${c.hero.line2}`}>
         <p className="lead hero-lead">{c.hero.lead[0]}<b>{c.hero.lead[1]}</b>{c.hero.lead[2]}</p>
-        <DemoNotice lang={lang} className="hero-notice" />
       </WindHero>
 
       <section className="collection" id="collection" onKeyDown={onKey}>

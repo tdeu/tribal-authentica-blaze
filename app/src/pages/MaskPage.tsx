@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { CONTRACT, MASKS, type Lang, type MaskView } from '../content/mask';
-import { DemoNotice } from '../components/DemoNotice';
+import { DemoTag } from '../components/DemoTag';
 import type { Strings } from '../content/i18n';
 import type { Copy } from '../content/copy';
 import { useWallet } from '../wallet/useWallet';
@@ -86,13 +86,18 @@ export function MaskPage({ mask, lang, setLang, t, c, onConnect, onHow }: {
             {opening && <p className="story-open">{opening}</p>}
             {body.map((p, i) => <p key={i} className="story-body">{p}</p>)}
           </div>
-          <DemoNotice lang={lang} />
+          {mask.about && (
+            <div className="about-style" lang={lang}>
+              <p className="label">{m.about}</p>
+              {paragraphs(mask.about[lang]).map((p, i) => <p key={i} className="about-body">{p}</p>)}
+            </div>
+          )}
         </section>
 
         <aside className="buy-col">
           <div className="buy-panel">
             <p className="label">{m.own}</p>
-            <div><span className="price-huge">{fmtNum(sats)}</span><span className="price-sub"> {m.sats}{usd !== null ? ` ≈ ${fmtUsd(usd)}` : ''}</span></div>
+            <div className="price-row"><div><span className="price-huge">{fmtNum(sats)}</span><span className="price-sub"> {m.sats}{usd !== null ? ` ≈ ${fmtUsd(usd)}` : ''}</span></div><DemoTag lang={lang} /></div>
             <SplitBar accent={keeperSquares} label={m.splitLabel(keeperPct, 100 - keeperPct, resale ? 'the seller' : 'Sankofa')} />
             <div className="split-legend"><span>{keeperPct}% {legend[0]}</span><span>{100 - keeperPct}% {legend[1]}</span></div>
             <button type="button" className="btn btn-primary btn-block btn-big" onClick={onBuy} disabled={!buyable}>{buyLabel}</button>
