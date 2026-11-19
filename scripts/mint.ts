@@ -78,7 +78,7 @@ console.log(`funder   ${funder.address}  balance ${balance} sats${usd(balance)}`
 console.log(`platform ${platform.address}`);
 console.log(`contract royalty ${data.contract.royaltyBps / 100} %, platform ${platformBps / 100} % of first sale, royalty floor ${data.contract.minRoyaltySats} sats\n`);
 for (const p of plan) {
-  console.log(`mask ${String(p.m.catalogueId).padStart(3, '0')}  ${p.m.title}`);
+  console.log(`mask ${String(p.m.catalogueId).padStart(3, '0')}  ${p.m.title.en} / ${p.m.title.fr}`);
   console.log(`  custodian payout  ${p.custodian.address}`);
   console.log(`  price             ${p.price} sats${usd(p.price)}  → first sale: ${p.price - p.cut} custodian / ${p.cut} platform`);
   console.log(`  fingerprint       ${p.m.fingerprint}`);

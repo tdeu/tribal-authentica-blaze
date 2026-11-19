@@ -44,7 +44,7 @@
       "fingerprint": "31c05e3e7a19c85d76ec08d5db8ea0f137ba2a3ce588c9f3f34b6ca73411770c",
       "categoryId": {
         "chipnet": "a218a53e9813f18b639d4344e88df497ecaa7b11dc7ef9418a86f9c84fac8f00",
-        "mainnet": null
+        "mainnet": "c2b532553c45e6c4da0f03e01c61cb3f56d0682bcab1daa4db67684c0d6830f9"
       },
       "mint": {
         "chipnet": {
@@ -58,7 +58,17 @@
           "platformAddress": "bchtest:qz40cx8yr95m8kh8zrtyhru8c4f708u86gvyjmug8u",
           "mintedAt": "2026-11-16T10:50:53.772Z"
         },
-        "mainnet": null
+        "mainnet": {
+          "categoryId": "c2b532553c45e6c4da0f03e01c61cb3f56d0682bcab1daa4db67684c0d6830f9",
+          "vaultTokenAddress": "bitcoincash:rv064cvkhdlc0c74y02957ctuxx9k2lpe0l94z7c0753rsc0hmalwlgyadjgf",
+          "prepTxid": "c2b532553c45e6c4da0f03e01c61cb3f56d0682bcab1daa4db67684c0d6830f9",
+          "genesisTxid": "a165a94df6342eb62682247bf92e7a7d333446c2a8e57940b3eab6a73b8132d9",
+          "commitment": "010031c05e3e7a19c85d76ec08d5db8ea0f137ba2a3ce588c9f3f34b6ca73411770cbe60e84403ba224d3d91fd139f6dbceb9dabb8d2f02b0700000000000000000000000000",
+          "priceSats": 470000,
+          "custodianAddress": "bitcoincash:zzlxp6zyqwazynfaj87388mdhn4em2ac6gykt8f735",
+          "platformAddress": "bitcoincash:zzdp7rlydlkn5xfqcnvads57yyj5sfcpmgmlxll8dj",
+          "mintedAt": "2026-11-19T11:21:43.987Z"
+        }
       }
     },
     {

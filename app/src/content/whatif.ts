@@ -1,10 +1,11 @@
 // "What if something goes wrong?" — every answer is a fact about our code, with its proof.
-// Proof links: chipnet transactions (mainnet ones get added once mask 001 is minted and sold there)
+// Proof links: the mainnet genesis of mask 001; sale/resale proofs on chipnet until mask 001 sells on mainnet
 // and the test that makes the network's script validator (the BCH VM) refuse the attack.
 import type { Lang } from './mask';
 
 const GH = 'https://github.com/tdeu/tribal-authentica-blaze/blob/main';
 const CHIP = 'https://chipnet.bch.ninja/tx/';
+const MAINNET_GENESIS = 'https://blockchair.com/bitcoin-cash/transaction/a165a94df6342eb62682247bf92e7a7d333446c2a8e57940b3eab6a73b8132d9';
 const TX = {
   genesis: `${CHIP}aa225bb5705d86428d8aac06e91d599444d0c37462ac7fdb9f3f74a31ab0f24c`,
   firstSale: `${CHIP}e392570e0d5f5dc867c6d19a4573fed81d9926744361f8dc1542aa16a459ee5e`,
@@ -38,7 +39,7 @@ export const WHAT_IF: Record<Lang, { label: string; title: [string, string]; pro
       {
         q: 'Does the title prove the mask is genuine?',
         a: 'It records on-chain that Emtée minted this title for this keeper, when, and the fingerprint of its photos and story, which can never change (Verify recomputes it in your browser). It does not prove the object itself; in this demo, Emtée photographed and listed the masks.',
-        proofs: [{ label: 'genesis tx, mask 001 (chipnet)', href: TX.genesis }, { label: 'test: fingerprint frozen by the contract', href: T.frozenFp }],
+        proofs: [{ label: 'genesis tx, mask 001 (mainnet)', href: MAINNET_GENESIS }, { label: 'test: fingerprint frozen by the contract', href: T.frozenFp }],
       },
       {
         q: 'Can the keeper go unpaid on the first sale?',
@@ -62,7 +63,7 @@ export const WHAT_IF: Record<Lang, { label: string; title: [string, string]; pro
       {
         q: 'Can anyone create a second copy?',
         a: 'No. The mask’s category never had a minting capability, and the contract freezes the identity bytes (mask ID + fingerprint); only owner, price and last sale price change on a sale.',
-        proofs: [{ label: 'genesis tx, mask 001 (chipnet)', href: TX.genesis }, { label: 'test: the category has no minting-capable output, ever', href: T.noBaton }],
+        proofs: [{ label: 'genesis tx, mask 001 (mainnet)', href: MAINNET_GENESIS }, { label: 'test: the category has no minting-capable output, ever', href: T.noBaton }],
       },
       {
         q: 'Where is my title, and what if this website disappears?',
@@ -89,7 +90,7 @@ export const WHAT_IF: Record<Lang, { label: string; title: [string, string]; pro
       {
         q: 'Le titre prouve-t-il que le masque est authentique ?',
         a: 'Il enregistre sur la blockchain qu’Emtée a créé ce titre pour ce gardien, quand, et l’empreinte de ses photos et de son histoire, qui ne peut jamais changer (Vérifier la recalcule dans votre navigateur). Il ne prouve pas l’objet lui-même ; dans cette démo, Emtée a photographié et mis en vente les masques.',
-        proofs: [{ label: 'tx de création, masque 001 (chipnet)', href: TX.genesis }, { label: 'test : empreinte figée par le contrat', href: T.frozenFp }],
+        proofs: [{ label: 'tx de création, masque 001 (mainnet)', href: MAINNET_GENESIS }, { label: 'test : empreinte figée par le contrat', href: T.frozenFp }],
       },
       {
         q: 'Le gardien peut-il ne pas être payé à la première vente ?',
@@ -113,7 +114,7 @@ export const WHAT_IF: Record<Lang, { label: string; title: [string, string]; pro
       {
         q: 'Quelqu’un peut-il créer une seconde copie ?',
         a: 'Non. La catégorie du masque n’a jamais eu de capacité de création, et le contrat fige les octets d’identité (n° du masque + empreinte) ; seuls le propriétaire, le prix et le dernier prix de vente changent lors d’une vente.',
-        proofs: [{ label: 'tx de création, masque 001 (chipnet)', href: TX.genesis }, { label: 'test : la catégorie n’a jamais de sortie capable de créer', href: T.noBaton }],
+        proofs: [{ label: 'tx de création, masque 001 (mainnet)', href: MAINNET_GENESIS }, { label: 'test : la catégorie n’a jamais de sortie capable de créer', href: T.noBaton }],
       },
       {
         q: 'Où est mon titre, et si ce site disparaît ?',
