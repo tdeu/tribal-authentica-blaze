@@ -368,3 +368,4 @@ code { font-family: var(--mono); }
 .cert-notice { margin-top: 20px; max-width: 640px; }
 .demo-notice p { margin: 0; }
 .demo-notice .demo-by { margin-top: 6px; color: var(--ink-2); }
+.viewer-tags .tag { white-space: normal; max-width: 100%; }
