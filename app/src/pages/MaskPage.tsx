@@ -50,14 +50,14 @@ export function MaskPage({ mask, lang, setLang, t, c, onConnect, onHow }: {
   return (
     <article className="mask-page">
       <section className="mask-hero vignette">
-        {photo ? <img src={photo} alt={mask.name} /> : (
+        {photo ? <img src={photo} alt={mask.names[lang]} /> : (
           <div className="photo-ph" role="img" aria-label={c.collection.photo(mask.ref)}>{c.collection.photo(mask.ref)}<br />{m.photoHint}</div>
         )}
         <Corners bottom={false} />
         <div className="mask-hero-foot">
           <div>
             <p className="label">[ {mask.ref} / {c.collection.region} ]</p>
-            <h1 className="headline h-l">{mask.name}</h1>
+            <h1 className="headline h-l">{mask.names[lang]}</h1>
           </div>
           {mask.photos.length > 0 && (
             <div className="tools">
@@ -69,7 +69,7 @@ export function MaskPage({ mask, lang, setLang, t, c, onConnect, onHow }: {
           )}
         </div>
       </section>
-      <Ticker quiet items={[...m.details.slice(0, 3), mask.country, ...m.details.slice(3), status]} />
+      <Ticker quiet items={[...m.details.slice(0, 3), c.collection.origin(mask.country).toUpperCase(), ...m.details.slice(3), status]} />
 
       <div className="mask-cols">
         <section className="story-col" aria-labelledby="story-label">
@@ -119,7 +119,7 @@ export function MaskPage({ mask, lang, setLang, t, c, onConnect, onHow }: {
       </div>
 
       {buying && live.state && live.vault && (
-        <BuySheet mask={mask} live={live} t={t} c={c} refLabel={`[ ${mask.ref} / ${TOTAL} ]`} onClose={() => setBuying(false)} onConnect={onConnect} />
+        <BuySheet mask={mask} lang={lang} live={live} t={t} c={c} refLabel={`[ ${mask.ref} / ${TOTAL} ]`} onClose={() => setBuying(false)} onConnect={onConnect} />
       )}
     </article>
   );

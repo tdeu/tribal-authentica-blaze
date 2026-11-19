@@ -182,7 +182,7 @@ code { font-family: var(--mono); }
 .price-sub { font-size: 14px; color: var(--muted); }
 .viewer-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: auto; border-top: 1px solid var(--line); padding-top: 20px; align-items: center; }
 .viewer-actions .arrows { margin-left: auto; display: flex; gap: 8px; }
-.viewer-tabs { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); border: 1px solid var(--line); }
+.viewer-tabs { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); border: 1px solid var(--line); }
 .viewer-tabs button { height: 64px; background: transparent; color: var(--muted); border: 0; border-right: 1px solid var(--line); font-size: 13px; cursor: pointer; }
 .viewer-tabs button:last-child { border-right: 0; }
 .viewer-tabs button[aria-selected="true"] { background: var(--primary); color: var(--on-primary); font-weight: 700; }
@@ -191,9 +191,7 @@ code { font-family: var(--mono); }
   .viewer-info { flex-basis: 100%; }
 }
 @media (max-width: 600px) {
-  .viewer-tabs { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-  .viewer-tabs button:nth-child(3) { border-right: 0; }
-  .viewer-tabs button:nth-child(-n+3) { border-bottom: 1px solid var(--line); }
+  .viewer-tabs button { font-size: 12px; padding: 0; }
   .viewer-tabs button { height: 52px; }
   .viewer-photo .photo-ph { width: 180px; height: 270px; }
 }

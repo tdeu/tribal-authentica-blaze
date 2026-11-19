@@ -18,3 +18,6 @@ dist/
 
 # Private working notes
 note.md
+
+# Phone originals of mask photos (the web versions in app/public/masks are what gets fingerprinted)
+photos-original/

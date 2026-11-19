@@ -189,7 +189,7 @@ export function CertificatePage({ mask, lang, t, c }: { mask: MaskView; lang: La
       <section className="cert-hero">
         <div>
           <p className="label">{k.tag(mask.ref)}</p>
-          <h1 className="headline h-l">{mask.name}</h1>
+          <h1 className="headline h-l">{mask.names[lang]}</h1>
           <p className="lead">{t.comingSoon}</p>
           <p className="demo-notice cert-notice" role="note" lang={lang}>{DEMO_NOTICE[lang]}</p>
         </div>
@@ -209,19 +209,19 @@ export function CertificatePage({ mask, lang, t, c }: { mask: MaskView; lang: La
       <section className="cert-hero">
         <div>
           <p className="label">{k.tag(mask.ref)}</p>
-          <h1 className="headline h-l">{mask.name}</h1>
-          <p className="lead">{!st ? '' : yours ? k.leadYours(mask.country) : st.ownerIsCustodian ? k.leadUnsold(mask.country) : k.leadOther(mask.country)}</p>
+          <h1 className="headline h-l">{mask.names[lang]}</h1>
+          <p className="lead">{!st ? '' : yours ? k.leadYours : st.ownerIsCustodian ? k.leadUnsold : k.leadOther}</p>
           {live.status === 'error' && <p className="fine">{live.error}</p>}
           <p className="demo-notice cert-notice" role="note" lang={lang}>{DEMO_NOTICE[lang]}</p>
         </div>
         <div className="cert-photo vignette">
-          {mask.photo ? <img src={mask.photo} alt={mask.name} /> : <div className="photo-ph" role="img" aria-label={c.collection.photo(mask.ref)}>{c.collection.photo(mask.ref)}</div>}
+          {mask.photo ? <img src={mask.photo} alt={mask.names[lang]} /> : <div className="photo-ph" role="img" aria-label={c.collection.photo(mask.ref)}>{c.collection.photo(mask.ref)}</div>}
         </div>
       </section>
 
       <dl className="facts">
         <div><dt>{k.holder}</dt><dd style={{ fontWeight: 700 }}>{holder}</dd></div>
-        <div><dt>{k.keeper}</dt><dd>{k.keeperValue(mask.custodian, mask.country)}</dd></div>
+        <div><dt>{k.keeper}</dt><dd>{mask.custodian}<br /><span className="muted" style={{ fontSize: 13 }}>{k.origin}: {mask.country}</span></dd></div>
         <div><dt>{k.paid}</dt><dd>{paid === undefined ? '…' : `${fmtNum(paid)} ${k.sats}`}</dd></div>
         <div><dt>{k.everyResale}</dt><dd className="accent" style={{ fontWeight: 700 }}>{k.tenPct}</dd></div>
       </dl>

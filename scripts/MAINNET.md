@@ -12,12 +12,12 @@ in `scripts/.env`, which is gitignored.
 | # | Item | Goes into `app/src/data/masks.json` | Notes |
 |---|---|---|---|
 | 1 | ✅ **Emtée payout address** `bitcoincash:zzdp7rlydlkn5xfqcnvads57yyj5sfcpmgmlxll8dj` (19 Nov, validated) | `platformPayoutAddress.mainnet` | Receives 10 % of each first sale (47,000 sats at 470,000) |
-| 2 | ✅ **Keeper payout addresses** (demo wallets held by Emtée, 19 Nov, validated): A `bitcoincash:zzlxp6zyqwazynfaj87388mdhn4em2ac6gykt8f735` for masks 1, 3, 5 · B `bitcoincash:zzufp366rmcjnc65cxalurmpagcxky74c5xk95tw8m` for 2, 4, 6 | `masks[i].payoutAddress.mainnet` | One per mask, or the same one for all. Receives 90 % of the first sale and every royalty. **Frozen into each vault at mint, can't be changed later** |
+| 2 | ✅ **Keeper payout addresses** (demo wallets held by Emtée, 19 Nov, validated): A `bitcoincash:zzlxp6zyqwazynfaj87388mdhn4em2ac6gykt8f735` for masks 1, 3, 5 · B `bitcoincash:zzufp366rmcjnc65cxalurmpagcxky74c5xk95tw8m` for 2, 4 | `masks[i].payoutAddress.mainnet` | One per mask, or the same one for all. Receives 90 % of the first sale and every royalty. **Frozen into each vault at mint, can't be changed later** |
 | 3 | **Final content per mask**: title, story FR + EN, custodian label | `title`, `story.fr`, `story.en`, `custodianLabel` | Mainnet mint refuses any `[PLACEHOLDER]`. Fingerprinted at mint, so **frozen forever** |
 | 4 | **Photos** (optional but recommended) | drop into `app/public/masks/` named `001-1.jpg`, `001-2.jpg`…; I list them in `masks[i].photos` | The photo bytes are fingerprinted. Don't recompress or rename them after mint |
-| 5 | **Which masks to mint**, all 6 or a subset | `--mask <id>` or `--mask all` | Cost per mask is below |
+| 5 | **Which masks to mint**, all 5 or a subset | `--mask <id>` or `--mask all` | Cost per mask is below |
 | 6 | **Mainnet price** per mask, if not 470,000 sats | `masks[i].priceSats.mainnet` | Locked in the first commitment; the custodian key can relist later |
-| 7 | **Fund the funder** from Selene | send to `bitcoincash:qp8syd9hwppgm5nvlgyhlcxw50lvym454ytp2mkg0e` | 1 mask ≈ 1,850 sats, 2 ≈ 3,700, 6 ≈ 11,100. **Send 15,000** for headroom |
+| 7 | **Fund the funder** from Selene | send to `bitcoincash:qp8syd9hwppgm5nvlgyhlcxw50lvym454ytp2mkg0e` | 1 mask ≈ 1,850 sats, 2 ≈ 3,700, 5 ≈ 9,250. **Send 15,000** for headroom |
 
 Optional: `VITE_DECK_URL` on Vercel (the banner shows "Deck" greyed out until it's set).
 
@@ -51,7 +51,7 @@ wrong network, or the funder has too little.
 npm run mint -- --network mainnet --mask all --confirm
 ```
 - Cost: about **1,849 sats per mask** = 1,000 locked in the vault (stays with the certificate forever)
-  + 600 genesis fee + about 249 prep fee. 6 masks ≈ 11,094 sats.
+  + 600 genesis fee + about 249 prep fee. 5 masks ≈ 9,245 sats.
 - Per mask it prints prep and genesis links (blockchair), checks the NFT in the vault, and writes
   `categoryId` + `mint.mainnet` into `masks.json` after each mask.
 - If it stops halfway, the masks already minted are saved. Re-run with only the remaining ids,

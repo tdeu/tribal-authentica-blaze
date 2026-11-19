@@ -5,7 +5,7 @@
 // Canonical JSON: object keys sorted (recursively), UTF-8, no whitespace, arrays kept in order.
 // Photo hashes are listed in the fixed order of `photos[]` in masks.json.
 //
-// What is fingerprinted: catalogueId, title, story {fr, en}, custodianLabel, photo sha256s.
+// What is fingerprinted: catalogueId, title {fr, en}, story {fr, en}, custodianLabel, country, photo sha256s.
 // What is NOT: payout addresses, price, category IDs (network-specific, and the price is in the commitment).
 import { sha256, binToHex, hexToBin, bigIntToBinUint64LE, utf8ToBin } from '@bitauth/libauth';
 
@@ -13,9 +13,10 @@ export type Photo = { file: string; sha256: string | null };
 
 export type MaskContent = {
   catalogueId: number;
-  title: string;
+  title: { fr: string; en: string };
   story: { fr: string; en: string };
   custodianLabel: string;
+  country: string;
   photos: Photo[];
 };
 
@@ -41,9 +42,10 @@ export function fingerprintPayload(m: MaskContent) {
   });
   return {
     catalogueId: m.catalogueId,
-    title: m.title,
+    title: { fr: m.title.fr, en: m.title.en },
     story: { fr: m.story.fr, en: m.story.en },
     custodianLabel: m.custodianLabel,
+    country: m.country,
     photos: photoHashes,
   };
 }

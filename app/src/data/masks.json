@@ -17,14 +17,22 @@
   "masks": [
     {
       "catalogueId": 1,
-      "title": "[MASK_001_TITLE]",
-      "story": {
-        "fr": "[HISTOIRE DU MASQUE 001 — texte fourni et validé par le gardien, en français]",
-        "en": "[MASK 001 STORY — text provided and approved by the custodian, in English]"
+      "title": {
+        "en": "Crested mask with brass plates",
+        "fr": "Masque à crête et plaques de laiton"
       },
-      "photos": [],
-      "custodianLabel": "[KEEPER_LABEL]",
-      "country": "[COUNTRY]",
+      "story": {
+        "fr": "Masque facial en bois sculpté, surmonté d'une haute crête verticale. Le front, les joues et les tempes sont couverts de plaques de laiton estampées, fixées par de petits clous, avec des touffes de laine colorée aux oreilles. Acheté au Grand Marché de Treichville, à Abidjan, où il est toujours conservé ; son origine antérieure est inconnue.",
+        "en": "A carved wooden face mask with a tall vertical crest. Its brow, cheeks and temples are covered with stamped brass sheets fixed with small nails, with tufts of coloured wool at the ears. Bought at the Grand Marché de Treichville in Abidjan, where it is still kept; its origin before that is unknown."
+      },
+      "photos": [
+        {
+          "file": "masks/001-1.jpg",
+          "sha256": "7be1aca9c8c53d7b443adf60d69c8d538d3ec51babd5fd4f9e4a529f91e366d7"
+        }
+      ],
+      "custodianLabel": "Emtée (demo collection), Abidjan",
+      "country": "Unknown — acquired in Côte d'Ivoire",
       "payoutAddress": {
         "chipnet": "bchtest:zpqhvj30rjduwezx7fhuenyjs4mh4xzaqvjen7dfk6",
         "mainnet": "bitcoincash:zzlxp6zyqwazynfaj87388mdhn4em2ac6gykt8f735"
@@ -33,7 +41,7 @@
         "chipnet": 6000,
         "mainnet": 470000
       },
-      "fingerprint": "a4d7601c75cdd37512074eae4ee5cdb74b81c0c734c2d09a414e9c96072efd26",
+      "fingerprint": "31c05e3e7a19c85d76ec08d5db8ea0f137ba2a3ce588c9f3f34b6ca73411770c",
       "categoryId": {
         "chipnet": "a218a53e9813f18b639d4344e88df497ecaa7b11dc7ef9418a86f9c84fac8f00",
         "mainnet": null
@@ -55,7 +63,10 @@
     },
     {
       "catalogueId": 2,
-      "title": "[MASK_002_TITLE]",
+      "title": {
+        "fr": "[MASK_002_TITLE]",
+        "en": "[MASK_002_TITLE]"
+      },
       "story": {
         "fr": "[HISTOIRE DU MASQUE 002 — texte fourni et validé par le gardien, en français]",
         "en": "[MASK 002 STORY — text provided and approved by the custodian, in English]"
@@ -71,7 +82,7 @@
         "chipnet": 6000,
         "mainnet": 470000
       },
-      "fingerprint": "97b01824059319bd4a06dcf3c7d9881d06bbccbc1b60246ef62f994b844c1b9a",
+      "fingerprint": "22e36e661142c7d5d42eb1a6d40f5fa11b19faec0beb633304050b661ef0a4cb",
       "categoryId": {
         "chipnet": "5fc11cfea727c8b43a38c8354babcee2be519f88079594060c28dae25dd78718",
         "mainnet": null
@@ -93,7 +104,10 @@
     },
     {
       "catalogueId": 3,
-      "title": "[MASK_003_TITLE]",
+      "title": {
+        "fr": "[MASK_003_TITLE]",
+        "en": "[MASK_003_TITLE]"
+      },
       "story": {
         "fr": "[HISTOIRE DU MASQUE 003 — texte fourni et validé par le gardien, en français]",
         "en": "[MASK 003 STORY — text provided and approved by the custodian, in English]"
@@ -109,7 +123,7 @@
         "chipnet": 6000,
         "mainnet": 470000
       },
-      "fingerprint": "353af8066d9e87f90b7d257b8f47517e2ba4de0a0524304fa085215afa3023b7",
+      "fingerprint": "9397f742bba776a1eaeda583cc1cb44b65830a5f774ef628dd4a409ac04ff8ce",
       "categoryId": {
         "chipnet": null,
         "mainnet": null
@@ -121,7 +135,10 @@
     },
     {
       "catalogueId": 4,
-      "title": "[MASK_004_TITLE]",
+      "title": {
+        "fr": "[MASK_004_TITLE]",
+        "en": "[MASK_004_TITLE]"
+      },
       "story": {
         "fr": "[HISTOIRE DU MASQUE 004 — texte fourni et validé par le gardien, en français]",
         "en": "[MASK 004 STORY — text provided and approved by the custodian, in English]"
@@ -137,7 +154,7 @@
         "chipnet": 6000,
         "mainnet": 470000
       },
-      "fingerprint": "76b3caffdbc29db0dd26b6fbb682a800b2caddb395ff55cd68e7d5b3d8f7f1b1",
+      "fingerprint": "ee05e0b627e823952f753cd0981e04107d06e3fec088bb879ac2637d296ae8f1",
       "categoryId": {
         "chipnet": null,
         "mainnet": null
@@ -149,7 +166,10 @@
     },
     {
       "catalogueId": 5,
-      "title": "[MASK_005_TITLE]",
+      "title": {
+        "fr": "[MASK_005_TITLE]",
+        "en": "[MASK_005_TITLE]"
+      },
       "story": {
         "fr": "[HISTOIRE DU MASQUE 005 — texte fourni et validé par le gardien, en français]",
         "en": "[MASK 005 STORY — text provided and approved by the custodian, in English]"
@@ -165,35 +185,7 @@
         "chipnet": 6000,
         "mainnet": 470000
       },
-      "fingerprint": "b47282e3bfbb4b531e2a9ff42bc4d6c0ba6fa5ecffa79d37ad9d73260d9b29f0",
-      "categoryId": {
-        "chipnet": null,
-        "mainnet": null
-      },
-      "mint": {
-        "chipnet": null,
-        "mainnet": null
-      }
-    },
-    {
-      "catalogueId": 6,
-      "title": "[MASK_006_TITLE]",
-      "story": {
-        "fr": "[HISTOIRE DU MASQUE 006 — texte fourni et validé par le gardien, en français]",
-        "en": "[MASK 006 STORY — text provided and approved by the custodian, in English]"
-      },
-      "photos": [],
-      "custodianLabel": "[KEEPER_LABEL]",
-      "country": "[COUNTRY]",
-      "payoutAddress": {
-        "chipnet": "bchtest:zpqhvj30rjduwezx7fhuenyjs4mh4xzaqvjen7dfk6",
-        "mainnet": "bitcoincash:zzufp366rmcjnc65cxalurmpagcxky74c5xk95tw8m"
-      },
-      "priceSats": {
-        "chipnet": 6000,
-        "mainnet": 470000
-      },
-      "fingerprint": "a2db13e75dbe09f20462fdbebfa10b757d649839b500b1b7355ffe3d340031fc",
+      "fingerprint": "f9854014449e91777ae004fcc32812335666b5980ec28d082911208446eadc31",
       "categoryId": {
         "chipnet": null,
         "mainnet": null

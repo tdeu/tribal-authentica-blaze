@@ -15,9 +15,10 @@ export const CONTRACT = data.contract;
 export type MaskView = {
   catalogueId: number;
   ref: string;                 // "001"
-  name: string;
+  name: string;                // English title (prompts, logs)
+  names: Record<Lang, string>; // title shown to people, per language
   custodian: string;
-  country: string;             // where this mask is kept ([COUNTRY] until provided)
+  country: string;             // origin, as known ([COUNTRY] until provided); fingerprinted
   story: Record<Lang, string>;
   photo: string | null;
   photos: string[];            // every photo, in fingerprint order
@@ -36,7 +37,8 @@ export const MASKS: MaskView[] = data.masks.map((m) => {
   return {
     catalogueId: m.catalogueId,
     ref: String(m.catalogueId).padStart(3, '0'),
-    name: m.title,
+    name: m.title.en,
+    names: m.title,
     custodian: m.custodianLabel,
     country: (m as { country?: string }).country ?? '[COUNTRY]',
     story: m.story,

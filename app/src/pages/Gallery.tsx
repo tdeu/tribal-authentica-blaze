@@ -21,7 +21,7 @@ const ROYALTY_PCT = CONTRACT.royaltyBps / 100;
 const SHARES = [KEEPER_FIRST_PCT, PLATFORM_PCT, ROYALTY_PCT, 100 - ROYALTY_PCT];
 
 // The right half of the collection viewer. Keyed by mask so its live state never shows the previous mask.
-function ViewerInfo({ mask, t, c, myPkh, controls }: { mask: MaskView; t: Strings; c: Copy; myPkh?: Uint8Array; controls: ReactNode }) {
+function ViewerInfo({ mask, lang, t, c, myPkh, controls }: { mask: MaskView; lang: Lang; t: Strings; c: Copy; myPkh?: Uint8Array; controls: ReactNode }) {
   const live = useMaskLive(mask, myPkh);
   const { usdOf } = useUsdOf();
   const st = live.state;
@@ -29,14 +29,14 @@ function ViewerInfo({ mask, t, c, myPkh, controls }: { mask: MaskView; t: String
   const usd = usdOf(sats);
   const v = c.collection;
   return (
-    <div className="viewer-info" id="viewer-panel" role="tabpanel" aria-label={mask.name}>
+    <div className="viewer-info" id="viewer-panel" role="tabpanel" aria-label={mask.names[lang]}>
       <p className="label label-muted">[ {mask.ref} / {v.region} ]</p>
-      <h3 className="headline h-s">{mask.name}</h3>
+      <h3 className="headline h-s">{mask.names[lang]}</h3>
       <p className="ink-2" style={{ margin: 0 }}>{v.facts}</p>
       <div className="viewer-tags">
         <span className="tag">{t.status[live.status].toUpperCase()}</span>
         <span className="tag">{v.token}</span>
-        <span className="tag">{v.keeper(mask.country)}</span>
+        <span className="tag">{v.origin(mask.country)}</span>
       </div>
       <div><span className="price-big">{fmtNum(sats)}</span><span className="price-sub"> sats{usd !== null ? ` ≈ ${fmtUsd(usd)}` : ''}</span></div>
       <div className="viewer-actions">
@@ -131,10 +131,10 @@ export function Gallery({ lang, t, c }: { lang: Lang; t: Strings; c: Copy }) {
         <div className="viewer">
           <div className="viewer-photo vignette">
             {mask.photo
-              ? <img src={mask.photo} alt={mask.name} />
+              ? <img src={mask.photo} alt={mask.names[lang]} />
               : <div className="photo-ph" role="img" aria-label={v.photo(mask.ref)}>{v.photo(mask.ref)}<br />{v.photoHint}</div>}
           </div>
-          <ViewerInfo key={mask.catalogueId} mask={mask} t={t} c={c} myPkh={myPkh} controls={
+          <ViewerInfo key={mask.catalogueId} mask={mask} lang={lang} t={t} c={c} myPkh={myPkh} controls={
             <div className="arrows">
               <button type="button" className="icon-btn" aria-label={v.prev} onClick={() => go(idx - 1)}>←</button>
               <button type="button" className="icon-btn" aria-label={v.next} onClick={() => go(idx + 1)}>→</button>

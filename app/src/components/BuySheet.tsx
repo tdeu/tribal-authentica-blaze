@@ -5,7 +5,7 @@ import { walletUtxos, checkSigned, broadcast, provider } from '../wallet/chain';
 import { toWire } from '../wallet/wire';
 import { buildBuy, payoutsOf, readState, type BuiltBuy, type Payout } from '../chain/vault';
 import type { Live } from '../chain/live';
-import { CONTRACT, type MaskView } from '../content/mask';
+import { CONTRACT, type Lang, type MaskView } from '../content/mask';
 import type { Strings } from '../content/i18n';
 import type { Copy } from '../content/copy';
 import { explorerTx } from '../config';
@@ -20,7 +20,7 @@ type Phase =
   | { k: 'confirmed'; txid: string }
   | { k: 'error'; message: string; signedHex?: string };
 
-export function BuySheet({ mask, live, t, c, refLabel, onClose, onConnect }: { mask: MaskView; live: Live; t: Strings; c: Copy; refLabel: string; onClose: () => void; onConnect: () => void }) {
+export function BuySheet({ mask, lang, live, t, c, refLabel, onClose, onConnect }: { mask: MaskView; lang: Lang; live: Live; t: Strings; c: Copy; refLabel: string; onClose: () => void; onConnect: () => void }) {
   const ws = useWallet();
   const b = t.buySheet;
   const [phase, setPhase] = useState<Phase>({ k: 'review' });
@@ -94,7 +94,7 @@ export function BuySheet({ mask, live, t, c, refLabel, onClose, onConnect }: { m
           <h2>{k.title} · {refLabel}</h2>
           {!busy && <button type="button" className="sheet-close" onClick={onClose} aria-label={b.close}>×</button>}
         </div>
-        <p className="sheet-sub">{mask.name}</p>
+        <p className="sheet-sub">{mask.names[lang]}</p>
         <p className="sheet-price">{fmtSats(state.price).replace(' sats', '')}<span className="price-sub"> sats {usd(state.price)}</span></p>
 
         <dl className="rows" style={{ marginTop: 16 }}>

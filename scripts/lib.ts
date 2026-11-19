@@ -51,7 +51,7 @@ export const saveMasks = (d: MasksFile) => fs.writeFileSync(MASKS_JSON, JSON.str
 
 export const isPlaceholder = (s: string) => /\[[A-Z0-9_ ]+.*\]/.test(s);
 export const placeholdersIn = (m: MaskContent) =>
-  [m.title, m.story.fr, m.story.en, m.custodianLabel].filter(isPlaceholder);
+  [m.title.fr, m.title.en, m.story.fr, m.story.en, m.custodianLabel, m.country].filter(isPlaceholder);
 
 export { fingerprintHex, encodeCommitment };
 
