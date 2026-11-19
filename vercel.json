@@ -6,14 +6,25 @@
   "outputDirectory": "app/dist",
   "redirects": [
     {
-      "source": "/:path*",
+      "source": "/",
       "has": [
         {
           "type": "host",
           "value": "tribal-authentica.vercel.app"
         }
       ],
-      "destination": "https://sankofa-bch.vercel.app/:path*",
+      "destination": "https://sankofa-bch.vercel.app/",
+      "permanent": true
+    },
+    {
+      "source": "/:path+",
+      "has": [
+        {
+          "type": "host",
+          "value": "tribal-authentica.vercel.app"
+        }
+      ],
+      "destination": "https://sankofa-bch.vercel.app/:path+",
       "permanent": true
     }
   ]
