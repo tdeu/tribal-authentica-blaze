@@ -86,10 +86,10 @@ export function MaskPage({ mask, lang, setLang, t, c, onConnect, onHow }: {
             {opening && <p className="story-open">{opening}</p>}
             {body.map((p, i) => <p key={i} className="story-body">{p}</p>)}
           </div>
-          {mask.about && (
+          {mask.style && (
             <div className="about-style" lang={lang}>
-              <p className="label">{m.about}</p>
-              {paragraphs(mask.about[lang]).map((p, i) => <p key={i} className="about-body">{p}</p>)}
+              <p className="label">{m.styleLabel}</p>
+              {paragraphs(mask.style[lang]).map((p, i) => <p key={i} className="about-body">{p}</p>)}
             </div>
           )}
         </section>

@@ -6,7 +6,8 @@
 // Photo hashes are listed in the fixed order of `photos[]` in masks.json.
 //
 // What is fingerprinted: catalogueId, title {fr, en}, story {fr, en}, custodianLabel, country, photo sha256s.
-// What is NOT: payout addresses, price, category IDs (network-specific, and the price is in the commitment).
+// What is NOT: payout addresses, price, category IDs (network-specific, and the price is in the commitment),
+// and the display-only editorial fields region, details, subtitle and style (About this style).
 import { sha256, binToHex, hexToBin, bigIntToBinUint64LE, utf8ToBin } from '@bitauth/libauth';
 
 export type Photo = { file: string; sha256: string | null };

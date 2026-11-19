@@ -38,6 +38,13 @@ function ViewerInfo({ mask, lang, t, c, myPkh, onConnect, controls }: {
       <p className="label label-muted">[ {mask.ref}{mask.region ? ` / ${mask.region}` : ''} ]</p>
       <h3 className="headline h-s">{mask.names[lang]}</h3>
       {(mask.subtitle ?? mask.details) && <p className="ink-2" style={{ margin: 0 }}>{(mask.subtitle ?? mask.details)![lang]}</p>}
+      {mask.style && (
+        <details className="style-card" lang={lang}>
+          <summary>{c.mask.about}</summary>
+          <p className="fine">{c.mask.styleLabel}</p>
+          <p className="about-body">{mask.style[lang]}</p>
+        </details>
+      )}
       <div className="viewer-tags">
         <span className="tag">{t.status[live.status].toUpperCase()}</span>
         <span className="tag">{v.token}</span>

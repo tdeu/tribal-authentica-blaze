@@ -378,3 +378,10 @@ code { font-family: var(--mono); }
 .wind-title .w2 { display: inline-block; margin-top: .12em; will-change: transform; }
 .wind-back { z-index: 0; }
 .wind-front { z-index: 2; }
+.style-card { border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); padding: 4px 0; }
+.style-card summary { cursor: pointer; font-size: 13px; color: var(--ink); min-height: 40px; display: flex; align-items: center; list-style: none; }
+.style-card summary::-webkit-details-marker { display: none; }
+.style-card summary::after { content: '+'; margin-left: auto; color: var(--accent); font-size: 16px; }
+.style-card[open] summary::after { content: '−'; }
+.style-card .fine { margin: 0 0 8px; }
+.style-card .about-body { font-size: 14px; margin-bottom: 12px; }

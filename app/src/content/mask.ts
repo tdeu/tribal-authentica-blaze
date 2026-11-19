@@ -25,7 +25,7 @@ export type MaskView = {
   region: string | null;       // display only (not fingerprinted)
   details: Record<Lang, string> | null; // display only, e.g. "Carved wood · brass plates · wool"
   subtitle: Record<Lang, string> | null; // display only, collection card, e.g. "Marka style · Mali"
-  about: Record<Lang, string> | null;    // display only, "About this style" block on the mask page
+  style: Record<Lang, string> | null;    // display only: "About this style" (editorial, NOT fingerprinted)
   fingerprint: string | null;  // as recorded in masks.json (Verify recomputes it)
   priceSats: number;           // this network's listed price (before mint too)
   // Set on this network once minted. No mint = not for sale yet: Buy says "Coming soon".
@@ -55,7 +55,7 @@ export const MASKS: MaskView[] = data.masks.map((m) => {
     region: real((m as { region?: string }).region),
     details: (m as { details?: Record<Lang, string> }).details ?? null,
     subtitle: (m as { subtitle?: Record<Lang, string> }).subtitle ?? null,
-    about: (m as { about?: Record<Lang, string> }).about ?? null,
+    style: (m as { style?: Record<Lang, string> }).style ?? null,
     story: { fr: real(m.story.fr) ?? '', en: real(m.story.en) ?? '' },
     photo: photos.length ? `/${photos[0].file}` : null,
     photos: photos.map((p) => `/${p.file}`),
