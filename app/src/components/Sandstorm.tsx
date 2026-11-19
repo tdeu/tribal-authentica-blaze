@@ -1,5 +1,5 @@
 // Hero panel with the dot-matrix mask that assembles from a laterite sandstorm.
-// Shape: the 24×34 function from design/Main.dc.html. The mask itself is DOM: every dot absolutely
+// Shape: mask 001, sampled from its photo to the 24×34 grid. The mask itself is DOM: every dot absolutely
 // positioned in a fixed-size box (final state, reduced motion, no layout shift). The storm is painted
 // on one canvas overlay pinned over the panel: one requestAnimationFrame loop drawing each dot with
 // translate + rotate + alpha. Layout is read once at the start, never per frame. On the last landing
@@ -8,29 +8,13 @@
 // Plays once per page load when the panel is 35 % visible; reduced motion shows the finished mask.
 import { useCallback, useEffect, useMemo, useRef, useState, type CSSProperties, type ReactNode } from 'react';
 import { Corners } from './art';
+import hero from '../data/hero-mask-001.json';
 
-const W = 24, H = 34, CX = 11.5;
+// The grid is mask 001 itself, sampled from its photo (see the _comment in the data file).
+const W = hero.width;
 type Dot = { x: number; y: number; a: number | null }; // a = final opacity, null = background dot
-function maskDots(): Dot[] {
-  const out: Dot[] = [];
-  for (let y = 0; y < H; y++) {
-    for (let x = 0; x < W; x++) {
-      let on = false;
-      const dx = (x - CX) / 9.5, dy = (y - 19) / 14.5;
-      if (dx * dx + dy * dy <= 1) on = true;
-      if (y >= 1 && y <= 5) { const hw = 2 + (5 - y) * 0.2 + (y - 1); if (Math.abs(x - CX) <= Math.min(hw, 6)) on = true; }
-      const eye = (y === 15 || y === 16) && ((x >= 6 && x <= 9) || (x >= 14 && x <= 17));
-      const mouth = y === 27 && x >= 10 && x <= 13;
-      const nose = y >= 17 && y <= 23 && (x === 11 || x === 12);
-      const brow = y === 13 && ((x >= 5 && x <= 10) || (x >= 13 && x <= 18));
-      if (!on || eye || mouth) { out.push({ x, y, a: null }); continue; }
-      const d = Math.sqrt(((x - 6) / 18) ** 2 + ((y - 8) / 30) ** 2);
-      out.push({ x, y, a: nose || brow ? 1 : Math.round(Math.max(0.28, 1 - d * 0.9) * 100) / 100 });
-    }
-  }
-  return out;
-}
-const DOTS = maskDots();
+const DOTS: Dot[] = (hero.alpha as (number | null)[]).map((a, i) => ({ x: i % W, y: Math.floor(i / W), a }));
+
 
 const rand = (a: number, b: number) => a + Math.random() * (b - a);
 

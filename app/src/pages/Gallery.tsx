@@ -1,5 +1,6 @@
 import { useState, type KeyboardEvent, type ReactNode } from 'react';
-import { CONTRACT, DEMO_NOTICE, MASKS, type Lang, type MaskView } from '../content/mask';
+import { CONTRACT, MASKS, type Lang, type MaskView } from '../content/mask';
+import { DemoNotice } from '../components/DemoNotice';
 import type { Strings } from '../content/i18n';
 import type { Copy } from '../content/copy';
 import { useWallet } from '../wallet/useWallet';
@@ -30,13 +31,13 @@ function ViewerInfo({ mask, lang, t, c, myPkh, controls }: { mask: MaskView; lan
   const v = c.collection;
   return (
     <div className="viewer-info" id="viewer-panel" role="tabpanel" aria-label={mask.names[lang]}>
-      <p className="label label-muted">[ {mask.ref} / {v.region} ]</p>
+      <p className="label label-muted">[ {mask.ref}{mask.region ? ` / ${mask.region}` : ''} ]</p>
       <h3 className="headline h-s">{mask.names[lang]}</h3>
-      <p className="ink-2" style={{ margin: 0 }}>{v.facts}</p>
+      {mask.details && <p className="ink-2" style={{ margin: 0 }}>{mask.details[lang]}</p>}
       <div className="viewer-tags">
         <span className="tag">{t.status[live.status].toUpperCase()}</span>
         <span className="tag">{v.token}</span>
-        <span className="tag">{v.origin(mask.country)}</span>
+        {mask.country && <span className="tag">{v.origin(mask.country)}</span>}
       </div>
       <div><span className="price-big">{fmtNum(sats)}</span><span className="price-sub"> sats{usd !== null ? ` ≈ ${fmtUsd(usd)}` : ''}</span></div>
       <div className="viewer-actions">
@@ -68,7 +69,7 @@ export function Gallery({ lang, t, c }: { lang: Lang; t: Strings; c: Copy }) {
         <p className="lead hero-lead">{c.hero.lead[0]}<b>{c.hero.lead[1]}</b>{c.hero.lead[2]}</p>
         <SandstormPanel label={c.hero.maskLabel} caption={c.hero.caption} replay={c.hero.replay} replayLabel={c.hero.replayLabel}
           bar={<><span>{c.hero.panel}</span><span>[ {mask.ref} / {TOTAL} ]</span></>} />
-        <p className="demo-notice" role="note" lang={lang}>{DEMO_NOTICE[lang]}</p>
+        <DemoNotice lang={lang} />
       </section>
 
       <section className="cta-row">
@@ -132,7 +133,7 @@ export function Gallery({ lang, t, c }: { lang: Lang; t: Strings; c: Copy }) {
           <div className="viewer-photo vignette">
             {mask.photo
               ? <img src={mask.photo} alt={mask.names[lang]} />
-              : <div className="photo-ph" role="img" aria-label={v.photo(mask.ref)}>{v.photo(mask.ref)}<br />{v.photoHint}</div>}
+              : <div className="photo-ph" role="img" aria-label={v.photoSoon} />}
           </div>
           <ViewerInfo key={mask.catalogueId} mask={mask} lang={lang} t={t} c={c} myPkh={myPkh} controls={
             <div className="arrows">

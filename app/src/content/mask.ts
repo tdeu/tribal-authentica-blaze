@@ -22,6 +22,8 @@ export type MaskView = {
   story: Record<Lang, string>;
   photo: string | null;
   photos: string[];            // every photo, in fingerprint order
+  region: string | null;       // display only (not fingerprinted)
+  details: Record<Lang, string> | null; // display only, e.g. "Carved wood · brass plates · wool"
   fingerprint: string | null;  // as recorded in masks.json (Verify recomputes it)
   priceSats: number;           // this network's listed price (before mint too)
   // Set on this network once minted. No mint = not for sale yet: Buy says "Coming soon".
@@ -30,6 +32,10 @@ export type MaskView = {
   priceUsd: number;
 };
 
+// Placeholders ([LIKE_THIS]) are never shown: a missing value is hidden, a missing title becomes "Mask 00X".
+const isPlaceholder = (s: string | undefined | null) => !s || /[[A-Z0-9_ ]+.*]/.test(s);
+const real = (s: string | undefined | null) => (isPlaceholder(s) ? null : s!);
+
 export const MASKS: MaskView[] = data.masks.map((m) => {
   const photos = m.photos as Photo[];
   const mint = (m.mint as Record<string, MintRecord | null>)[NETWORK] ?? null;
@@ -37,11 +43,16 @@ export const MASKS: MaskView[] = data.masks.map((m) => {
   return {
     catalogueId: m.catalogueId,
     ref: String(m.catalogueId).padStart(3, '0'),
-    name: m.title.en,
-    names: m.title,
-    custodian: m.custodianLabel,
-    country: (m as { country?: string }).country ?? '[COUNTRY]',
-    story: m.story,
+    name: real(m.title.en) ?? `Mask ${String(m.catalogueId).padStart(3, '0')}`,
+    names: {
+      en: real(m.title.en) ?? `Mask ${String(m.catalogueId).padStart(3, '0')}`,
+      fr: real(m.title.fr) ?? `Masque ${String(m.catalogueId).padStart(3, '0')}`,
+    },
+    custodian: real(m.custodianLabel) ?? '',
+    country: real((m as { country?: string }).country) ?? '',
+    region: real((m as { region?: string }).region),
+    details: (m as { details?: Record<Lang, string> }).details ?? null,
+    story: { fr: real(m.story.fr) ?? '', en: real(m.story.en) ?? '' },
     photo: photos.length ? `/${photos[0].file}` : null,
     photos: photos.map((p) => `/${p.file}`),
     fingerprint: m.fingerprint,
@@ -57,4 +68,4 @@ export const maskById = (id: number) => MASKS.find((m) => m.catalogueId === id);
 export const CUSTODIAN_SHARE_FIRST_SALE = 1 - data.contract.platformBps / 10000;
 export const PLATFORM_SHARE_FIRST_SALE = data.contract.platformBps / 10000;
 export const RESALE_ROYALTY = data.contract.royaltyBps / 10000;
-export const PLATFORM_NAME = 'Emtée';
+export const PLATFORM_NAME = 'Sankofa';

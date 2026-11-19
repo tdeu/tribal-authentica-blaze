@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { CONTRACT, DEMO_NOTICE, MASKS, type Lang, type MaskView } from '../content/mask';
+import { CONTRACT, MASKS, type Lang, type MaskView } from '../content/mask';
+import { DemoNotice } from '../components/DemoNotice';
 import type { Strings } from '../content/i18n';
 import type { Copy } from '../content/copy';
 import { useWallet } from '../wallet/useWallet';
@@ -51,12 +52,12 @@ export function MaskPage({ mask, lang, setLang, t, c, onConnect, onHow }: {
     <article className="mask-page">
       <section className="mask-hero vignette">
         {photo ? <img src={photo} alt={mask.names[lang]} /> : (
-          <div className="photo-ph" role="img" aria-label={c.collection.photo(mask.ref)}>{c.collection.photo(mask.ref)}<br />{m.photoHint}</div>
+          <div className="photo-ph" role="img" aria-label={c.collection.photoSoon} />
         )}
         <Corners bottom={false} />
         <div className="mask-hero-foot">
           <div>
-            <p className="label">[ {mask.ref} / {c.collection.region} ]</p>
+            <p className="label">[ {mask.ref}{mask.region ? ` / ${mask.region}` : ''} ]</p>
             <h1 className="headline h-l">{mask.names[lang]}</h1>
           </div>
           {mask.photos.length > 0 && (
@@ -69,7 +70,7 @@ export function MaskPage({ mask, lang, setLang, t, c, onConnect, onHow }: {
           )}
         </div>
       </section>
-      <Ticker quiet items={[...m.details.slice(0, 3), c.collection.origin(mask.country).toUpperCase(), ...m.details.slice(3), status]} />
+      <Ticker quiet items={[...(mask.details ? mask.details[lang].split(' · ').map((s) => s.toUpperCase()) : []), ...(mask.country ? [c.collection.origin(mask.country).toUpperCase()] : []), ...m.details, status]} />
 
       <div className="mask-cols">
         <section className="story-col" aria-labelledby="story-label">
@@ -85,14 +86,14 @@ export function MaskPage({ mask, lang, setLang, t, c, onConnect, onHow }: {
             {opening && <p className="story-open">{opening}</p>}
             {body.map((p, i) => <p key={i} className="story-body">{p}</p>)}
           </div>
-          <p className="demo-notice" role="note" lang={lang}>{DEMO_NOTICE[lang]}</p>
+          <DemoNotice lang={lang} />
         </section>
 
         <aside className="buy-col">
           <div className="buy-panel">
             <p className="label">{m.own}</p>
             <div><span className="price-huge">{fmtNum(sats)}</span><span className="price-sub"> {m.sats}{usd !== null ? ` ≈ ${fmtUsd(usd)}` : ''}</span></div>
-            <SplitBar accent={keeperSquares} label={m.splitLabel(keeperPct, 100 - keeperPct, resale ? 'the seller' : 'Emtée')} />
+            <SplitBar accent={keeperSquares} label={m.splitLabel(keeperPct, 100 - keeperPct, resale ? 'the seller' : 'Sankofa')} />
             <div className="split-legend"><span>{keeperPct}% {legend[0]}</span><span>{100 - keeperPct}% {legend[1]}</span></div>
             <button type="button" className="btn btn-primary btn-block btn-big" onClick={onBuy} disabled={!buyable}>{buyLabel}</button>
             {live.status === 'error' && <p className="fine">{live.error}</p>}

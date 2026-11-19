@@ -1,8 +1,8 @@
 {
   "_comment": "Demo collection. [BRACKETED] values are placeholders: never replace them with invented names, places or stories. fingerprint is written by scripts/fingerprint.ts, categoryId and mint by scripts/mint.ts. priceSats is per network: chipnet is a test price (never shown on mainnet); it must leave both first-sale shares >= 546 sats.",
   "demoNotice": {
-    "en": "Demo collection — masks from Emtée’s own collection, photographed by Emtée. Keeper payouts go to demo wallets held by Emtée. In production, payouts go to the workshop or family that keeps the mask.",
-    "fr": "Collection de démonstration — masques de la collection personnelle d’Emtée, photographiés par Emtée. Les paiements aux gardiens vont à des portefeuilles de démonstration détenus par Emtée. En production, les paiements vont à l’atelier ou à la famille qui garde le masque."
+    "en": "Demo collection — masks kept in Abidjan by Emtée Studio, the team behind Sankofa. Keeper payouts go to demo wallets held by Emtée. In production, payouts go to the workshop or family that keeps the mask.",
+    "fr": "Collection de démonstration — masques gardés à Abidjan par Emtée Studio, l’équipe derrière Sankofa. Les paiements aux gardiens vont à des portefeuilles de démonstration détenus par Emtée. En production, les paiements vont à l’atelier ou à la famille qui garde le masque."
   },
   "contract": {
     "royaltyBps": 1000,
@@ -69,6 +69,11 @@
           "platformAddress": "bitcoincash:zzdp7rlydlkn5xfqcnvads57yyj5sfcpmgmlxll8dj",
           "mintedAt": "2026-11-19T11:21:43.987Z"
         }
+      },
+      "region": "Abidjan, Côte d'Ivoire",
+      "details": {
+        "en": "Carved wood · brass plates · wool",
+        "fr": "Bois sculpté · plaques de laiton · laine"
       }
     },
     {

@@ -366,3 +366,5 @@ code { font-family: var(--mono); }
 .held { margin: 0; font-size: 13px; color: var(--ink); border: 1px solid var(--line-2); padding: 10px 12px; }
 .held a { color: var(--accent); }
 .cert-notice { margin-top: 20px; max-width: 640px; }
+.demo-notice p { margin: 0; }
+.demo-notice .demo-by { margin-top: 6px; color: var(--ink-2); }

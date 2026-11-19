@@ -12,13 +12,14 @@ Each mask has its own CashTokens category with one certificate NFT, locked forev
 CashScript covenant (the RoyaltyVault). The certificate commits to the mask's **fingerprint** (sha256 of its
 photos and story), and the contract keeps that fingerprint unchanged on every sale.
 
-- **First sale:** 90 % to the mask's custodian, 10 % to Emtée (the platform).
+- **First sale:** 90 % to the mask's custodian, 10 % to Sankofa (the platform).
 - **Every resale, forever:** at least 10 % to the custodian, enforced on-chain.
   The royalty is `max(10 % × price, 10 % × last sale price, floor)`, so a cheap "wash" resale can't dodge it.
 - No minting baton exists for any mask, so nobody can issue a second certificate.
 
-**Demo collection** — masks from Emtée's own collection, photographed by Emtée. Keeper payouts go to demo
+**Demo collection** — masks kept in Abidjan by Emtée Studio, the team behind Sankofa. Keeper payouts go to demo
 wallets held by Emtée. In production, payouts go to the workshop or family that keeps the mask.
+Sankofa is built by Emtée Studio.
 
 | | |
 |---|---|
@@ -62,7 +63,7 @@ Mask 001, using the same transaction builders the web page sends to the wallet
 
 | Step | Transaction | Paid out (read back from the transaction) |
 |---|---|---|
-| 1. First sale at 6,000 sats | [`e392570e…`](https://chipnet.bch.ninja/tx/e392570e0d5f5dc867c6d19a4573fed81d9926744361f8dc1542aa16a459ee5e) | **5,400 → custodian**, 600 → Emtée; certificate stays in the vault, now in the buyer's name |
+| 1. First sale at 6,000 sats | [`e392570e…`](https://chipnet.bch.ninja/tx/e392570e0d5f5dc867c6d19a4573fed81d9926744361f8dc1542aa16a459ee5e) | **5,400 → custodian**, 600 → Sankofa; certificate stays in the vault, now in the buyer's name |
 | 2. Owner resells at 8,000 sats (`list()`, owner-signed) | [`67653847…`](https://chipnet.bch.ninja/tx/67653847a17b1fb45450ba03e574d1d3567542f91fb4bedc7ed7287a097ffa18) | nothing; price set to 8,000, owner and last sale unchanged |
 | 3. Second buyer buys the resale | [`25657110…`](https://chipnet.bch.ninja/tx/25657110abec8459536a2a86af7a699fe53b913e460c02bfd71ccd81c9b74a6c) | 7,000 → seller, **1,000 → custodian** (royalty floor, since 10 % of 8,000 = 800) |
 
@@ -81,21 +82,21 @@ Mask 001, *Crested mask with brass plates*, is minted on Bitcoin Cash mainnet (1
 | Genesis tx (the title, into its vault) | [`a165a94d…`](https://blockchair.com/bitcoin-cash/transaction/a165a94df6342eb62682247bf92e7a7d333446c2a8e57940b3eab6a73b8132d9) |
 | Vault | `bitcoincash:rv064cvkhdlc0c74y02957ctuxx9k2lpe0l94z7c0753rsc0hmalwlgyadjgf` |
 | Fingerprint | `31c05e3e7a19c85d76ec08d5db8ea0f137ba2a3ce588c9f3f34b6ca73411770c` |
-| Price | 470,000 sats: 423,000 to the keeper, 47,000 to Emtée on the first sale |
+| Price | 470,000 sats: 423,000 to the keeper, 47,000 to Sankofa on the first sale |
 
 ### How the demo was funded
 
 The mint funder `bitcoincash:qp8syd9hwppgm5nvlgyhlcxw50lvym454ytp2mkg0e` was funded from Revolut with one
 transaction, [`0d6fc602…`](https://blockchair.com/bitcoin-cash/transaction/0d6fc6028789d092c830a03a779891af68d9e4361def5c0c39c4c45c23126a4d), which delivered 435,983 sats. Minting mask 001 cost
 1,849 sats (1,000 locked in the vault with the title, 600 genesis fee, 249 prep fee). The buyer wallet used for the
-first purchase was funded separately. Keeper and Emtée payouts go to demo wallets held by Emtée.
+first purchase was funded separately. Keeper and Sankofa payouts go to demo wallets held by Emtée Studio.
 
 <a id="what-if-something-goes-wrong"></a>
 ## What if something goes wrong?
 
 Each answer is a fact about this code, with its proof. Mask 001 is minted on mainnet; its first-sale and resale proofs are on chipnet until it is sold on mainnet. "Test" means the network's script validator (the BCH VM) refuses the attack in our test suite (`contracts/`: 49 tests, `scripts/`: 15 tests).
 
-1. **Does the title prove the mask is genuine?** It records on-chain that Emtée minted this title for this keeper, when, and the fingerprint of its photos and story, which can never change (Verify recomputes it in your browser). It does not prove the object itself; in this demo, Emtée photographed and listed the masks.
+1. **Does the title prove the mask is genuine?** It records on-chain that Sankofa minted this title for this keeper, when, and the fingerprint of its photos and story, which can never change (Verify recomputes it in your browser). It does not prove the object itself; in this demo, Emtée Studio photographed and listed the masks.
    Proof: [genesis tx, mask 001 (mainnet)](https://blockchair.com/bitcoin-cash/transaction/a165a94df6342eb62682247bf92e7a7d333446c2a8e57940b3eab6a73b8132d9) · [chipnet](https://chipnet.bch.ninja/tx/aa225bb5705d86428d8aac06e91d599444d0c37462ac7fdb9f3f74a31ab0f24c) · [tests: fingerprint frozen by the contract](https://github.com/tdeu/tribal-authentica-blaze/blob/main/contracts/test/RoyaltyVault.test.ts#L320)
 2. **Can the keeper go unpaid on the first sale?** No: 90% goes to the keeper's address in the same transaction that hands you the title.
    Proof: [first sale, 5,400 of 6,000 sats to the keeper](https://chipnet.bch.ninja/tx/e392570e0d5f5dc867c6d19a4573fed81d9926744361f8dc1542aa16a459ee5e)
@@ -105,7 +106,7 @@ Each answer is a fact about this code, with its proof. Mask 001 is minted on mai
    Proof: [genesis tx, mask 001 (mainnet)](https://blockchair.com/bitcoin-cash/transaction/a165a94df6342eb62682247bf92e7a7d333446c2a8e57940b3eab6a73b8132d9) · [chipnet](https://chipnet.bch.ninja/tx/aa225bb5705d86428d8aac06e91d599444d0c37462ac7fdb9f3f74a31ab0f24c) · [test: the category has no minting-capable output, ever](https://github.com/tdeu/tribal-authentica-blaze/blob/main/scripts/test/mint.test.ts#L66)
 5. **Where is my title, and what if this website disappears?** Your title stays in the mask's vault, registered to your address. That is what makes the royalty impossible to skip, so you won't see it as a token in your wallet; your certificate shows it. The vault and its history are on-chain, and anyone can re-run Verify from this repo without our site: `cd app && npm install && npm run dev`, then open a mask's certificate (it reads a public BCH server directly, [`app/src/chain/vault.ts`](https://github.com/tdeu/tribal-authentica-blaze/blob/main/app/src/chain/vault.ts)).
 6. **What if I pay and nothing happens?** Payment and title change happen in one transaction: both or neither.
-   Proof: [one tx: title to the buyer, 5,400 to the keeper, 600 to Emtée](https://chipnet.bch.ninja/tx/e392570e0d5f5dc867c6d19a4573fed81d9926744361f8dc1542aa16a459ee5e)
+   Proof: [one tx: title to the buyer, 5,400 to the keeper, 600 to Sankofa](https://chipnet.bch.ninja/tx/e392570e0d5f5dc867c6d19a4573fed81d9926744361f8dc1542aa16a459ee5e)
 7. **Honest limit:** if a keeper loses their wallet, their royalties keep going to that address. Roadmap: a recoverable payout address.
    Proof: the payout address is a constructor parameter of [`RoyaltyVault.cash`](https://github.com/tdeu/tribal-authentica-blaze/blob/main/contracts/src/RoyaltyVault.cash), fixed at mint.
 

@@ -38,7 +38,7 @@ export const WHAT_IF: Record<Lang, { label: string; title: [string, string]; pro
     items: [
       {
         q: 'Does the title prove the mask is genuine?',
-        a: 'It records on-chain that Emtée minted this title for this keeper, when, and the fingerprint of its photos and story, which can never change (Verify recomputes it in your browser). It does not prove the object itself; in this demo, Emtée photographed and listed the masks.',
+        a: 'It records on-chain that Sankofa minted this title for this keeper, when, and the fingerprint of its photos and story, which can never change (Verify recomputes it in your browser). It does not prove the object itself; in this demo, Emtée Studio photographed and listed the masks.',
         proofs: [{ label: 'genesis tx, mask 001 (mainnet)', href: MAINNET_GENESIS }, { label: 'test: fingerprint frozen by the contract', href: T.frozenFp }],
       },
       {
@@ -73,7 +73,7 @@ export const WHAT_IF: Record<Lang, { label: string; title: [string, string]; pro
       {
         q: 'What if I pay and nothing happens?',
         a: 'Payment and title change happen in one transaction: both or neither.',
-        proofs: [{ label: 'one tx: title to the buyer + keeper + Emtée (chipnet)', href: TX.firstSale }],
+        proofs: [{ label: 'one tx: title to the buyer + keeper + Sankofa (chipnet)', href: TX.firstSale }],
       },
       {
         q: 'Honest limit',
@@ -89,7 +89,7 @@ export const WHAT_IF: Record<Lang, { label: string; title: [string, string]; pro
     items: [
       {
         q: 'Le titre prouve-t-il que le masque est authentique ?',
-        a: 'Il enregistre sur la blockchain qu’Emtée a créé ce titre pour ce gardien, quand, et l’empreinte de ses photos et de son histoire, qui ne peut jamais changer (Vérifier la recalcule dans votre navigateur). Il ne prouve pas l’objet lui-même ; dans cette démo, Emtée a photographié et mis en vente les masques.',
+        a: 'Il enregistre sur la blockchain que Sankofa a créé ce titre pour ce gardien, quand, et l’empreinte de ses photos et de son histoire, qui ne peut jamais changer (Vérifier la recalcule dans votre navigateur). Il ne prouve pas l’objet lui-même ; dans cette démo, Emtée Studio a photographié et mis en vente les masques.',
         proofs: [{ label: 'tx de création, masque 001 (mainnet)', href: MAINNET_GENESIS }, { label: 'test : empreinte figée par le contrat', href: T.frozenFp }],
       },
       {
@@ -124,7 +124,7 @@ export const WHAT_IF: Record<Lang, { label: string; title: [string, string]; pro
       {
         q: 'Et si je paie et que rien ne se passe ?',
         a: 'Le paiement et le changement de titre se font dans une seule transaction : les deux ou aucun.',
-        proofs: [{ label: 'une tx : titre à l’acheteur + gardien + Emtée (chipnet)', href: TX.firstSale }],
+        proofs: [{ label: 'une tx : titre à l’acheteur + gardien + Sankofa (chipnet)', href: TX.firstSale }],
       },
       {
         q: 'Limite honnête',
