@@ -129,6 +129,7 @@ export function BuySheet({ mask, live, t, c, refLabel, onClose, onConnect }: { m
           {phase.k === 'confirmed' && (
             <>
               <p className="wstatus wstatus-ok">{b.confirmed}</p>
+              <p className="held">{k.held[0]}<a href={`#/mask/${mask.catalogueId}/certificate`} onClick={onClose}>{k.held[1]}</a></p>
               <p className="fine">{b.confirmedNote}</p>
               <a className="btn btn-ghost" href={explorerTx(phase.txid)} target="_blank" rel="noreferrer">{b.viewTx} ↗</a>
               <a className="btn btn-primary" href={`#/mask/${mask.catalogueId}/certificate`} onClick={onClose}>{b.viewCert} ↗</a>

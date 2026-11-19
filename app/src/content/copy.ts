@@ -31,7 +31,7 @@ export const COPY = {
       rows: [['FIRST SALE', 'KEEPER, AFRICA', true], ['FIRST SALE', 'EMTÉE', false], ['EVERY RESALE', 'KEEPER, AFRICA', true], ['EVERY RESALE', 'SELLER', false]] as const,
     },
     collection: {
-      label: '01 / THE COLLECTION',
+      label: '02 / THE COLLECTION',
       title: ['ONE MASK', 'AT A TIME'],
       lead: ['Six masks, six keepers.', 'Walk past each vitrine. Read its story. Make it yours.'],
       photo: (n: string) => `[MASK PHOTO ${n}]`,
@@ -79,6 +79,7 @@ export const COPY = {
       total: 'Total',
       steps: ['Wallet', 'Approve in wallet', 'Broadcast', 'The title is yours'],
       vault: 'The title stays in the royalty vault, in your name. Nothing is sent to your wallet.',
+      held: ['Your title is held in the mask’s vault in your name. ', 'See your certificate →'],
     },
     cert: {
       back: '← Back to the mask',
@@ -164,7 +165,7 @@ export const COPY = {
       rows: [['PREMIÈRE VENTE', 'GARDIEN, AFRIQUE', true], ['PREMIÈRE VENTE', 'EMTÉE', false], ['CHAQUE REVENTE', 'GARDIEN, AFRIQUE', true], ['CHAQUE REVENTE', 'VENDEUR', false]] as const,
     },
     collection: {
-      label: '01 / LA COLLECTION',
+      label: '02 / LA COLLECTION',
       title: ['UN MASQUE', 'À LA FOIS'],
       lead: ['Six masques, six gardiens.', 'Passez devant chaque vitrine. Lisez son histoire. Faites-le vôtre.'],
       photo: (n: string) => `[PHOTO DU MASQUE ${n}]`,
@@ -212,6 +213,7 @@ export const COPY = {
       total: 'Total',
       steps: ['Portefeuille', 'Validation dans le portefeuille', 'Diffusion', 'Le titre est à vous'],
       vault: 'Le titre reste dans le coffre de redevances, à votre nom. Rien n’est envoyé dans votre portefeuille.',
+      held: ['Votre titre est gardé dans le coffre du masque, à votre nom. ', 'Voir votre certificat →'],
     },
     cert: {
       back: '← Retour au masque',

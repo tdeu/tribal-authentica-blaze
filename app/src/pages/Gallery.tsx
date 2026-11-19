@@ -9,6 +9,7 @@ import { fmtUsd } from '../price';
 import { useUsdOf } from '../components/Price';
 import { PixelDigits, Ticker } from '../components/art';
 import { SandstormPanel } from '../components/Sandstorm';
+import { WHAT_IF } from '../content/whatif';
 
 const TOTAL = String(MASKS.length).padStart(3, '0');
 const fmtNum = (n: bigint | number) => Number(n).toLocaleString('en-US');
@@ -95,6 +96,28 @@ export function Gallery({ lang, t, c }: { lang: Lang; t: Strings; c: Copy }) {
             ))}
           </div>
         </div>
+      </section>
+
+      <section className="whatif" id="what-if-something-goes-wrong" aria-labelledby="whatif-title">
+        <p className="label">{WHAT_IF[lang].label}</p>
+        <h2 className="headline h-m" id="whatif-title" style={{ marginTop: 12 }}>{WHAT_IF[lang].title[0]}<br /><span className="accent">{WHAT_IF[lang].title[1]}</span></h2>
+        <ol className="whatif-list">
+          {WHAT_IF[lang].items.map((it, i) => (
+            <li key={i}>
+              <span className="whatif-n" aria-hidden>{String(i + 1).padStart(2, '0')}</span>
+              <div>
+                <h3>{it.q}</h3>
+                <p>{it.a}</p>
+                <p className="whatif-proof">
+                  <span>{WHAT_IF[lang].proof}:</span>{' '}
+                  {it.proofs.map((p, j) => (
+                    <span key={p.href + j}>{j > 0 && ' · '}<a href={p.href} target="_blank" rel="noreferrer">{p.label} ↗</a></span>
+                  ))}
+                </p>
+              </div>
+            </li>
+          ))}
+        </ol>
       </section>
 
       <section className="collection" id="collection" onKeyDown={onKey}>
