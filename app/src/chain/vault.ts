@@ -287,7 +287,15 @@ export function historyFromTxs(vault: Vault, mint: MintRecord, params: ContractP
     if (now.fingerprint !== prev.fingerprint) throw new Error(`tx ${next.txid} changed the fingerprint`);
     const base = { txid: next.txid, height: next.height, ownerPkh: now.ownerPkh };
     if (binToHex(now.ownerPkh) !== binToHex(prev.ownerPkh)) {
-      const { kind, payouts } = payoutsOf(prev, vault, params);
+      // Who was due what (roles, addresses), then the amounts as actually paid: the contract puts the
+      // payouts at outputs 1 and 2, in this order. Read the values from the tx, never recompute them.
+      const { kind, payouts: due } = payoutsOf(prev, vault, params);
+      const payouts = due.map((p, i) => {
+        const o = next.tx.outputs[1 + i];
+        const pkh = pkhOf(p.address).pkh;
+        if (!o || binToHex(o.lockingBytecode) !== binToHex(lockOf(pkh))) throw new Error(`tx ${next.txid}: output ${1 + i} is not the ${p.role} payout`);
+        return { ...p, sats: o.valueSatoshis };
+      });
       events.push({ ...base, kind: 'sold', price: prev.price, sellerPkh: prev.ownerPkh, saleKind: kind, payouts });
     } else {
       events.push({ ...base, kind: now.price > 0n ? 'listed' : 'delisted', price: now.price });

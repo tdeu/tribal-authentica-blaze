@@ -15,6 +15,7 @@ import { fmtUsd } from '../price';
 import { useUsdOf } from '../components/Price';
 import { Hero } from '../components/Hero';
 import { BuySheet } from '../components/BuySheet';
+import { ActivityFeed } from '../components/ActivityFeed';
 
 const fmtNum = (n: bigint | number) => Number(n).toLocaleString('en-US');
 const shortAddr = (pkh: Uint8Array) => {
@@ -22,12 +23,6 @@ const shortAddr = (pkh: Uint8Array) => {
   return `${a.slice(0, 1)}…${a.slice(-4)}`;
 };
 const shortHash = (h: string | null) => (h ? `${h.slice(0, 4)}…${h.slice(-4)}` : '—');
-
-// Shares from the contract parameters (90 / 10 first sale, 10 % royalty on resale)
-const PLATFORM_PCT = CONTRACT.platformBps / 100;
-const SOURCE_FIRST_PCT = 100 - PLATFORM_PCT;
-const ROYALTY_PCT = CONTRACT.royaltyBps / 100;
-const SHARES = [SOURCE_FIRST_PCT, PLATFORM_PCT, ROYALTY_PCT, 100 - ROYALTY_PCT];
 
 const isBuyable = (l: Live) => l.status === 'not-sold' || l.status === 'resale';
 
@@ -161,14 +156,7 @@ export function Gallery({ lang, t, c, onConnect }: { lang: Lang; t: Strings; c: 
         <ol className="how-cards">
           {c.how.cards.map(([title, text]) => <li key={title}><h3>{title}</h3><p>{text}</p></li>)}
         </ol>
-        <div className="payout" role="table">
-          <div className="head" role="row">{c.how.cols.map((h) => <span key={h} role="columnheader">{h}</span>)}</div>
-          {c.how.rows.map(([ev, to, strong], i) => (
-            <div key={i} role="row" className={strong ? 'strong' : undefined}>
-              <span role="cell">{ev}</span><span role="cell">{to}</span><span role="cell">{SHARES[i]}%</span>
-            </div>
-          ))}
-        </div>
+        <ActivityFeed c={c} lang={lang} />
       </section>
 
       {mask && (
