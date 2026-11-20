@@ -32,26 +32,31 @@ export type WhatIf = { q: string; a: string; proofs: Proof[] };
 
 export const WHAT_IF: Record<Lang, { label: string; title: [string, string]; proof: string; items: WhatIf[] }> = {
   en: {
-    label: '7 CASES · EACH WITH ITS PROOF',
+    label: '8 CASES · EACH WITH ITS PROOF',
     title: ['WHAT IF', 'SOMETHING GOES WRONG?'],
     proof: 'Proof',
     items: [
       {
         q: 'Does the title prove the mask is genuine?',
-        a: 'It records on-chain that Sankofa minted this title for this keeper, when, and the fingerprint of its photos and story, which can never change (Verify recomputes it in your browser). It does not prove the object itself; in this demo, Emtée Studio photographed and listed the masks.',
+        a: 'It records on-chain that Sankofa minted this title for this source, when, and the fingerprint of its photos and story, which can never change (Verify recomputes it in your browser). It does not prove the object itself; in this demo, Emtée Studio photographed and listed the masks.',
         proofs: [{ label: 'genesis tx, mask 001 (mainnet)', href: MAINNET_GENESIS }, { label: 'test: fingerprint frozen by the contract', href: T.frozenFp }],
       },
       {
-        q: 'Can the keeper go unpaid on the first sale?',
-        a: 'No: 90% goes to the keeper’s address in the same transaction that hands you the title.',
-        proofs: [{ label: 'first sale: 5,400 of 6,000 sats to the keeper (chipnet)', href: TX.firstSale }],
+        q: 'Can the physical mask leave its source?',
+        a: 'Yes. Sankofa tracks provenance, not location: the title and its sealed story stay valid wherever the mask goes, and the source keeps earning 10% of every resale.',
+        proofs: [{ label: 'the contract pays the source on every resale; it holds no location', href: T.payoutParam }],
       },
       {
-        q: 'Can a reseller skip the keeper’s 10%?',
-        a: 'No. Every resale must pay the keeper the highest of: 10% of the new price, 10% of the last sale price, or 1,000 sats. A lowballed resale still pays 10% of the last sale. The network refuses any resale that pays the keeper less, and any listing not signed by the owner.',
+        q: 'Can the source go unpaid on the first sale?',
+        a: 'No: 90% goes to the source’s address in the same transaction that hands you the title.',
+        proofs: [{ label: 'first sale: 5,400 of 6,000 sats to the source (chipnet)', href: TX.firstSale }],
+      },
+      {
+        q: 'Can a reseller skip the source’s 10%?',
+        a: 'No. Every resale must pay the source the highest of: 10% of the new price, 10% of the last sale price, or 1,000 sats. A lowballed resale still pays 10% of the last sale. The network refuses any resale that pays the source less, and any listing not signed by the owner.',
         proofs: [
           { label: 'resale: 1,000 sats royalty (chipnet)', href: TX.resale },
-          { label: 'test 8: no keeper payment', href: T.noPayment },
+          { label: 'test 8: no source payment', href: T.noPayment },
           { label: 'test 11: royalty not indexed on the last sale', href: T.notIndexed },
           { label: 'test 12: royalty 1 sat short', href: T.oneShort },
           { label: 'test 14: below the 1,000-sat floor', href: T.floor },
@@ -73,36 +78,41 @@ export const WHAT_IF: Record<Lang, { label: string; title: [string, string]; pro
       {
         q: 'What if I pay and nothing happens?',
         a: 'Payment and title change happen in one transaction: both or neither.',
-        proofs: [{ label: 'one tx: title to the buyer + keeper + Sankofa (chipnet)', href: TX.firstSale }],
+        proofs: [{ label: 'one tx: title to the buyer + source + Sankofa (chipnet)', href: TX.firstSale }],
       },
       {
         q: 'Honest limit',
-        a: 'If a keeper loses their wallet, their royalties keep going to that address. Roadmap: a recoverable payout address.',
+        a: 'If a source loses their wallet, their royalties keep going to that address. Roadmap: a recoverable payout address.',
         proofs: [{ label: 'payout address is fixed in the contract', href: T.payoutParam }],
       },
     ],
   },
   fr: {
-    label: '7 CAS · CHACUN AVEC SA PREUVE',
+    label: '8 CAS · CHACUN AVEC SA PREUVE',
     title: ['ET SI QUELQUE CHOSE', 'TOURNE MAL ?'],
     proof: 'Preuve',
     items: [
       {
         q: 'Le titre prouve-t-il que le masque est authentique ?',
-        a: 'Il enregistre sur la blockchain que Sankofa a créé ce titre pour ce gardien, quand, et l’empreinte de ses photos et de son histoire, qui ne peut jamais changer (Vérifier la recalcule dans votre navigateur). Il ne prouve pas l’objet lui-même ; dans cette démo, Emtée Studio a photographié et mis en vente les masques.',
+        a: 'Il enregistre sur la blockchain que Sankofa a créé ce titre pour cette source, quand, et l’empreinte de ses photos et de son histoire, qui ne peut jamais changer (Vérifier la recalcule dans votre navigateur). Il ne prouve pas l’objet lui-même ; dans cette démo, Emtée Studio a photographié et mis en vente les masques.',
         proofs: [{ label: 'tx de création, masque 001 (mainnet)', href: MAINNET_GENESIS }, { label: 'test : empreinte figée par le contrat', href: T.frozenFp }],
       },
       {
-        q: 'Le gardien peut-il ne pas être payé à la première vente ?',
-        a: 'Non : 90 % vont à l’adresse du gardien dans la même transaction qui vous remet le titre.',
-        proofs: [{ label: 'première vente : 5 400 sur 6 000 sats au gardien (chipnet)', href: TX.firstSale }],
+        q: 'Le masque physique peut-il quitter sa source ?',
+        a: 'Oui. Sankofa suit la provenance, pas l’emplacement : le titre et son histoire scellée restent valides où que le masque aille, et la source continue de toucher 10 % de chaque revente.',
+        proofs: [{ label: 'le contrat paie la source à chaque revente ; il ne contient aucun lieu', href: T.payoutParam }],
       },
       {
-        q: 'Un revendeur peut-il éviter les 10 % du gardien ?',
-        a: 'Non. Chaque revente doit payer au gardien le plus élevé de : 10 % du nouveau prix, 10 % du dernier prix de vente, ou 1 000 sats. Une revente bradée paie quand même 10 % de la dernière vente. Le réseau refuse toute revente qui paie moins au gardien, et toute mise en vente non signée par le propriétaire.',
+        q: 'La source peut-elle ne pas être payée à la première vente ?',
+        a: 'Non : 90 % vont à l’adresse de la source dans la même transaction qui vous remet le titre.',
+        proofs: [{ label: 'première vente : 5 400 sur 6 000 sats à la source (chipnet)', href: TX.firstSale }],
+      },
+      {
+        q: 'Un revendeur peut-il éviter les 10 % de la source ?',
+        a: 'Non. Chaque revente doit payer à la source le plus élevé de : 10 % du nouveau prix, 10 % du dernier prix de vente, ou 1 000 sats. Une revente bradée paie quand même 10 % de la dernière vente. Le réseau refuse toute revente qui paie moins à la source, et toute mise en vente non signée par le propriétaire.',
         proofs: [
           { label: 'revente : 1 000 sats de redevance (chipnet)', href: TX.resale },
-          { label: 'test 8 : gardien non payé', href: T.noPayment },
+          { label: 'test 8 : source non payée', href: T.noPayment },
           { label: 'test 11 : redevance non indexée sur la dernière vente', href: T.notIndexed },
           { label: 'test 12 : redevance à 1 sat près', href: T.oneShort },
           { label: 'test 14 : sous le plancher de 1 000 sats', href: T.floor },
@@ -124,11 +134,11 @@ export const WHAT_IF: Record<Lang, { label: string; title: [string, string]; pro
       {
         q: 'Et si je paie et que rien ne se passe ?',
         a: 'Le paiement et le changement de titre se font dans une seule transaction : les deux ou aucun.',
-        proofs: [{ label: 'une tx : titre à l’acheteur + gardien + Sankofa (chipnet)', href: TX.firstSale }],
+        proofs: [{ label: 'une tx : titre à l’acheteur + source + Sankofa (chipnet)', href: TX.firstSale }],
       },
       {
         q: 'Limite honnête',
-        a: 'Si un gardien perd son portefeuille, ses redevances continuent d’aller à cette adresse. Prochaine étape : une adresse de paiement récupérable.',
+        a: 'Si une source perd son portefeuille, ses redevances continuent d’aller à cette adresse. Prochaine étape : une adresse de paiement récupérable.',
         proofs: [{ label: 'l’adresse de paiement est fixée dans le contrat', href: T.payoutParam }],
       },
     ],

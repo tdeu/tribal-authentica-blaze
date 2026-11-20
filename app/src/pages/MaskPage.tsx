@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { CONTRACT, MASKS, type Lang, type MaskView } from '../content/mask';
+import { CONTRACT, MINTED_TOTAL, type Lang, type MaskView } from '../content/mask';
 import { DemoTag } from '../components/DemoTag';
 import type { Strings } from '../content/i18n';
 import type { Copy } from '../content/copy';
@@ -11,7 +11,7 @@ import { useUsdOf } from '../components/Price';
 import { BuySheet } from '../components/BuySheet';
 import { Corners, SplitBar, Ticker } from '../components/art';
 
-const TOTAL = String(MASKS.length).padStart(3, '0');
+
 const fmtNum = (n: bigint | number) => Number(n).toLocaleString('en-US');
 const KEEPER_FIRST = 100 - CONTRACT.platformBps / 100;
 const ROYALTY = CONTRACT.royaltyBps / 100;
@@ -126,7 +126,7 @@ export function MaskPage({ mask, lang, setLang, t, c, onConnect, onHow }: {
       </div>
 
       {buying && live.state && live.vault && (
-        <BuySheet mask={mask} lang={lang} live={live} t={t} c={c} refLabel={`[ ${mask.ref} / ${TOTAL} ]`} onClose={() => setBuying(false)} onConnect={onConnect} />
+        <BuySheet mask={mask} lang={lang} live={live} t={t} c={c} refLabel={`[ ${mask.ref} / ${MINTED_TOTAL} ]`} onClose={() => setBuying(false)} onConnect={onConnect} />
       )}
     </article>
   );

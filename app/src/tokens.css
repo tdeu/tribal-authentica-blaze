@@ -31,10 +31,7 @@
   --block-line: #9A3A1E;
   --pixel-off: #8F3318;       /* PixelDigits off cells on --block */
 
-  /* Sand (hero wind): laterite + ochres, used only as moving grains and dune ripples */
-  --sand-1: #E0582A;
-  --sand-2: #C2401A;
-  --sand-3: #D98A3D;
-  --sand-4: #B5652B;
-  --sand-5: #E9A25C;
+
+  /* Status */
+  --ok: #7BC47F;               /* MATCH on a custody record; 9.6:1 on --bg */
 }

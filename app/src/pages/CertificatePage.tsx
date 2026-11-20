@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
-import { binToHex, encodeCashAddress, hexToBin, sha256 } from '@bitauth/libauth';
-import { COLLECTION, CONTRACT, type Lang, type MaskView } from '../content/mask';
+import { binToHex, encodeCashAddress } from '@bitauth/libauth';
+import { CONTRACT, type Lang, type MaskView } from '../content/mask';
 import { DemoTag } from '../components/DemoTag';
 import type { Strings } from '../content/i18n';
 import type { Copy } from '../content/copy';
@@ -8,8 +8,8 @@ import { useWallet } from '../wallet/useWallet';
 import { wallet, RECEIVE } from '../wallet/wizard';
 import { provider } from '../wallet/chain';
 import { useMaskLive } from '../chain/live';
-import { readHistory, readState, vaultOf, type HistoryEvent } from '../chain/vault';
-import { fingerprintHex, type MaskContent } from '../data/fingerprint';
+import { readHistory, vaultOf, type HistoryEvent } from '../chain/vault';
+import { TAMPER, verify, type Verdict } from '../chain/verify';
 import { ADDRESS_PREFIX, explorerTx } from '../config';
 import { HashGrid } from '../components/art';
 import { ResellPanel } from '../components/ResellPanel';
@@ -20,44 +20,6 @@ const addrOf = (pkh: Uint8Array) => encodeCashAddress({ prefix: ADDRESS_PREFIX, 
 const shortAddr = (a: string) => { const b = a.split(':')[1] ?? a; return `${b.slice(0, 3)}…${b.slice(-4)}`; };
 
 // ---------------------------------------------------------------- Verify (all in the browser)
-
-type Verdict =
-  | { error: string }
-  | { photos: { n: number; bad: string[] }; computed: Uint8Array; onchain: Uint8Array; firstDiff: number; ok: boolean };
-
-// DEV ONLY: ?tamper=1 flips one byte of the story (and of the first photo, if any) before hashing, to show
-// the NO MATCH state. import.meta.env.DEV is false in production builds, so this code is removed there.
-const TAMPER = import.meta.env.DEV && new URLSearchParams(window.location.search).get('tamper') === '1';
-
-async function verify(mask: MaskView): Promise<Verdict> {
-  try {
-    let raw = COLLECTION.masks.find((m) => m.catalogueId === mask.catalogueId) as unknown as MaskContent;
-    if (TAMPER) {
-      const en = raw.story.en;
-      raw = { ...raw, story: { ...raw.story, en: String.fromCharCode(en.charCodeAt(0) ^ 1) + en.slice(1) } };
-    }
-    // 1. Every published photo, as served, hashes to what the fingerprint lists
-    const bad: string[] = [];
-    for (const p of raw.photos) {
-      const bytes = new Uint8Array(await (await fetch(`/${p.file}`, { cache: 'no-store' })).arrayBuffer());
-      if (TAMPER && p === raw.photos[0] && bytes.length) bytes[0] ^= 1;
-      if (binToHex(sha256.hash(bytes)) !== p.sha256) bad.push(p.file);
-    }
-    // 2. Fingerprint recomputed here from the content (never the stored value)
-    const computed = hexToBin(fingerprintHex(raw));
-    // 3. Fresh read of the commitment in the vault (vaultOf refuses a vault that doesn't rebuild from its terms)
-    const vault = vaultOf(mask.mint!, CONTRACT, provider);
-    const st = await readState(provider, vault, mask.mint!);
-    const commitment = hexToBin(st.utxo.token!.nft!.commitment);
-    const onchain = commitment.slice(2, 34);
-    let firstDiff = -1;
-    for (let i = 0; i < 32; i++) if (computed[i] !== onchain[i]) { firstDiff = i; break; }
-    const idOk = st.catalogueId === raw.catalogueId;
-    return { photos: { n: raw.photos.length, bad }, computed, onchain, firstDiff: idOk ? firstDiff : Math.max(firstDiff, 0), ok: idOk && firstDiff === -1 && bad.length === 0 };
-  } catch (e) {
-    return { error: String((e as Error)?.message ?? e) };
-  }
-}
 
 function VerifySection({ mask, c }: { mask: MaskView; c: Copy }) {
   const k = c.cert;

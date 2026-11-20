@@ -23,6 +23,8 @@ export type MaskView = {
   photo: string | null;
   photos: string[];            // every photo, in fingerprint order
   region: string | null;       // display only (not fingerprinted)
+  source: string | null;       // display only: where the object comes from, e.g. "Grand Marché de Treichville, Abidjan"
+  styleOrigin: string | null;  // display only: style and its origin, e.g. "Marka, Mali"
   details: Record<Lang, string> | null; // display only, e.g. "Carved wood · brass plates · wool"
   subtitle: Record<Lang, string> | null; // display only, collection card, e.g. "Marka style · Mali"
   style: Record<Lang, string> | null;    // display only: "About this style" (editorial, NOT fingerprinted)
@@ -53,6 +55,8 @@ export const MASKS: MaskView[] = data.masks.map((m) => {
     custodian: real(m.custodianLabel) ?? '',
     country: real((m as { country?: string }).country) ?? '',
     region: real((m as { region?: string }).region),
+    source: real((m as { source?: string }).source),
+    styleOrigin: real((m as { styleOrigin?: string }).styleOrigin),
     details: (m as { details?: Record<Lang, string> }).details ?? null,
     subtitle: (m as { subtitle?: Record<Lang, string> }).subtitle ?? null,
     style: (m as { style?: Record<Lang, string> }).style ?? null,
@@ -65,6 +69,12 @@ export const MASKS: MaskView[] = data.masks.map((m) => {
     priceUsd: 1,
   };
 });
+
+// The collection shows only masks minted on this network (no empty placeholders); counters use this list.
+export const MINTED = MASKS.filter((m) => m.mint);
+export const MINTED_TOTAL = String(MINTED.length).padStart(3, '0');
+// "Verify": the first mask that has a title on this network
+export const verifyHref = () => `#/mask/${(MINTED[0] ?? MASKS[0]).catalogueId}/certificate`;
 
 export const maskById = (id: number) => MASKS.find((m) => m.catalogueId === id);
 

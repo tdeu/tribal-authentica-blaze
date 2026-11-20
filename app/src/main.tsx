@@ -10,7 +10,7 @@ import { MaskPage } from './pages/MaskPage';
 import { Gallery } from './pages/Gallery';
 import { CertificatePage } from './pages/CertificatePage';
 import { WhatIfPage } from './pages/WhatIfPage';
-import { MASKS, maskById, type MaskView } from './content/mask';
+import { MINTED_TOTAL, maskById, verifyHref, type MaskView } from './content/mask';
 import { wallet } from './wallet/wizard';
 import { T } from './content/i18n';
 import { copyFor, type Copy } from './content/copy';
@@ -47,9 +47,7 @@ const initialLang = (): Lang => {
   return navigator.language?.toLowerCase().startsWith('fr') ? 'fr' : 'en';
 };
 
-// "Verify" in the gallery nav: the first mask that has a certificate on this network
-const verifyHref = () => `#/mask/${(MASKS.find((m) => m.mint) ?? MASKS[0]).catalogueId}/certificate`;
-const refOf = (m: MaskView) => `[ ${m.ref} / ${String(MASKS.length).padStart(3, '0')} ]`;
+const refOf = (m: MaskView) => `[ ${m.ref} / ${MINTED_TOTAL} ]`;
 
 function Header({ c, lang, setLang, mask, certificate, onConnect }: {
   c: Copy; lang: Lang; setLang: (l: Lang) => void; mask?: MaskView; certificate: boolean; onConnect: () => void;

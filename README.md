@@ -24,7 +24,7 @@ Sankofa is built by Emtée Studio.
 | | |
 |---|---|
 | Hosted demo | https://sankofa-bch.vercel.app (the old https://tribal-authentica.vercel.app redirects there) |
-| What if something goes wrong? | [7 answers, each with its proof](#what-if-something-goes-wrong) |
+| What if something goes wrong? | [8 answers, each with its proof](#what-if-something-goes-wrong) |
 | Pitch deck | [DECK_URL] |
 | "Before" demo (frozen) | https://tribal-authentica-before.vercel.app |
 | Pre-hackathon code | [tribal-authentica-preparation @ before-blaze-14nov](https://github.com/tdeu/tribal-authentica-preparation/tree/before-blaze-14nov) |
@@ -109,6 +109,8 @@ Each answer is a fact about this code, with its proof. Mask 001 is minted on mai
    Proof: [one tx: title to the buyer, 5,400 to the keeper, 600 to Sankofa](https://chipnet.bch.ninja/tx/e392570e0d5f5dc867c6d19a4573fed81d9926744361f8dc1542aa16a459ee5e)
 7. **Honest limit:** if a keeper loses their wallet, their royalties keep going to that address. Roadmap: a recoverable payout address.
    Proof: the payout address is a constructor parameter of [`RoyaltyVault.cash`](https://github.com/tdeu/tribal-authentica-blaze/blob/main/contracts/src/RoyaltyVault.cash), fixed at mint.
+8. **Can the physical mask leave its source?** Yes. Sankofa tracks provenance, not location: the title and its sealed story stay valid wherever the mask goes, and the source keeps earning 10% of every resale.
+   Proof: [`RoyaltyVault.cash`](https://github.com/tdeu/tribal-authentica-blaze/blob/main/contracts/src/RoyaltyVault.cash) pays the source on every resale and holds no location.
 
 ## Repository layout
 

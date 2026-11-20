@@ -1,6 +1,6 @@
 /* Sankofa — visual spec: design/*.dc.html. Dark only, square corners, 1px lines,
    JetBrains Mono for all UI, Inter Tight 800 for headlines, Instrument Serif for the story only.
-   Animation: the ticker (CSS, ≥ 40 s), the Verify reveal (opacity) and the hero sandstorm (WAAPI).
+   Animation: the ticker (CSS, ≥ 40 s), the Verify reveal (opacity) and the hero eyebrow (strike + typing, once).
    Colours: tokens.css only. */
 :root {
   --pad: clamp(16px, 4vw, 40px);
@@ -131,16 +131,7 @@ code { font-family: var(--mono); }
 @media (prefers-reduced-motion: reduce) { .ticker-track { animation: none; } }
 
 /* ---------- Gallery ---------- */
-.hero { padding: clamp(40px, 6vw, 72px) var(--pad) 40px; display: flex; flex-direction: column; align-items: center; gap: 24px; text-align: center; }
-.hero .lead { max-width: 760px; }
-.hero-lead b { color: var(--accent); }
-.hero .demo-notice { max-width: 960px; width: 100%; }
 
-.how-block { background: var(--block); color: var(--on-block); padding: clamp(48px, 6vw, 72px) var(--pad); display: flex; flex-wrap: wrap; gap: 56px; }
-.how-block > div { flex: 1 1 420px; min-width: 0; display: flex; flex-direction: column; gap: 24px; }
-.how-block > div + div { flex-basis: 520px; }
-.how-block .label { color: var(--on-block); }
-.how-block p { margin: 0; font-size: 15px; line-height: 1.7; max-width: 440px; }
 .payout { font-size: 13px; }
 .payout > div { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1.2fr) minmax(0, .6fr); gap: 8px; padding: 12px 0; border-bottom: 1px solid var(--block-line); }
 .payout > div:last-child { border-bottom: 0; }
@@ -346,25 +337,12 @@ code { font-family: var(--mono); }
 .demo-notice .demo-by { margin-top: 6px; color: var(--ink-2); }
 .viewer-tags .tag { white-space: normal; max-width: 100%; }
 
-/* Hero: title + wind (WindHero) */
-.hero { position: relative; overflow: hidden; padding-bottom: clamp(40px, 6vw, 64px); }
-.wind-title { position: relative; z-index: 1; }
-.wind-title .wl { transition: opacity .4s ease; }
-.wind-canvas { position: absolute; inset: 0; z-index: 2; pointer-events: none; }
-.hero .lead, .hero .demo-notice { position: relative; z-index: 3; }
-.hero-notice { max-width: 760px; width: 100%; font-size: 12px; }
-@media (prefers-reduced-motion: reduce) { .wind-title .wl { transition: none; } }
 
 /* Collection: Buy + what-if link */
 .viewer-buy { display: flex; flex-direction: column; gap: 6px; align-items: flex-start; }
 .whatif-link { font-size: 12px; color: var(--muted); text-underline-offset: 3px; min-height: 28px; display: inline-flex; align-items: center; }
 .whatif-link:hover { color: var(--accent); }
 
-/* How it works: 3 steps */
-.how-steps { list-style: none; margin: 0; padding: 0; display: grid; gap: 14px; max-width: 520px; }
-.how-steps li { display: grid; grid-template-columns: 34px minmax(0, 1fr); gap: 8px; font-size: 15px; line-height: 1.6; }
-.how-steps li span { opacity: .75; font-size: 13px; padding-top: 2px; }
-.how-block > div + div { justify-content: center; }
 .site-foot a { color: var(--muted); }
 .site-foot a:hover { color: var(--accent); }
 .whatif { border-bottom: 0; }
@@ -375,9 +353,6 @@ code { font-family: var(--mono); }
 .whatif-notice { margin-bottom: 32px; max-width: 820px; }
 .about-style { border-top: 1px solid var(--line); padding-top: 24px; display: flex; flex-direction: column; gap: 12px; }
 .about-body { margin: 0; font-size: 15px; line-height: 1.7; color: var(--ink-2); max-width: 760px; }
-.wind-title .w2 { display: inline-block; margin-top: .12em; will-change: transform; }
-.wind-back { z-index: 0; }
-.wind-front { z-index: 2; }
 .style-card { border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); padding: 4px 0; }
 .style-card summary { cursor: pointer; font-size: 13px; color: var(--ink); min-height: 40px; display: flex; align-items: center; list-style: none; }
 .style-card summary::-webkit-details-marker { display: none; }
@@ -385,3 +360,47 @@ code { font-family: var(--mono); }
 .style-card[open] summary::after { content: '−'; }
 .style-card .fine { margin: 0 0 8px; }
 .style-card .about-body { font-size: 14px; margin-bottom: 12px; }
+
+/* ---------- Landing: chain of custody ---------- */
+.hero { padding: clamp(56px, 9vw, 120px) var(--pad) clamp(48px, 7vw, 96px); display: flex; flex-direction: column; align-items: flex-start; gap: 28px; border-bottom: 1px solid var(--line); }
+.hero-eyebrow { font-size: 13px; letter-spacing: .1em; }
+.hero-eyebrow .strike { position: relative; color: var(--ink-2); transition: color .25s; }
+.hero-eyebrow .strike::after { content: ''; position: absolute; left: -2px; right: -2px; top: 50%; height: 2px; background: var(--accent); transform: scaleX(0); transform-origin: left; transition: transform .25s ease-out; }
+.hero-eyebrow .strike.on { color: var(--muted); }
+.hero-eyebrow .strike.on::after { transform: scaleX(1); }
+.hero-eyebrow .sealed { color: var(--accent); font-weight: 700; }
+.hero-eyebrow .ghost { visibility: hidden; }
+.hero-eyebrow .caret { display: inline-block; width: .6em; height: 1.05em; margin-right: -.6em; vertical-align: -.15em; background: var(--accent); }
+.hero-h1 { text-transform: none; font-size: clamp(42px, 7.4vw, 104px); line-height: .98; letter-spacing: -.035em; max-width: 14ch; overflow-wrap: normal; }
+.hero-sub { font-size: clamp(16px, 1.6vw, 20px); max-width: 640px; color: var(--ink-2); }
+.hero-ctas { display: flex; flex-wrap: wrap; gap: 12px; }
+@media (prefers-reduced-motion: reduce) { .hero-eyebrow .strike, .hero-eyebrow .strike::after { transition: none; } }
+
+.problem { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border-bottom: 1px solid var(--line); }
+.problem > div { padding: clamp(28px, 4vw, 48px) var(--pad); border-right: 1px solid var(--line); display: flex; flex-direction: column; gap: 14px; min-width: 0; }
+.problem > div:last-child { border-right: 0; }
+.problem p:not(.label) { margin: 0; font-size: clamp(15px, 1.3vw, 17px); line-height: 1.6; color: var(--ink); }
+@media (max-width: 760px) {
+  .problem { grid-template-columns: 1fr; }
+  .problem > div { border-right: 0; border-bottom: 1px solid var(--line); }
+  .problem > div:last-child { border-bottom: 0; }
+}
+
+.how-block { background: var(--block); color: var(--on-block); padding: clamp(48px, 6vw, 72px) var(--pad); display: flex; flex-direction: column; gap: 32px; }
+.how-block .label { color: var(--on-block); }
+.how-cards { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+.how-cards li { border: 1px solid var(--block-line); padding: clamp(20px, 2.4vw, 28px); display: flex; flex-direction: column; gap: 12px; min-width: 0; }
+.how-cards h3 { margin: 0; font-family: var(--head); font-weight: 800; font-size: clamp(20px, 1.9vw, 24px); line-height: 1.15; letter-spacing: -.01em; }
+.how-cards p { margin: 0; font-size: 14px; line-height: 1.65; }
+.how-block .payout { max-width: 760px; width: 100%; }
+@media (max-width: 900px) { .how-cards { grid-template-columns: 1fr; } }
+
+.record { margin: 0; display: flex; flex-direction: column; font-size: 13px; border-top: 1px solid var(--line); }
+.record > div { display: grid; grid-template-columns: 116px minmax(0, 1fr); gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--line); }
+.record dt { color: var(--muted); }
+.record dd { margin: 0; overflow-wrap: anywhere; }
+.record .ok { color: var(--ok); font-weight: 700; margin-left: 6px; }
+.record dd a { margin-left: 6px; }
+@media (max-width: 600px) { .record > div { grid-template-columns: 96px minmax(0, 1fr); } }
+
+.vision { margin: 0; padding: 28px var(--pad); border-top: 1px solid var(--line); font-size: 14px; line-height: 1.6; color: var(--ink-2); }
