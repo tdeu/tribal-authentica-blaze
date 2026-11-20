@@ -177,11 +177,21 @@
       "fingerprint": "84a1e0242ed341bb894ce17535091db86ae83d4a16452de3e108d0b63f04ba2a",
       "categoryId": {
         "chipnet": null,
-        "mainnet": null
+        "mainnet": "943014f90c6300c164ff9e1c1592f332efdf65c6f2b2aa384d8b19b84ed9d6ce"
       },
       "mint": {
         "chipnet": null,
-        "mainnet": null
+        "mainnet": {
+          "categoryId": "943014f90c6300c164ff9e1c1592f332efdf65c6f2b2aa384d8b19b84ed9d6ce",
+          "vaultTokenAddress": "bitcoincash:rv070hf9x9l2puh83lawp77v7hlf36cy2l8kc0zed5tm5zz5s8a377kg04qyx",
+          "prepTxid": "943014f90c6300c164ff9e1c1592f332efdf65c6f2b2aa384d8b19b84ed9d6ce",
+          "genesisTxid": "a02732b1c1091c5ec066d9edf93b1bcb27a474c871bc5787f10fe35cad04b1f2",
+          "commitment": "030084a1e0242ed341bb894ce17535091db86ae83d4a16452de3e108d0b63f04ba2abe60e84403ba224d3d91fd139f6dbceb9dabb8d2f02b0700000000000000000000000000",
+          "priceSats": 470000,
+          "custodianAddress": "bitcoincash:zzlxp6zyqwazynfaj87388mdhn4em2ac6gykt8f735",
+          "platformAddress": "bitcoincash:zzdp7rlydlkn5xfqcnvads57yyj5sfcpmgmlxll8dj",
+          "mintedAt": "2026-11-20T13:08:41.957Z"
+        }
       },
       "source": "Grand Marché de Treichville, Abidjan",
       "styleOrigin": "Bamana, Mali",
