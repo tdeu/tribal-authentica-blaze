@@ -281,11 +281,21 @@
       "fingerprint": "d8342ba65be3e12d8d7109034739265a7e833fdf4c458a506cdb40e992060dba",
       "categoryId": {
         "chipnet": null,
-        "mainnet": null
+        "mainnet": "55b375f07ce98d2f912ed63fb329e19535b376e47fb3b598d29309f15baa7aa7"
       },
       "mint": {
         "chipnet": null,
-        "mainnet": null
+        "mainnet": {
+          "categoryId": "55b375f07ce98d2f912ed63fb329e19535b376e47fb3b598d29309f15baa7aa7",
+          "vaultTokenAddress": "bitcoincash:rwnqwcqkyugsqsxafzzunmk9uf68tw480pc22t4mhpv0vgswkc7hygfcuh8l6",
+          "prepTxid": "55b375f07ce98d2f912ed63fb329e19535b376e47fb3b598d29309f15baa7aa7",
+          "genesisTxid": "65ba14d4d0d6d51fca7820d315037715a74c2c437daed87693414df80298ec4d",
+          "commitment": "0500d8342ba65be3e12d8d7109034739265a7e833fdf4c458a506cdb40e992060dbabe60e84403ba224d3d91fd139f6dbceb9dabb8d2f02b0700000000000000000000000000",
+          "priceSats": 470000,
+          "custodianAddress": "bitcoincash:zzlxp6zyqwazynfaj87388mdhn4em2ac6gykt8f735",
+          "platformAddress": "bitcoincash:zzdp7rlydlkn5xfqcnvads57yyj5sfcpmgmlxll8dj",
+          "mintedAt": "2026-11-20T13:09:43.422Z"
+        }
       },
       "source": "Bamako, Mali",
       "styleOrigin": "Sahel savanna (uncertain)",
