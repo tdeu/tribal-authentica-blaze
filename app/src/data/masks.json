@@ -229,11 +229,21 @@
       "fingerprint": "4e59a8e2a5f80b23b504c99ab803555ab78fe7110539c4922d18f46e7a4fc405",
       "categoryId": {
         "chipnet": null,
-        "mainnet": null
+        "mainnet": "89260695c0eb847e33c75ac4573030d9af5c5050809d333fa967605578fac700"
       },
       "mint": {
         "chipnet": null,
-        "mainnet": null
+        "mainnet": {
+          "categoryId": "89260695c0eb847e33c75ac4573030d9af5c5050809d333fa967605578fac700",
+          "vaultTokenAddress": "bitcoincash:rdemjnkuusraxlqhu46uqtuzn8qkx8qzxu5rxtatdajw38jxat8wy7uvsqumh",
+          "prepTxid": "89260695c0eb847e33c75ac4573030d9af5c5050809d333fa967605578fac700",
+          "genesisTxid": "e23127db8e128e301f086535d8e6d4db7ce291e51869028878af35aafa4800ee",
+          "commitment": "04004e59a8e2a5f80b23b504c99ab803555ab78fe7110539c4922d18f46e7a4fc405b890c75a1ef129e354c1bbfe0f61ea306b13d5c5f02b0700000000000000000000000000",
+          "priceSats": 470000,
+          "custodianAddress": "bitcoincash:zzufp366rmcjnc65cxalurmpagcxky74c5xk95tw8m",
+          "platformAddress": "bitcoincash:zzdp7rlydlkn5xfqcnvads57yyj5sfcpmgmlxll8dj",
+          "mintedAt": "2026-11-20T13:09:12.624Z"
+        }
       },
       "source": "Libreville, Gabon",
       "styleOrigin": "Punu, Gabon",
