@@ -115,7 +115,7 @@
       "fingerprint": "280869fe276483076875896ac8672c5a92aa5232864e894a01a140c81e83e525",
       "categoryId": {
         "chipnet": "5fc11cfea727c8b43a38c8354babcee2be519f88079594060c28dae25dd78718",
-        "mainnet": null
+        "mainnet": "fedc2acaf2478a97fbb5216cabdc842482707e524c49f7cf1a3eb814bfcc2b82"
       },
       "mint": {
         "chipnet": {
@@ -129,7 +129,17 @@
           "platformAddress": "bchtest:qz40cx8yr95m8kh8zrtyhru8c4f708u86gvyjmug8u",
           "mintedAt": "2026-11-16T10:51:10.736Z"
         },
-        "mainnet": null
+        "mainnet": {
+          "categoryId": "fedc2acaf2478a97fbb5216cabdc842482707e524c49f7cf1a3eb814bfcc2b82",
+          "vaultTokenAddress": "bitcoincash:rwh2cx6chcppg70yfygmrh05929u29kn3ejgh8lgxtrd8tpevp3fqrdnl7gvf",
+          "prepTxid": "fedc2acaf2478a97fbb5216cabdc842482707e524c49f7cf1a3eb814bfcc2b82",
+          "genesisTxid": "b85ceeb24ebb0d55bea6f8aea838a4c07953c902607b81376c4f055349b415bf",
+          "commitment": "0200280869fe276483076875896ac8672c5a92aa5232864e894a01a140c81e83e525b890c75a1ef129e354c1bbfe0f61ea306b13d5c5f02b0700000000000000000000000000",
+          "priceSats": 470000,
+          "custodianAddress": "bitcoincash:zzufp366rmcjnc65cxalurmpagcxky74c5xk95tw8m",
+          "platformAddress": "bitcoincash:zzdp7rlydlkn5xfqcnvads57yyj5sfcpmgmlxll8dj",
+          "mintedAt": "2026-11-20T13:08:11.596Z"
+        }
       },
       "source": "Grand Marché de Treichville, Abidjan",
       "styleOrigin": "Dan / Wè, Côte d'Ivoire",
