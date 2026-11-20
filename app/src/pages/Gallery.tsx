@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState, type FocusEvent, type KeyboardEvent, type PointerEvent, type ReactNode, type TouchEvent } from 'react';
+import { useCallback, useEffect, useRef, useState, type FocusEvent, type KeyboardEvent, type PointerEvent, type TouchEvent } from 'react';
 import { encodeCashAddress } from '@bitauth/libauth';
 import { CONTRACT, MINTED, MINTED_TOTAL, verifyHref, type Lang, type MaskView } from '../content/mask';
 import { DemoTag } from '../components/DemoTag';
@@ -77,9 +77,9 @@ function useMatch(mask: MaskView) {
 }
 
 // The right half of a card: the custody record. Keyed by mask so its live state never shows the previous mask.
-function CustodyRecord({ mask, lang, t, c, myPkh, onConnect, open, onToggle, controls }: {
+function CustodyRecord({ mask, lang, t, c, myPkh, onConnect, open, onToggle, counter }: {
   mask: MaskView; lang: Lang; t: Strings; c: Copy; myPkh?: Uint8Array; onConnect: () => void;
-  open: boolean; onToggle: () => void; controls: ReactNode;
+  open: boolean; onToggle: () => void; counter: string;
 }) {
   const live = useMaskLive(mask, myPkh);
   const { usdOf } = useUsdOf();
@@ -98,7 +98,7 @@ function CustodyRecord({ mask, lang, t, c, myPkh, onConnect, open, onToggle, con
     : v.ownedBy(shortAddr(st.ownerPkh));
   return (
     <div className="viewer-info">
-      <p className="label">{mask.ref} · {v.record}</p>
+      <p className="label record-head"><span>{mask.ref} · {v.record}</span><span className="record-count" aria-label={v.counterLabel(counter)}>{counter}</span></p>
       <h3 className="headline h-s">{mask.names[lang]}</h3>
       <dl className="record">
         {mask.styleOrigin && <div><dt>{v.fStyle}</dt><dd>{mask.styleOrigin}</dd></div>}
@@ -112,7 +112,6 @@ function CustodyRecord({ mask, lang, t, c, myPkh, onConnect, open, onToggle, con
       <div className="viewer-actions">
         <button type="button" className="btn btn-primary" disabled={!buyable} onClick={() => buyable && setBuying(true)}>{buyLabel}</button>
         <a className="link" href={`#/mask/${mask.catalogueId}/certificate`}>{v.verify}</a>
-        {controls}
       </div>
       {live.status === 'error' && <p className="fine">{live.error}</p>}
       {buying && live.state && live.vault && (
@@ -229,13 +228,10 @@ export function Gallery({ lang, t, c, onConnect }: { lang: Lang; t: Strings; c: 
 
       {mask && (
         <section className="collection" id="collection" aria-labelledby="collection-label">
-          <div className="collection-head">
-            <p className="label" id="collection-label">{v.label}</p>
-            <h2 className="collection-line">{v.line}</h2>
-          </div>
+          <h2 className="label" id="collection-label">{v.label}</h2>
           <div className="carousel" role="region" aria-roledescription="carousel" aria-label={v.label}
             onKeyDown={onKey} onFocus={onFocus} onBlur={onBlur} onPointerEnter={hover(true)} onPointerLeave={hover(false)}>
-            <div className="viewer" id="viewer-panel" role="tabpanel" aria-label={mask.names[lang]} onTouchStart={onTouchStart} onTouchEnd={onTouchEnd}>
+            <div className="viewer" id="viewer-panel" aria-live={paused ? 'polite' : 'off'} onTouchStart={onTouchStart} onTouchEnd={onTouchEnd}>
               <div key={mask.catalogueId} className={`viewer-slide${reduced ? '' : dir === 1 ? ' from-right' : ' from-left'}`}>
                 <div className="viewer-photo vignette">
                   {mask.photo
@@ -243,35 +239,23 @@ export function Gallery({ lang, t, c, onConnect }: { lang: Lang; t: Strings; c: 
                     : <div className="photo-ph" role="img" aria-label={v.photoSoon} />}
                 </div>
                 <CustodyRecord mask={mask} lang={lang} t={t} c={c} myPkh={myPkh} onConnect={onConnect}
-                  open={open} onToggle={() => setOpen((o) => !o)} controls={n > 1 && (
-                    <div className="arrows">
-                      <button type="button" className="icon-btn" aria-label={v.prev} onClick={() => go(idx - 1, -1)}>←</button>
-                      <button type="button" className="icon-btn" aria-label={v.next} onClick={() => go(idx + 1, 1)}>→</button>
-                    </div>
-                  )} />
+                  open={open} onToggle={() => setOpen((o) => !o)} counter={`${mask.ref} / ${MINTED_TOTAL}`} />
                 <StoryPanel mask={mask} lang={lang} c={c} open={open} />
               </div>
             </div>
             {n > 1 && (
-              <div className="viewer-tabs" role="tablist" aria-label={v.tabs} style={{ gridTemplateColumns: `repeat(${n}, minmax(0, 1fr))` }}>
-                {MINTED.map((m, i) => (
-                  <button key={m.catalogueId} type="button" role="tab" aria-selected={i === idx} aria-controls="viewer-panel"
-                    tabIndex={i === idx ? 0 : -1} onClick={() => go(i, i >= idx ? 1 : -1)}>
-                    [ {m.ref} ]
-                    {i === idx && !reduced && <span className={`tab-progress${paused ? '' : ' run'}`} key={`${idx}-${cycle}-${paused}`} aria-hidden />}
-                  </button>
-                ))}
-              </div>
+              <>
+                <button type="button" className="edge-arrow prev" aria-label={v.prev} onClick={() => go(idx - 1, -1)}>
+                  <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="square" /></svg>
+                </button>
+                <button type="button" className="edge-arrow next" aria-label={v.next} onClick={() => go(idx + 1, 1)}>
+                  <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="square" /></svg>
+                </button>
+              </>
             )}
           </div>
         </section>
       )}
-
-      <section className="problem" aria-label={c.problem[0][0]}>
-        {c.problem.map(([label, text]) => (
-          <div key={label}><p className="label">{label}</p><p>{text}</p></div>
-        ))}
-      </section>
 
       <section className="how-block" id="how" aria-labelledby="how-label">
         <p className="label" id="how-label">{c.how.label}</p>

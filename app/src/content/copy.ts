@@ -15,15 +15,10 @@ export const COPY = {
     hero: {
       eyebrow: ['PROVENANCE: ', 'UNKNOWN', 'SEALED ON BITCOIN CASH'],
       h1: ['A chain of custody', 'for African heritage.'],
-      sub: 'Every owner inherits the story. Every resale pays the source.',
+      sub: 'Provenance is the most valuable metadata an African object has, and the least preserved. It lives with the people at the origin, who drop out of the chain at the first sale. Sankofa seals it at origin, and gives the source a perpetual stake to stay in the loop.',
       buy: 'Buy a title · ≈ $1',
       verify: 'Verify a title',
     },
-    problem: [
-      ['THE PROBLEM', 'Provenance is the most valuable metadata an African object has, and the least preserved.'],
-      ['WHY IT’S LOST', 'It lives with the people at the origin, who drop out of the chain at the first sale.'],
-      ['SANKOFA', 'Seal it at origin, and give the source a perpetual stake to stay in the loop.'],
-    ],
     vision: ['Vision · ', 'The more value flows back to the source, the more reasons for the knowledge, and eventually the art, to stay in Africa.'],
     feed: {
       label: 'ON-CHAIN ACTIVITY',
@@ -65,7 +60,6 @@ export const COPY = {
     },
     collection: {
       label: 'CUSTODY RECORDS',
-      line: 'Five masks. Each with its source, its story, its owners.',
       readStory: 'Read its story ↓',
       closeStory: 'Close the story ↑',
       sealedStory: 'THE SEALED STORY',
@@ -91,7 +85,7 @@ export const COPY = {
       verify: 'Verify ↗',
       prev: 'Previous mask',
       next: 'Next mask',
-      tabs: 'Choose a mask',
+      counterLabel: (s: string) => `Mask ${s}`,
     },
     mask: {
       back: '← Collection',
@@ -197,15 +191,10 @@ export const COPY = {
     hero: {
       eyebrow: ['PROVENANCE : ', 'INCONNUE', 'SCELLÉE SUR BITCOIN CASH'],
       h1: ['Une chaîne de possession', 'pour le patrimoine africain.'],
-      sub: 'Chaque propriétaire hérite de l’histoire. Chaque revente paie la source.',
+      sub: "La provenance est la métadonnée la plus précieuse d'un objet africain, et la moins bien préservée. Elle vit avec les personnes à l'origine, qui sortent de la chaîne dès la première vente. Sankofa la scelle à l'origine et donne à la source un intérêt perpétuel à rester dans la boucle.",
       buy: 'Acheter un titre · ≈ 1 $',
       verify: 'Vérifier un titre',
     },
-    problem: [
-      ['LE PROBLÈME', 'La provenance est la métadonnée la plus précieuse d’un objet africain, et la moins bien conservée.'],
-      ['POURQUOI ELLE SE PERD', 'Elle vit avec les gens à l’origine, qui sortent de la chaîne dès la première vente.'],
-      ['SANKOFA', 'La sceller à l’origine, et donner à la source un intérêt perpétuel à rester dans la boucle.'],
-    ],
     vision: ['Vision · ', 'Plus la valeur revient à la source, plus le savoir, et à terme l’art, ont de raisons de rester en Afrique.'],
     feed: {
       label: 'ACTIVITÉ SUR LA CHAÎNE',
@@ -247,7 +236,6 @@ export const COPY = {
     },
     collection: {
       label: 'REGISTRES DE PROVENANCE',
-      line: 'Cinq masques. Chacun avec sa source, son histoire, ses propriétaires.',
       readStory: 'Lire son histoire ↓',
       closeStory: 'Refermer l’histoire ↑',
       sealedStory: 'L’HISTOIRE SCELLÉE',
@@ -273,7 +261,7 @@ export const COPY = {
       verify: 'Vérifier ↗',
       prev: 'Masque précédent',
       next: 'Masque suivant',
-      tabs: 'Choisir un masque',
+      counterLabel: (s: string) => `Masque ${s}`,
     },
     mask: {
       back: '← Collection',

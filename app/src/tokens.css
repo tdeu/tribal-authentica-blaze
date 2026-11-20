@@ -17,6 +17,7 @@
   --split-off: #5A5047;
   --vignette: #2E2420;
   --scrim: rgba(8, 7, 6, .78);
+  --arrow-scrim: rgba(18, 16, 14, .72); /* carousel arrows over the photo on phones */
   --qr-ink: #16161A;           /* QR code: dark on white so every wallet camera can scan it */
   --qr-bg: #FFFFFF;
 
