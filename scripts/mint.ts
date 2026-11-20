@@ -3,12 +3,16 @@
 //   npm run mint -- --network chipnet --mask all
 //   npm run mint -- --network mainnet --mask 1             prints the plan only
 //   npm run mint -- --network mainnet --mask 1 --confirm   sends (mainnet: ask first, state the amount)
+//   npm run mint -- --network mainnet --mask 2,3,4,5       several masks; the plan shows each predicted category ID
+//   npm run mint -- --network mainnet --mask 2 --confirm --expect <categoryId>
+//                                                           mainnet sends only if the prep txid is the approved one
 //   add --dry-run to print the plan without sending on any network
 //
 // Per mask, 2 txs: prep (output 0 → category ID = prep txid) then genesis (prep:0 → the NFT in the vault,
 // nothing else). Masks are minted one after the other, each prep spending the previous change.
 // categoryId and the mint record are written back to app/src/data/masks.json after each mask.
-import { binToHex } from '@bitauth/libauth';
+import { binToHex, hashTransaction, hexToBin } from '@bitauth/libauth';
+import type { SpendableUtxo } from 'cashscript';
 import {
   loadMasks, saveMasks, refreshFingerprints, placeholdersIn, parsePayout, loadFunder, makeProvider, vaultContract,
   buildPrep, buildGenesis, checkGenesis, waitForUtxo, encodeCommitment, arg, flag, NET, FEE_RATE, GENESIS_FEE,
@@ -30,7 +34,11 @@ const data = loadMasks();
 const stale = refreshFingerprints(data);
 if (stale.length) throw new Error(`masks.json is stale (${stale.join(', ')}). Run: npm run fingerprint, review, commit, then mint.`);
 
-const selected: Mask[] = maskArg === 'all' ? data.masks : data.masks.filter((m) => m.catalogueId === Number(maskArg));
+const ids = maskArg === 'all' ? null : maskArg.split(',').map(Number);
+const selected: Mask[] = ids
+  ? ids.map((id) => data.masks.find((m) => m.catalogueId === id)).filter((m): m is Mask => !!m)
+  : data.masks;
+if (ids && selected.length !== ids.length) throw new Error(`unknown catalogueId in --mask ${maskArg}`);
 if (!selected.length) throw new Error(`no mask with catalogueId ${maskArg}`);
 
 const platform = parsePayout(data.platformPayoutAddress[network], network, 'platform payout address');
@@ -47,7 +55,6 @@ try {
 const usd = (sats: bigint | number) => (usdPerBch ? ` (≈ $${((Number(sats) / 1e8) * usdPerBch).toFixed(2)})` : '');
 
 const FAKE_TXID = '00'.repeat(32);
-const PREP_FEE_EST = BigInt(Math.ceil((10 + 148 + 2 * 34) * FEE_RATE)); // 1 funder input; more inputs on the first prep
 const plan = selected.map((m) => {
   const where = `mask ${m.catalogueId}`;
   if (m.categoryId[network]) throw new Error(`${where} is already minted on ${network} (category ${m.categoryId[network]}). Clear categoryId/mint in masks.json to re-mint.`);
@@ -70,8 +77,23 @@ const plan = selected.map((m) => {
   return { m, custodian, price, cut, commitment, genesisSize: size };
 });
 
-const perMask = vaultSats + GENESIS_FEE + PREP_FEE_EST;
-const total = perMask * BigInt(plan.length);
+// Predicted category IDs: build (never send) the chain of prep txs from the current funder UTXOs, each prep
+// spending the previous one's change, exactly as the send loop below does. Signing is deterministic (Schnorr,
+// RFC6979 nonces) and buildPrep orders inputs canonically, so the same UTXOs give the same txids.
+const prepSats = vaultSats + GENESIS_FEE;
+const prepFeeOf = (nInputs: number) => BigInt(Math.ceil((10 + nInputs * 148 + 2 * 34) * FEE_RATE));
+let sim: SpendableUtxo[] = funderUtxos;
+const predicted = plan.map((p) => {
+  const hex = buildPrep(provider, funder, sim, prepSats).build();
+  if (buildPrep(provider, funder, sim, prepSats).build() !== hex) throw new Error('prep tx is not deterministic: cannot predict the category ID');
+  const category = hashTransaction(hexToBin(hex));
+  const prepFee = prepFeeOf(sim.length);
+  const change = sim.reduce((a, u) => a + u.satoshis, 0n) - prepSats - prepFee;
+  sim = change >= 546n ? [{ ...sim[0], txid: category, vout: 1, satoshis: change }] : [];
+  const vault = vaultContract(data, p.custodian.lock, platform.lock, category, provider);
+  return { category, vault: vault.tokenAddress, prepFee, cost: prepSats + prepFee };
+});
+const total = predicted.reduce((a, x) => a + x.cost, 0n);
 
 console.log(`\nMINT PLAN — ${network.toUpperCase()}`);
 console.log(`funder   ${funder.address}  balance ${balance} sats${usd(balance)}`);
@@ -84,8 +106,12 @@ for (const p of plan) {
   console.log(`  fingerprint       ${p.m.fingerprint}`);
   console.log(`  commitment        ${binToHex(p.commitment)} (${p.commitment.length} bytes)`);
   console.log(`  genesis tx        ${p.genesisSize} bytes, NFT mutable, no minting baton`);
+  const x = predicted[plan.indexOf(p)];
+  console.log(`  category ID       ${x.category}   (= prep txid, if minted in this order from the current funder UTXOs)`);
+  console.log(`  vault             ${x.vault}`);
+  console.log(`  cost              ${x.cost} sats = ${vaultSats} locked in vault + ${GENESIS_FEE} genesis fee + ${x.prepFee} prep fee${usd(x.cost)}`);
 }
-console.log(`\ncost: ${plan.length} × (${vaultSats} locked in vault + ${GENESIS_FEE} genesis fee + ~${PREP_FEE_EST} prep fee) ≈ ${total} sats${usd(total)}`);
+console.log(`\ntotal: ${total} sats${usd(total)} · funder ${balance} → ${balance - total} sats after`);
 if (balance < total) { console.error(`\nfunder balance too low: has ${balance}, needs ≈ ${total}. Fund ${funder.address}.`); process.exit(1); }
 
 if (flag('--dry-run')) { console.log('\n--dry-run: nothing sent.'); process.exit(0); }
@@ -97,7 +123,14 @@ const ex = NET[network].explorer;
 for (const p of plan) {
   const id = p.m.catalogueId;
   const utxos = (await provider.getUtxos(funder.address)).filter((u) => !u.token);
-  const { txid: prepTxid } = await buildPrep(provider, funder, utxos, vaultSats + GENESIS_FEE).send();
+  const prepTx = buildPrep(provider, funder, utxos, vaultSats + GENESIS_FEE);
+  const want = hashTransaction(hexToBin(prepTx.build()));
+  // Mainnet: one mask per run, and only with the category ID the person approved from the dry run
+  const expect = arg('--expect');
+  if (network === 'mainnet' && (plan.length !== 1 || !expect)) throw new Error('mainnet: mint one mask per run, with --expect <categoryId> from the dry run. Nothing sent.');
+  if (expect && want !== expect) throw new Error(`mask ${id}: prep txid would be ${want}, not the approved ${expect}. Nothing sent; re-run the dry run.`);
+  const { txid: prepTxid } = await prepTx.send();
+  if (prepTxid !== want) throw new Error(`mask ${id}: prep broadcast as ${prepTxid}, expected ${want}. Stopped before genesis; the prep output stays with the funder.`);
   console.log(`\nmask ${id} prep     ${ex}${prepTxid}`);
   const prep0 = (await waitForUtxo(provider, funder.address, prepTxid)).find((u) => u.vout === 0)!;
   if (prep0.satoshis !== vaultSats + GENESIS_FEE) throw new Error('prep output 0 has an unexpected value');

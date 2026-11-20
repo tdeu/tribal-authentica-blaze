@@ -118,7 +118,9 @@ export function vaultContract(
 export const GENESIS_FEE = 600n; // checked against the real size before anything is sent
 
 export function buildPrep(provider: NetworkProvider, funder: ReturnType<typeof loadFunder>, utxos: SpendableUtxo[], prepSats: bigint) {
-  const inputs = utxos.filter((u) => !u.token);
+  // Canonical input order (txid, vout): the same UTXO set always gives the same prep txid, so the dry run
+  // can predict each mask's category ID (= prep txid) before anything is sent.
+  const inputs = utxos.filter((u) => !u.token).sort((a, b) => (a.txid === b.txid ? a.vout - b.vout : a.txid < b.txid ? -1 : 1));
   const total = inputs.reduce((s, u) => s + u.satoshis, 0n);
   const tb = new TransactionBuilder({ provider })
     .addInputs(inputs, funder.key.unlockP2PKH())
