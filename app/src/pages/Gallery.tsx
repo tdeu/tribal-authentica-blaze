@@ -90,7 +90,7 @@ function CustodyRecord({ mask, lang, t, c, myPkh, onConnect, controls }: {
         <details className="style-card" lang={lang}>
           <summary>{c.mask.about}</summary>
           <p className="fine">{c.mask.styleLabel}</p>
-          <p className="about-body">{mask.style[lang]}</p>
+          {mask.style[lang].split(/\n\s*\n/).map((p) => p.trim()).filter(Boolean).map((p, i) => <p key={i} className="about-body">{p}</p>)}
         </details>
       )}
       <div className="price-row"><div><span className="price-big">{fmtNum(sats)}</span><span className="price-sub"> sats{usd !== null ? ` ≈ ${fmtUsd(usd)}` : ''}</span></div><DemoTag lang={lang} /></div>

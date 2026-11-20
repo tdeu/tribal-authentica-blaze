@@ -89,16 +89,21 @@
     {
       "catalogueId": 2,
       "title": {
-        "fr": "[MASK_002_TITLE]",
-        "en": "[MASK_002_TITLE]"
+        "fr": "Masque perlé aux clous de laiton",
+        "en": "Beaded mask with brass studs"
       },
       "story": {
-        "fr": "[HISTOIRE DU MASQUE 002 — texte fourni et validé par le gardien, en français]",
-        "en": "[MASK 002 STORY — text provided and approved by the custodian, in English]"
+        "fr": "Masque facial en bois sculpté aux yeux en fente, à la bouche pleine et ouverte, orné de lignes de clous de laiton sur le front et les sourcils, avec des rangs de perles rouges et blanches sous le menton. Son style évoque les Dan et les Wè de l'ouest de la Côte d'Ivoire. Acheté au Grand Marché de Treichville, à Abidjan ; son sculpteur et sa date sont inconnus.",
+        "en": "A carved wooden face mask with narrow slit eyes, a full open mouth and lines of brass studs across the forehead and brows, with strands of red and white beads around the chin. Its style points to the Dan and Wè peoples of western Côte d'Ivoire. Bought at the Grand Marché de Treichville in Abidjan; its carver and date are unknown."
       },
-      "photos": [],
-      "custodianLabel": "[KEEPER_LABEL]",
-      "country": "[COUNTRY]",
+      "photos": [
+        {
+          "file": "masks/002-1.jpg",
+          "sha256": "9bb32b9ced4c8f1ad89263acac503111d55a170fe72884b19da981bcfe069409"
+        }
+      ],
+      "custodianLabel": "Emtée (demo collection), Abidjan",
+      "country": "Unknown — acquired in Côte d'Ivoire",
       "payoutAddress": {
         "chipnet": "bchtest:zpqhvj30rjduwezx7fhuenyjs4mh4xzaqvjen7dfk6",
         "mainnet": "bitcoincash:zzufp366rmcjnc65cxalurmpagcxky74c5xk95tw8m"
@@ -107,7 +112,7 @@
         "chipnet": 6000,
         "mainnet": 470000
       },
-      "fingerprint": "22e36e661142c7d5d42eb1a6d40f5fa11b19faec0beb633304050b661ef0a4cb",
+      "fingerprint": "280869fe276483076875896ac8672c5a92aa5232864e894a01a140c81e83e525",
       "categoryId": {
         "chipnet": "5fc11cfea727c8b43a38c8354babcee2be519f88079594060c28dae25dd78718",
         "mainnet": null
@@ -125,21 +130,32 @@
           "mintedAt": "2026-11-16T10:51:10.736Z"
         },
         "mainnet": null
+      },
+      "source": "Grand Marché de Treichville, Abidjan",
+      "styleOrigin": "Dan / Wè, Côte d'Ivoire",
+      "style": {
+        "en": "Among the Dan of western Côte d'Ivoire and Liberia, masks give a face to the dangerous spirits of the forest. A man may only dance one after its spirit has visited him in a dream.\n\nEach mask is a character. Deangle comes out of the initiation camps to ask the women for food. Tankagle and Bagle entertain with dances, skits and mimes. Gunyege is worn by the champion runners. Bugle once led the men into battle. Together they kept order: masks enforced the rules of the council of elders and were trusted to judge without bias.\n\nDan carvers read faces. Nearly closed eyes are linked to masks that make peace; a projecting mouth makes a mask deliberately fearsome. This one carries both. Over time, a respected mask can rise to represent a whole quarter of the village, or to sit as a judge.",
+        "fr": "Chez les Dan de l'ouest ivoirien et du Liberia, les masques donnent un visage aux esprits dangereux de la forêt. Un homme ne peut en danser un qu'après la visite de son esprit en rêve.\n\nChaque masque est un personnage. Deangle sort des camps d'initiation pour demander de la nourriture aux femmes. Tankagle et Bagle divertissent par des danses, des sketches et des mimes. Gunyege est porté par les champions de course. Bugle menait autrefois les hommes au combat. Ensemble, ils maintenaient l'ordre : les masques faisaient respecter les règles du conseil des anciens et passaient pour des juges impartiaux.\n\nLes sculpteurs dan lisent les visages. Des yeux presque fermés sont liés aux masques qui apaisent ; une bouche en saillie rend un masque volontairement effrayant. Celui-ci porte les deux. Avec le temps, un masque respecté peut représenter tout un quartier du village, ou siéger comme juge."
       }
     },
     {
       "catalogueId": 3,
       "title": {
-        "fr": "[MASK_003_TITLE]",
-        "en": "[MASK_003_TITLE]"
+        "fr": "Masque à deux cornes et anneau de métal",
+        "en": "Two-horned mask with a metal ring"
       },
       "story": {
-        "fr": "[HISTOIRE DU MASQUE 003 — texte fourni et validé par le gardien, en français]",
-        "en": "[MASK 003 STORY — text provided and approved by the custodian, in English]"
+        "fr": "Masque rectangulaire allongé en bois, à deux cornes, aux ouvertures rondes pour les yeux et la bouche, avec un anneau de métal sur le front et un triangle de métal estampé sur le menton. Son style est proche des masques bamana du Mali. Acheté au Grand Marché de Treichville, à Abidjan ; son sculpteur et sa date sont inconnus.",
+        "en": "A long rectangular wooden mask with two horns, round eye and mouth openings, a metal ring on the forehead and a triangle of stamped metal on the chin. Its style is close to the Bamana masks of Mali. Bought at the Grand Marché de Treichville in Abidjan; its carver and date are unknown."
       },
-      "photos": [],
-      "custodianLabel": "[KEEPER_LABEL]",
-      "country": "[COUNTRY]",
+      "photos": [
+        {
+          "file": "masks/003-1.jpg",
+          "sha256": "047539e2f5e66139f6aef2ca543ac2e03a60c9dcdbaf4345d8d0e83954707e65"
+        }
+      ],
+      "custodianLabel": "Emtée (demo collection), Abidjan",
+      "country": "Unknown — acquired in Côte d'Ivoire",
       "payoutAddress": {
         "chipnet": "bchtest:zpqhvj30rjduwezx7fhuenyjs4mh4xzaqvjen7dfk6",
         "mainnet": "bitcoincash:zzlxp6zyqwazynfaj87388mdhn4em2ac6gykt8f735"
@@ -148,7 +164,7 @@
         "chipnet": 6000,
         "mainnet": 470000
       },
-      "fingerprint": "9397f742bba776a1eaeda583cc1cb44b65830a5f774ef628dd4a409ac04ff8ce",
+      "fingerprint": "84a1e0242ed341bb894ce17535091db86ae83d4a16452de3e108d0b63f04ba2a",
       "categoryId": {
         "chipnet": null,
         "mainnet": null
@@ -156,21 +172,32 @@
       "mint": {
         "chipnet": null,
         "mainnet": null
+      },
+      "source": "Grand Marché de Treichville, Abidjan",
+      "styleOrigin": "Bamana, Mali",
+      "style": {
+        "en": "Among the Bamana of Mali, horned face masks belong to the N'tomo, a name that means \"jujube tree\". It is the first of six men's societies: boys join it before circumcision and leave it the day they become men, at a great festival held at harvest time.\n\nEach horn is a lesson, carrying the myths and symbols a boy must learn. Most N'tomo masks have three to eight horns; with only two, this one stands at the edge of the tradition. In Bamana numerology, two is the number of androgyny, the union of male and female.\n\nIts metal ring and plate matter too: blacksmiths hold a central place in the N'tomo, and metal raises a mask's rank. The N'tomo schools have been fading since the 1960s, which makes every mask's story harder to recover.",
+        "fr": "Chez les Bamana du Mali, les masques à cornes appartiennent au N'tomo, un nom qui signifie « jujubier ». C'est la première des six sociétés d'hommes : les garçons y entrent avant la circoncision et la quittent le jour où ils deviennent des hommes, lors d'une grande fête au moment des récoltes.\n\nChaque corne est une leçon : elle porte les mythes et les symboles qu'un garçon doit apprendre. La plupart des masques N'tomo ont de trois à huit cornes ; avec deux seulement, celui-ci se tient en marge de la tradition. Dans la numérologie bamana, le deux est le nombre de l'androgynie, l'union du masculin et du féminin.\n\nSon anneau et sa plaque de métal comptent aussi : les forgerons occupent une place centrale dans le N'tomo, et le métal élève le rang d'un masque. Les écoles N'tomo s'effacent depuis les années 1960, ce qui rend l'histoire de chaque masque plus difficile à retrouver."
       }
     },
     {
       "catalogueId": 4,
       "title": {
-        "fr": "[MASK_004_TITLE]",
-        "en": "[MASK_004_TITLE]"
+        "fr": "Masque à face blanche et coiffe en crête",
+        "en": "White-faced mask with a crested coiffure"
       },
       "story": {
-        "fr": "[HISTOIRE DU MASQUE 004 — texte fourni et validé par le gardien, en français]",
-        "en": "[MASK 004 STORY — text provided and approved by the custodian, in English]"
+        "fr": "Masque facial en bois sculpté aux yeux en fente sous des paupières arquées, à la coiffe en crête, portant des traces d'argile blanche sur le visage. Son style évoque les Punu du sud du Gabon. Acheté à Libreville, au Gabon ; son sculpteur et sa date sont inconnus.",
+        "en": "A carved wooden face mask with narrow slit eyes under arched lids, a crested coiffure and traces of white clay across the face. Its style points to the Punu peoples of southern Gabon. Bought in Libreville, Gabon; its carver and date are unknown."
       },
-      "photos": [],
-      "custodianLabel": "[KEEPER_LABEL]",
-      "country": "[COUNTRY]",
+      "photos": [
+        {
+          "file": "masks/004-1.jpg",
+          "sha256": "50be26a91d5dffff744910f875c83a8f2d0c22e687d5065364e4944e2b190542"
+        }
+      ],
+      "custodianLabel": "Emtée (demo collection), Abidjan",
+      "country": "Unknown — acquired in Gabon",
       "payoutAddress": {
         "chipnet": "bchtest:zpqhvj30rjduwezx7fhuenyjs4mh4xzaqvjen7dfk6",
         "mainnet": "bitcoincash:zzufp366rmcjnc65cxalurmpagcxky74c5xk95tw8m"
@@ -179,7 +206,7 @@
         "chipnet": 6000,
         "mainnet": 470000
       },
-      "fingerprint": "ee05e0b627e823952f753cd0981e04107d06e3fec088bb879ac2637d296ae8f1",
+      "fingerprint": "4e59a8e2a5f80b23b504c99ab803555ab78fe7110539c4922d18f46e7a4fc405",
       "categoryId": {
         "chipnet": null,
         "mainnet": null
@@ -187,21 +214,32 @@
       "mint": {
         "chipnet": null,
         "mainnet": null
+      },
+      "source": "Libreville, Gabon",
+      "styleOrigin": "Punu, Gabon",
+      "style": {
+        "en": "In southern Gabon, along the Ngounié River, Punu white-faced masks belong to the Okuyi. They represent the spirits of the dead and appear at funerals, danced on tall stilts: the dancer raises the spirit above the living.\n\nTheir features are said to be drawn from the most beautiful woman in the community. The white kaolin comes from riverbeds tied to the world of the ancestors and speaks of peace and the afterlife. The lozenge-shaped scarifications on the forehead and temples are called \"fish scales\".\n\nToday, Okuyi dances are mostly a joyful spectacle, but the white face still carries the memory of those who have passed.",
+        "fr": "Dans le sud du Gabon, le long de la Ngounié, les masques punu à face blanche appartiennent à l'Okuyi. Ils représentent les esprits des morts et apparaissent lors des funérailles, dansés sur de hautes échasses : le danseur élève l'esprit au-dessus des vivants.\n\nOn dit que leurs traits s'inspirent de la plus belle femme de la communauté. Le kaolin blanc, tiré des rivières liées au monde des ancêtres, parle de paix et d'au-delà. Les scarifications en losanges sur le front et les tempes sont appelées « écailles de poisson ».\n\nAujourd'hui, les danses Okuyi sont surtout un spectacle joyeux, mais la face blanche garde la mémoire de ceux qui sont partis."
       }
     },
     {
       "catalogueId": 5,
       "title": {
-        "fr": "[MASK_005_TITLE]",
-        "en": "[MASK_005_TITLE]"
+        "fr": "Masque sombre aux cornes courbes",
+        "en": "Dark mask with curved horns"
       },
       "story": {
-        "fr": "[HISTOIRE DU MASQUE 005 — texte fourni et validé par le gardien, en français]",
-        "en": "[MASK 005 STORY — text provided and approved by the custodian, in English]"
+        "fr": "Masque rectangulaire sombre en bois, à deux cornes courbes et une crête centrale, aux yeux logés dans des orbites claires en croissant, avec des excroissances sculptées sur les côtés. Son style est proche des masques à cornes de la savane du Mali et du Burkina Faso ; son origine exacte est incertaine. Acheté à Bamako, au Mali ; son sculpteur et sa date sont inconnus.",
+        "en": "A dark rectangular wooden mask with two curved horns and a central crest, eyes set in pale crescent sockets and carved projections at the sides. Its style is close to the horned masks of the savanna of Mali and Burkina Faso; its exact origin is uncertain. Bought in Bamako, Mali; its carver and date are unknown."
       },
-      "photos": [],
-      "custodianLabel": "[KEEPER_LABEL]",
-      "country": "[COUNTRY]",
+      "photos": [
+        {
+          "file": "masks/005-1.jpg",
+          "sha256": "48b12affb4f9be7130a7b7c0f148e813f39b4074fbb5e1800455cc9086aeab7f"
+        }
+      ],
+      "custodianLabel": "Emtée (demo collection), Abidjan",
+      "country": "Unknown — acquired in Mali",
       "payoutAddress": {
         "chipnet": "bchtest:zpqhvj30rjduwezx7fhuenyjs4mh4xzaqvjen7dfk6",
         "mainnet": "bitcoincash:zzlxp6zyqwazynfaj87388mdhn4em2ac6gykt8f735"
@@ -210,7 +248,7 @@
         "chipnet": 6000,
         "mainnet": 470000
       },
-      "fingerprint": "f9854014449e91777ae004fcc32812335666b5980ec28d082911208446eadc31",
+      "fingerprint": "d8342ba65be3e12d8d7109034739265a7e833fdf4c458a506cdb40e992060dba",
       "categoryId": {
         "chipnet": null,
         "mainnet": null
@@ -218,6 +256,12 @@
       "mint": {
         "chipnet": null,
         "mainnet": null
+      },
+      "source": "Bamako, Mali",
+      "styleOrigin": "Sahel savanna (uncertain)",
+      "style": {
+        "en": "Across the savanna of Mali and Burkina Faso, masks often blend human and animal features to embody the spirits of the bush. Among the Bwa, a horned buffalo mask charges through the village, the dancer using two wooden canes as the animal's forelegs and tossing his head. Among the Bamana, animal masks belong to the Korè, whose initiation sends boys into the bush for trials that end in a symbolic death and rebirth.\n\nIf this mask belongs to the Bamana tradition, its three points (two horns and a crest) would mark it as male, since multiples of three stand for masculinity.\n\nIts exact origin remains an open question. That is precisely the knowledge Sankofa hopes to recover from its source.",
+        "fr": "Dans la savane du Mali et du Burkina Faso, les masques mêlent souvent traits humains et animaux pour incarner les esprits de la brousse. Chez les Bwa, un masque de buffle à cornes charge à travers le village : le danseur figure les pattes avant de l'animal avec deux cannes en bois et secoue vivement la tête. Chez les Bamana, les masques animaux appartiennent au Korè, dont l'initiation envoie les garçons en brousse pour des épreuves qui s'achèvent par une mort et une renaissance symboliques.\n\nSi ce masque appartient à la tradition bamana, ses trois pointes (deux cornes et une crête) le désigneraient comme masculin, car les multiples de trois indiquent la masculinité.\n\nSon origine exacte reste une question ouverte. C'est précisément le savoir que Sankofa espère retrouver auprès de sa source."
       }
     }
   ]
