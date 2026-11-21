@@ -10,8 +10,8 @@
   },
   "dependencies": {
     "@bitauth/libauth": "3.0.0",
-    "@wizardconnect/core": "0.2.10",
-    "@wizardconnect/dapp": "0.2.8",
+    "@wizardconnect/core": "0.2.5",
+    "@wizardconnect/dapp": "0.2.2",
     "cashscript": "0.14.0",
     "qrcode": "1.5.4",
     "react": "19.1.0",

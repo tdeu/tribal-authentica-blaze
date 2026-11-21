@@ -93,7 +93,7 @@ first purchase was funded separately. Keeper and Sankofa payouts go to demo wall
 
 ## Wallets
 
-The app connects with **WizardConnect** (`@wizardconnect/core` 0.2.10, `@wizardconnect/dapp` 0.2.8).
+The app connects with **WizardConnect** (`@wizardconnect/core` 0.2.5, `@wizardconnect/dapp` 0.2.2).
 
 | Wallet | Status |
 |---|---|
