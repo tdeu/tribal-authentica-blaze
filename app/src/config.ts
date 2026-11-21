@@ -1,5 +1,5 @@
 // App configuration from Vite env vars (see .env.example). Mainnet is the default:
-// Selene, our WizardConnect wallet, has no chipnet.
+// the supported WizardConnect wallets (Paytaca, Cashonize) are used on mainnet.
 
 export type Network = 'mainnet' | 'chipnet';
 
@@ -32,4 +32,4 @@ export const LINKS = {
 
 export const isPlaceholder = (v: string) => v.startsWith('[') && v.endsWith(']');
 
-export const DAPP_NAME = 'Sankofa'; // shown in Selene's WizardConnect dialog
+export const DAPP_NAME = 'Sankofa'; // shown in the wallet's WizardConnect dialog

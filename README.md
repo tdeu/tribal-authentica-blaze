@@ -91,6 +91,25 @@ transaction, [`0d6fc602…`](https://blockchair.com/bitcoin-cash/transaction/0d6
 1,849 sats (1,000 locked in the vault with the title, 600 genesis fee, 249 prep fee). The buyer wallet used for the
 first purchase was funded separately. Keeper and Sankofa payouts go to demo wallets held by Emtée Studio.
 
+## Wallets
+
+The app connects with **WizardConnect** (`@wizardconnect/core` 0.2.10, `@wizardconnect/dapp` 0.2.8).
+
+| Wallet | Status |
+|---|---|
+| **Paytaca** | Supported |
+| **Cashonize** | Supported |
+| Selene | Not yet supported |
+
+Checked on 21 Nov 2026 by running each wallet's own WizardConnect request checks and signing code (Cashonize `main` 78e0984,
+Paytaca `main` f474603) on our mask 002 buy request: both return a fully signed transaction, which passes libauth
+3.1.0-next.8's 2026 VM rules, the rules mainnet enforces now. Nothing was broadcast in that test.
+
+**Why not Selene yet:** each certificate is a 70-byte NFT commitment (mask ID, fingerprint, owner, price, last sale),
+which the May 2026 network upgrade allows (the limit went from 40 to 128 bytes). Selene (version of 14 Oct 2026,
+libauth 3.0.0) still refuses any commitment over 40 bytes before signing, and checks the signed transaction against
+the 2023 VM rules. Selene will work as soon as it moves to the 2026 rules; nothing in the contract needs to change.
+
 <a id="what-if-something-goes-wrong"></a>
 ## What if something goes wrong?
 

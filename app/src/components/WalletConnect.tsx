@@ -72,6 +72,8 @@ export function WalletConnect({ open, onClose, t }: { open: boolean; onClose: ()
           <button type="button" className="sheet-close" onClick={onClose} aria-label={w.done}>×</button>
         </div>
 
+        {phase !== 'connected' && <p className="fine">{w.compat}</p>}
+
         {phase !== 'connected' && (
           <ol className="wsteps">
             {w.steps.map((label, i) => {
@@ -96,7 +98,7 @@ export function WalletConnect({ open, onClose, t }: { open: boolean; onClose: ()
               {isTouch() && s.pairingUri && (
                 <>
                   <p className="fine center">{w.scanHint}</p>
-                  <a className="btn btn-primary" href={s.pairingUri}>{w.openInSelene}</a>
+                  <a className="btn btn-primary" href={s.pairingUri}>{w.openInWallet}</a>
                 </>
               )}
               <button type="button" className="btn btn-ghost" onClick={copyLink}>{copied ? w.copied : w.copyLink}</button>
