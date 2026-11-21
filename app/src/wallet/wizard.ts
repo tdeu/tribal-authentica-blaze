@@ -18,7 +18,7 @@ export type WalletState = {
   relayError?: string;
   pairingUri?: string;       // wiz://… for "Copy connection link"
   qrUri?: string;            // what the QR code encodes
-  dappKey?: string;          // shown so the user can compare with Selene's dialog
+  dappKey?: string;          // shown so the user can compare with the wallet's dialog
   walletName?: string;
   approved: boolean;         // (1) true only once the xpubs have arrived
   walletNetwork?: 'mainnet' | 'chipnet';
@@ -120,7 +120,7 @@ class WizardWallet {
 
   private onWalletReady() {
     const walletName = this.mgr.walletName ?? undefined;
-    // (1) Selene sends wallet_ready with paths [] until the user approves the connection.
+    // (1) The wallet may send wallet_ready with paths [] until the user approves the connection (Selene does).
     if (!this.mgr.hasPath(RECEIVE)) { this.set({ walletName, approved: false }); return; }
     const recv = this.mgr.getSessionPaths().find((p) => p.name === 'receive');
     const d = recv ? decodeHdPublicKey(recv.xpub) : 'no receive path';
@@ -156,7 +156,7 @@ class WizardWallet {
       return Promise.resolve({ ok: false, side: 'ours', message: 'Another signature request is still pending in the wallet.' });
     }
     if (!this.state.approved) {
-      return Promise.resolve({ ok: false, side: 'ours', message: 'Approve the connection in Selene first.' });
+      return Promise.resolve({ ok: false, side: 'ours', message: 'Approve the connection in your wallet first.' });
     }
     if (this.state.networkMismatch) {
       return Promise.resolve({ ok: false, side: 'ours', message: `Wallet is on ${this.state.walletNetwork}, app is on ${NETWORK}.` });
@@ -176,7 +176,7 @@ class WizardWallet {
 
     const promise = (async (): Promise<SignOutcome> => {
       try {
-        // WizardConnect's types expect the WC object; Selene requires the hex wire form (2)
+        // WizardConnect's types expect the WC object; wallets get the hex wire form (2), which Paytaca and Cashonize accept
         const res = await this.mgr.signTransaction({ transaction: wire as never, inputPaths }, { signal: abort.signal });
         if (res.error || !res.signedTransaction) {
           return { ok: false, side: 'wallet', message: res.error ?? 'Wallet returned no signed transaction.' };
