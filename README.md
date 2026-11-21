@@ -4,9 +4,10 @@ Formerly Tribal Authentica (repo name kept).
 
 **Built for BCH BLAZE 2026** (DoraHacks, Mainnet track).
 
-Digital titles for **traditional African masks**. Each mask stays physically with its custodian in
-Africa; the buyer (diaspora, art lovers abroad) buys the mask's one-of-one digital title and its story.
-Nothing is shipped.
+Digital titles for **traditional African masks**. The buyer (diaspora, art lovers abroad) buys the mask's
+one-of-one digital title and its story. The physical mask can stay with its source or travel with its buyer:
+Sankofa tracks provenance, not location. The title and its sealed story stay valid wherever the mask goes,
+and the source keeps earning 10 % of every resale.
 
 Each mask has its own CashTokens category with one certificate NFT, locked forever in that mask's
 CashScript covenant (the RoyaltyVault). The certificate commits to the mask's **fingerprint** (sha256 of its
@@ -25,7 +26,7 @@ Sankofa is built by Emtée Studio.
 |---|---|
 | Hosted demo | https://sankofa-bch.vercel.app (the old https://tribal-authentica.vercel.app redirects there) |
 | What if something goes wrong? | [8 answers, each with its proof](#what-if-something-goes-wrong) |
-| Pitch deck | [DECK_URL] |
+| Pitch deck | [Google Slides](https://docs.google.com/presentation/d/1wRwPAqEoICa7sl4T7qwZa7WGzh77cil6-C260JdPCE4/edit?usp=sharing) |
 | "Before" demo (frozen) | https://tribal-authentica-before.vercel.app |
 | Pre-hackathon code | [tribal-authentica-preparation @ before-blaze-14nov](https://github.com/tdeu/tribal-authentica-preparation/tree/before-blaze-14nov) |
 | Donations (CashTokens-aware) | `bitcoincash:zr0krft3nnzhggqah9tdl3qpvyahyzwrfvjqagkdux` |

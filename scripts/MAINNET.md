@@ -19,7 +19,7 @@ in `scripts/.env`, which is gitignored.
 | 6 | **Mainnet price** per mask, if not 470,000 sats | `masks[i].priceSats.mainnet` | Locked in the first commitment; the custodian key can relist later |
 | 7 | **Fund the funder** from Selene | send to `bitcoincash:qp8syd9hwppgm5nvlgyhlcxw50lvym454ytp2mkg0e` | 1 mask ≈ 1,850 sats, 2 ≈ 3,700, 5 ≈ 9,250. **Send 15,000** for headroom |
 
-Optional: `VITE_DECK_URL` on Vercel (the banner shows "Deck" greyed out until it's set).
+Optional: `VITE_DECK_URL` on Vercel overrides the deck link (default: the public Google Slides deck in app/src/config.ts).
 
 ## 1. Fill in the data (me, once items 1–6 arrive)
 

@@ -26,7 +26,7 @@ export const LINKS = {
   repo: 'https://github.com/tdeu/tribal-authentica-blaze',
   prepTag: 'https://github.com/tdeu/tribal-authentica-preparation/tree/before-blaze-14nov',
   beforeDemo: env('VITE_BEFORE_DEMO_URL', 'https://tribal-authentica-before.vercel.app'), // frozen: spikes/wizardconnect @ before-blaze-14nov, never redeployed
-  deck: env('VITE_DECK_URL', '[DECK_URL]'),
+  deck: env('VITE_DECK_URL', 'https://docs.google.com/presentation/d/1wRwPAqEoICa7sl4T7qwZa7WGzh77cil6-C260JdPCE4/edit?usp=sharing'),
   donation: env('VITE_DONATION_ADDRESS', 'bitcoincash:zr0krft3nnzhggqah9tdl3qpvyahyzwrfvjqagkdux'),
 };
 
