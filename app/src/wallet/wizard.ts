@@ -45,13 +45,6 @@ class WizardWallet {
   state: WalletState = { relay: 'idle', approved: false, networkMismatch: false, pending: false };
 
   constructor() {
-    // Debug trail for pairing/signing issues: open the browser console to read it.
-    const brief = (m: ProtocolMessage) => {
-      const x = m as ProtocolMessage & { sequence?: number; time?: number; error?: string; paths?: unknown[]; reason?: string };
-      return { action: x.action, seq: x.sequence, time: x.time, paths: Array.isArray(x.paths) ? x.paths.length : undefined, error: x.error, reason: x.reason };
-    };
-    this.mgr.on('messagesent', (m: ProtocolMessage) => console.info('[wiz] →', brief(m)));
-    this.mgr.on('messagereceived', (m: ProtocolMessage) => console.info('[wiz] ←', brief(m)));
     this.mgr.on('messagereceived', (m: ProtocolMessage) => {
       if (m.action === 'wallet_ready') this.lastWalletReady = Math.max(this.lastWalletReady, m.time);
     });
@@ -62,7 +55,6 @@ class WizardWallet {
       // wallet_ready (or than this relay session) is stale and must not end the session.
       const t = (message as unknown as { time?: number } | undefined)?.time;
       const cutoff = Math.max(this.lastWalletReady, this.relayStart);
-      console.info('[wiz] disconnect', { reason: String(reason), time: t, cutoff, ignored: typeof t === 'number' && t < cutoff });
       if (typeof t === 'number' && t < cutoff) return;
       this.set({ relay: 'disconnected', relayError: String(reason), approved: false });
     });
@@ -75,8 +67,6 @@ class WizardWallet {
   }
 
   private set(patch: Partial<WalletState>) {
-    if ('approved' in patch && patch.approved !== this.state.approved) console.info('[wiz] approved', this.state.approved, '→', patch.approved, patch);
-    if (patch.relay && patch.relay !== this.state.relay) console.info('[wiz] relay', this.state.relay, '→', patch.relay, patch.relayError ?? '');
     this.state = { ...this.state, ...patch };
     for (const fn of this.listeners) fn(this.state);
   }
