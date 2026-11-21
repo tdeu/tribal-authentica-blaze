@@ -36,7 +36,11 @@ type Listener = (s: WalletState) => void;
 const nowSec = () => Math.floor(Date.now() / 1000);
 
 class WizardWallet {
-  private mgr = new DappConnectionManager(DAPP_NAME);
+  // One manager PER relay session. DappConnectionManager attaches its message listener to the first
+  // relay client only (`listenerAttached` is never reset), so reusing it for a second pairing in the
+  // same page load means the wallet's replies are never heard: the wallet shows "connected" while the
+  // page stays on "Scan this code". `fresh()` replaces it before every new relay.
+  private mgr!: DappConnectionManager;
   private relay?: DappRelayResult;
   private listeners = new Set<Listener>();
   private lastWalletReady = 0; // (6) stale-disconnect guard, seconds
@@ -45,12 +49,24 @@ class WizardWallet {
   state: WalletState = { relay: 'idle', approved: false, networkMismatch: false, pending: false };
 
   constructor() {
+    this.fresh();
+  }
+
+  private fresh() {
+    const old = this.mgr;
+    if (old) {
+      old.destroy();
+      (old as unknown as { removeAllListeners?: () => void }).removeAllListeners?.();
+    }
+    this.mgr = new DappConnectionManager(DAPP_NAME);
+    const mgr = this.mgr;
     this.mgr.on('messagereceived', (m: ProtocolMessage) => {
       if (m.action === 'wallet_ready') this.lastWalletReady = Math.max(this.lastWalletReady, m.time);
     });
-    this.mgr.on('walletready', () => this.onWalletReady());
-    this.mgr.on('reconnecting', () => this.set({ relay: 'reconnecting' }));
+    this.mgr.on('walletready', () => { if (mgr === this.mgr) this.onWalletReady(); });
+    this.mgr.on('reconnecting', () => { if (mgr === this.mgr) this.set({ relay: 'reconnecting' }); });
     this.mgr.on('disconnect', (reason, message) => {
+      if (mgr !== this.mgr) return;
       // (6) The relay replays old messages after a reconnect: a disconnect older than the latest
       // wallet_ready (or than this relay session) is stale and must not end the session.
       const t = (message as unknown as { time?: number } | undefined)?.time;
@@ -71,7 +87,8 @@ class WizardWallet {
     for (const fn of this.listeners) fn(this.state);
   }
 
-  private onRelay = ({ client, status }: RelayUpdatePayload) => {
+  private onRelay = (mgr: DappConnectionManager, { client, status }: RelayUpdatePayload) => {
+    if (mgr !== this.mgr) return; // a callback from a relay we already replaced
     this.mgr.updateConnection(client, status);
     // (6) The relay flaps every 10–30 s: show it, keep the session
     const relay: WalletState['relay'] = {
@@ -82,11 +99,14 @@ class WizardWallet {
 
   /** New pairing: fresh QR + link. */
   connect() {
+    this.inFlight?.abort.abort();
     this.relay?.cleanup();
     this.mgr.clearStoredSession();
+    this.fresh();
     this.relayStart = nowSec();
     this.lastWalletReady = 0;
-    this.relay = initiateDappRelay(this.onRelay);
+    const mgr = this.mgr;
+    this.relay = initiateDappRelay((p) => this.onRelay(mgr, p));
     this.mgr.attachRelay(this.relay);
     this.set({
       relay: 'connecting', approved: false, address: undefined, tokenAddress: undefined, walletName: undefined,
@@ -98,8 +118,11 @@ class WizardWallet {
   resume(): boolean {
     const s = this.mgr.loadStoredSession();
     if (!s?.walletPublicKey) return false;
+    this.relay?.cleanup();
+    this.fresh(); // the new manager reloads the stored paths in its constructor
     this.relayStart = nowSec();
-    this.relay = initiateDappRelay(this.onRelay, {
+    const mgr = this.mgr;
+    this.relay = initiateDappRelay((p) => this.onRelay(mgr, p), {
       existingCredentials: { privateKey: s.privateKey, secret: s.secret, walletPublicKey: s.walletPublicKey },
     });
     this.mgr.attachRelay(this.relay);
