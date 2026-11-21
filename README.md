@@ -84,6 +84,11 @@ Mask 001, *Crested mask with brass plates*, is minted on Bitcoin Cash mainnet (1
 | Fingerprint | `31c05e3e7a19c85d76ec08d5db8ea0f137ba2a3ce588c9f3f34b6ca73411770c` |
 | Price | 470,000 sats: 423,000 to the keeper, 47,000 to Sankofa on the first sale |
 
+**First sale on mainnet:** mask 003, *Two-horned mask with a metal ring*, bought with Paytaca on 21 Nov 2026 in
+[`bd6fcbb1…`](https://blockchair.com/bitcoin-cash/transaction/bd6fcbb10bb238cf13c2a4b274ebe8d2c7aabd8e9a561be0de4838f438c2f63c):
+470,000 sats paid, 423,000 to the keeper and 47,000 to Sankofa (outputs 1 and 2, as the vault requires), network fee 916 sats.
+The title stayed in its vault, now in the buyer's name, with price 0 (not for sale) and last sale price 470,000.
+
 ### How the demo was funded
 
 The mint funder `bitcoincash:qp8syd9hwppgm5nvlgyhlcxw50lvym454ytp2mkg0e` was funded from Revolut with one
@@ -113,7 +118,7 @@ the 2023 VM rules. Selene will work as soon as it moves to the 2026 rules; nothi
 <a id="what-if-something-goes-wrong"></a>
 ## What if something goes wrong?
 
-Each answer is a fact about this code, with its proof. Mask 001 is minted on mainnet; its first-sale and resale proofs are on chipnet until it is sold on mainnet. "Test" means the network's script validator (the BCH VM) refuses the attack in our test suite (`contracts/`: 49 tests, `scripts/`: 15 tests).
+Each answer is a fact about this code, with its proof. Masks 001–005 are minted on mainnet, and mask 003's first sale is on mainnet ([`bd6fcbb1…`](https://blockchair.com/bitcoin-cash/transaction/bd6fcbb10bb238cf13c2a4b274ebe8d2c7aabd8e9a561be0de4838f438c2f63c)); the resale proofs stay on chipnet until a mask is resold on mainnet. "Test" means the network's script validator (the BCH VM) refuses the attack in our test suite (`contracts/`: 49 tests, `scripts/`: 15 tests).
 
 1. **Does the title prove the mask is genuine?** It records on-chain that Sankofa minted this title for this keeper, when, and the fingerprint of its photos and story, which can never change (Verify recomputes it in your browser). It does not prove the object itself; in this demo, Emtée Studio photographed and listed the masks.
    Proof: [genesis tx, mask 001 (mainnet)](https://blockchair.com/bitcoin-cash/transaction/a165a94df6342eb62682247bf92e7a7d333446c2a8e57940b3eab6a73b8132d9) · [chipnet](https://chipnet.bch.ninja/tx/aa225bb5705d86428d8aac06e91d599444d0c37462ac7fdb9f3f74a31ab0f24c) · [tests: fingerprint frozen by the contract](https://github.com/tdeu/tribal-authentica-blaze/blob/main/contracts/test/RoyaltyVault.test.ts#L320)
