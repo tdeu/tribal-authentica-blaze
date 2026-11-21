@@ -43,6 +43,16 @@ export function WalletConnect({ open, onClose, t }: { open: boolean; onClose: ()
     if (s.relay === 'idle' || (!s.qrUri && !s.walletName && s.relay !== 'disconnected')) wallet.connect();
   }, [open, s.relay, s.approved, s.qrUri, s.walletName]);
 
+  // Connected during this opening of the sheet (not already connected when it opened): close it
+  // straight away, so the user lands back where they were (e.g. the buy sheet, which then sends the
+  // signature request by itself).
+  const wasApproved = useRef(s.approved);
+  useEffect(() => {
+    if (!open) { wasApproved.current = s.approved; return; }
+    if (s.approved && !wasApproved.current) onClose();
+    wasApproved.current = s.approved;
+  }, [open, s.approved, onClose]);
+
   // Phase timers: a waiting phase that lasts too long turns into a message with "Try again"
   useEffect(() => {
     setTimedOut(false);

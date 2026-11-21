@@ -81,6 +81,17 @@ export function BuySheet({ mask, lang, live, t, c, refLabel, onClose, onConnect 
   };
 
   const retry = () => (phase.k === 'error' && phase.signedHex ? send(phase.signedHex) : start());
+
+  // "Connect" pressed from this sheet: as soon as the wallet is approved, go straight to the
+  // signature request instead of making the user press Confirm again.
+  const buyAfterConnect = useRef(false);
+  const connectThenBuy = () => { buyAfterConnect.current = true; onConnect(); };
+  useEffect(() => {
+    if (buyAfterConnect.current && ws.approved && !ws.pending && phase.k === 'review') {
+      buyAfterConnect.current = false;
+      void start();
+    }
+  }, [ws.approved, ws.pending, phase.k]); // eslint-disable-line react-hooks/exhaustive-deps
   const busy = phase.k === 'building' || phase.k === 'signing' || phase.k === 'broadcasting';
 
   // Numbered steps: [1] wallet [2] approve in wallet [3] broadcast [4] the title is yours
@@ -119,7 +130,7 @@ export function BuySheet({ mask, lang, live, t, c, refLabel, onClose, onConnect 
           {phase.k === 'review' && (ws.approved
             ? <button type="button" className="btn btn-primary btn-big" onClick={start} disabled={ws.pending}>{b.confirm} ↗</button>
             : (<>
-                <button type="button" className="btn btn-primary btn-big" onClick={onConnect}>{t.wallet.title} ↗</button>
+                <button type="button" className="btn btn-primary btn-big" onClick={connectThenBuy}>{t.wallet.title} ↗</button>
                 <p className="fine center">{b.connectFirst}</p>
               </>))}
           {(phase.k === 'building' || phase.k === 'signing' || phase.k === 'broadcasting') && (
