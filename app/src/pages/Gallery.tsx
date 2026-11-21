@@ -17,7 +17,7 @@ import { Hero } from '../components/Hero';
 import { BuySheet } from '../components/BuySheet';
 import { ActivityFeed } from '../components/ActivityFeed';
 
-const ADVANCE_MS = 4000;
+const ADVANCE_MS = 8000;
 const SWIPE_PX = 50;
 
 const fmtNum = (n: bigint | number) => Number(n).toLocaleString('en-US');
@@ -77,9 +77,9 @@ function useMatch(mask: MaskView) {
 }
 
 // The right half of a card: the custody record. Keyed by mask so its live state never shows the previous mask.
-function CustodyRecord({ mask, lang, t, c, myPkh, onConnect, open, onToggle, counter }: {
+function CustodyRecord({ mask, lang, t, c, myPkh, onConnect, open, onToggle, onInteract, counter }: {
   mask: MaskView; lang: Lang; t: Strings; c: Copy; myPkh?: Uint8Array; onConnect: () => void;
-  open: boolean; onToggle: () => void; counter: string;
+  open: boolean; onToggle: () => void; onInteract: () => void; counter: string;
 }) {
   const live = useMaskLive(mask, myPkh);
   const { usdOf } = useUsdOf();
@@ -100,17 +100,18 @@ function CustodyRecord({ mask, lang, t, c, myPkh, onConnect, open, onToggle, cou
     <div className="viewer-info">
       <p className="label record-head"><span>{mask.ref} · {v.record}</span><span className="record-count" aria-label={v.counterLabel(counter)}>{counter}</span></p>
       <h3 className="headline h-s">{mask.names[lang]}</h3>
+      {mask.hook && <p className="mask-hook" lang={lang}>“{mask.hook[lang]}”</p>}
       <dl className="record">
         {mask.styleOrigin && <div><dt>{v.fStyle}</dt><dd>{mask.styleOrigin}</dd></div>}
         {mask.source && <div><dt>{v.fSource}</dt><dd>{mask.source}</dd></div>}
         <div><dt>{v.fOwners}</dt><dd>{owners ?? (st?.ownerIsCustodian ? 0 : '…')} · {ownerText}</dd></div>
       </dl>
-      <button type="button" className="story-toggle" aria-expanded={open} aria-controls={`story-${mask.catalogueId}`} onClick={onToggle}>
-        {open ? v.closeStory : v.readStory}
-      </button>
       <div className="price-row"><div><span className="price-big">{fmtNum(sats)}</span><span className="price-sub"> sats{usd !== null ? ` ≈ ${fmtUsd(usd)}` : ''}</span></div><DemoTag lang={lang} /></div>
       <div className="viewer-actions">
-        <button type="button" className="btn btn-primary" disabled={!buyable} onClick={() => buyable && setBuying(true)}>{buyLabel}</button>
+        <button type="button" className="btn btn-primary" disabled={!buyable} onClick={() => { onInteract(); if (buyable) setBuying(true); }}>{buyLabel}</button>
+        <button type="button" className="btn btn-secondary story-toggle" aria-expanded={open} aria-controls={`story-${mask.catalogueId}`} onClick={onToggle}>
+          {open ? v.closeStory : v.readStory}
+        </button>
         <a className="link" href={`#/mask/${mask.catalogueId}/certificate`}>{v.verify}</a>
       </div>
       {live.status === 'error' && <p className="fine">{live.error}</p>}
@@ -130,18 +131,18 @@ function StoryPanel({ mask, lang, c, open }: { mask: MaskView; lang: Lang; c: Co
     <div className={`story-wrap${open ? ' open' : ''}`} id={`story-${mask.catalogueId}`} inert={!open} aria-hidden={!open}>
       <div className="story-inner">
         <div className="story-panel" lang={lang}>
-          <div className="story-sealed">
-            <p className="label">{v.sealedStory}</p>
-            {paragraphs(mask.story[lang]).map((p, i) => <p key={i} className="story-body">{p}</p>)}
-            <p className="fine sealed-note">{v.sealedOnChain(shortHash(mask.mint?.commitment.slice(4, 68) ?? mask.fingerprint))}{match && <span className="ok"> ✓</span>}</p>
-          </div>
           {mask.style && (
             <div className="story-style">
               <p className="label">{c.mask.about}</p>
-              <p className="fine">{v.editorial}</p>
-              {paragraphs(mask.style[lang]).map((p, i) => <p key={i} className="about-body">{p}</p>)}
+              {paragraphs(mask.style[lang]).map((p, i) => <p key={i} className="story-body">{p}</p>)}
             </div>
           )}
+          <div className="story-sealed">
+            <p className="label">{v.sealedStory}</p>
+            {paragraphs(mask.story[lang]).map((p, i) => <p key={i} className="about-body">{p}</p>)}
+            {mask.style && <p className="fine">{v.editorial}</p>}
+            <p className="fine sealed-note">{v.sealedOnChain(shortHash(mask.mint?.commitment.slice(4, 68) ?? mask.fingerprint))}{match && <span className="ok"> ✓</span>}</p>
+          </div>
           <p className="story-links">
             <a href={`#/mask/${mask.catalogueId}/certificate`}>{v.certLink}</a>
             <a href="#/what-if">{c.whatIfLink}</a>
@@ -170,17 +171,18 @@ export function Gallery({ lang, t, c, onConnect }: { lang: Lang; t: Strings; c: 
   const [open, setOpen] = useState(false);        // story expanded
   const [hovered, setHovered] = useState(false);
   const [focused, setFocused] = useState(false);  // keyboard focus inside the carousel
+  const [stopped, setStopped] = useState(false);  // any manual interaction stops auto-advance for the session
   const reduced = useReducedMotion();
   const hidden = usePageHidden();
-  const paused = reduced || hidden || hovered || focused || open || n < 2;
+  const paused = reduced || hidden || hovered || focused || open || stopped || n < 2;
 
   const forSale = useRef(new Map<number, boolean>());
   const onStatus = useRef((id: number, b: boolean) => { forSale.current.set(id, b); }).current;
   const mask = MINTED[idx];
 
-  // Manual move: any arrow, tab, swipe or key. Collapses the story and restarts the 4 s timer.
+  // Manual move: any arrow, swipe or key. Collapses the story and stops auto-advance.
   const go = useCallback((i: number, d: 1 | -1) => {
-    setDir(d); setIdx(((i % n) + n) % n); setOpen(false); setCycle((k) => k + 1);
+    setDir(d); setIdx(((i % n) + n) % n); setOpen(false); setCycle((k) => k + 1); setStopped(true);
   }, [n]);
 
   // Auto-advance right to left, 005 → 001 loops
@@ -205,12 +207,15 @@ export function Gallery({ lang, t, c, onConnect }: { lang: Lang; t: Strings; c: 
   };
   const hover = (on: boolean) => (e: PointerEvent) => { if (e.pointerType === 'mouse') setHovered(on); };
   const touch = useRef<{ x: number; y: number } | null>(null);
-  const onTouchStart = (e: TouchEvent) => { const p = e.touches[0]; touch.current = { x: p.clientX, y: p.clientY }; };
+  const moved = useRef(false); // last touch moved sideways: the photo link must not open
+  const onTouchStart = (e: TouchEvent) => { const p = e.touches[0]; touch.current = { x: p.clientX, y: p.clientY }; moved.current = false; };
   const onTouchEnd = (e: TouchEvent) => {
     const a = touch.current; touch.current = null;
-    if (!a || n < 2) return;
+    if (!a) return;
     const p = e.changedTouches[0];
     const dx = p.clientX - a.x, dy = p.clientY - a.y;
+    if (Math.abs(dx) > 10) moved.current = true;
+    if (n < 2) return;
     if (Math.abs(dx) > SWIPE_PX && Math.abs(dx) > Math.abs(dy) * 1.5) go(idx + (dx < 0 ? 1 : -1), dx < 0 ? 1 : -1);
   };
 
@@ -235,11 +240,14 @@ export function Gallery({ lang, t, c, onConnect }: { lang: Lang; t: Strings; c: 
               <div key={mask.catalogueId} className={`viewer-slide${reduced ? '' : dir === 1 ? ' from-right' : ' from-left'}`}>
                 <div className="viewer-photo vignette">
                   {mask.photo
-                    ? <img src={mask.photo} alt={mask.names[lang]} draggable={false} />
+                    ? <a href={`#/mask/${mask.catalogueId}`} aria-label={v.openMask(mask.names[lang])} draggable={false}
+                        onClick={(e) => { if (moved.current) { e.preventDefault(); moved.current = false; } else setStopped(true); }}>
+                        <img src={mask.photo} alt={mask.names[lang]} draggable={false} />
+                      </a>
                     : <div className="photo-ph" role="img" aria-label={v.photoSoon} />}
                 </div>
                 <CustodyRecord mask={mask} lang={lang} t={t} c={c} myPkh={myPkh} onConnect={onConnect}
-                  open={open} onToggle={() => setOpen((o) => !o)} counter={`${mask.ref} / ${MINTED_TOTAL}`} />
+                  open={open} onToggle={() => { setStopped(true); setOpen((o) => !o); }} onInteract={() => setStopped(true)} counter={`${mask.ref} / ${MINTED_TOTAL}`} />
                 <StoryPanel mask={mask} lang={lang} c={c} open={open} />
               </div>
             </div>

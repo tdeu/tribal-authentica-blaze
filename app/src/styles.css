@@ -48,6 +48,8 @@ code { font-family: var(--mono); }
 .btn-outline:hover { background: var(--accent-wash); color: var(--ink); }
 .btn-ghost { border-color: var(--line-2); color: var(--ink); }
 .btn-ghost:hover { border-color: var(--ink-2); color: var(--ink); }
+.btn-secondary { border-color: var(--accent); color: var(--ink); background: transparent; }
+.btn-secondary:hover { background: var(--accent-wash); color: var(--ink); }
 .btn-text { color: var(--muted); font-weight: 500; }
 .btn-block { display: flex; width: 100%; }
 .btn-big { padding: 20px; font-size: 15px; }
@@ -409,8 +411,11 @@ code { font-family: var(--mono); }
 .viewer-photo img { user-select: none; -webkit-user-drag: none; }
 
 /* Inline story */
-.story-toggle { align-self: flex-start; background: none; border: 0; padding: 0; color: var(--accent); font: inherit; font-size: 14px; font-weight: 700; cursor: pointer; min-height: 44px; display: inline-flex; align-items: center; text-decoration: underline; text-underline-offset: 4px; }
-.story-toggle:hover { color: var(--ink); }
+/* Cultural hook under the mask name, readable without opening the story */
+.mask-hook { margin: -4px 0 4px; font-style: italic; font-size: clamp(18px, 1.6vw, 22px); line-height: 1.35; color: var(--ink);
+  display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; max-width: 34ch; }
+@media (max-width: 600px) { .mask-hook { font-size: 18px; } }
+.viewer-photo > a { display: flex; align-items: center; justify-content: center; width: 100%; height: 100%; cursor: zoom-in; -webkit-user-drag: none; }
 .story-wrap { flex-basis: 100%; display: grid; grid-template-rows: 0fr; transition: grid-template-rows .4s ease; }
 .story-wrap.open { grid-template-rows: 1fr; }
 .story-inner { min-height: 0; overflow: hidden; }
