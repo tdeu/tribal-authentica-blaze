@@ -35,10 +35,13 @@ export function WalletConnect({ open, onClose, t }: { open: boolean; onClose: ()
   const [copied, setCopied] = useState(false);
   const [timedOut, setTimedOut] = useState(false);
 
-  // Start a pairing when the sheet opens with no session
+  // Start a pairing when the sheet opens with no usable session. A session resumed from storage that
+  // never got the wallet's answer (no QR, no wallet name, not approved) would otherwise sit on
+  // "Preparing…" forever: replace it with a fresh code.
   useEffect(() => {
-    if (open && s.relay === 'idle') wallet.connect();
-  }, [open, s.relay]);
+    if (!open || s.approved) return;
+    if (s.relay === 'idle' || (!s.qrUri && !s.walletName && s.relay !== 'disconnected')) wallet.connect();
+  }, [open, s.relay, s.approved, s.qrUri, s.walletName]);
 
   // Phase timers: a waiting phase that lasts too long turns into a message with "Try again"
   useEffect(() => {
@@ -102,11 +105,16 @@ export function WalletConnect({ open, onClose, t }: { open: boolean; onClose: ()
                 </>
               )}
               <button type="button" className="btn btn-ghost" onClick={copyLink}>{copied ? w.copied : w.copyLink}</button>
+              <p className="fine center">{w.stuckHint}</p>
+              <button type="button" className="btn btn-text" onClick={retry}>{w.newCode}</button>
             </>
           )}
 
           {phase === 'approve' && !timedOut && (
-            <p className="wstatus"><span className="spinner" aria-hidden /> {w.waitingApproval}</p>
+            <>
+              <p className="wstatus"><span className="spinner" aria-hidden /> {w.waitingApproval}</p>
+              <button type="button" className="btn btn-text" onClick={retry}>{w.newCode}</button>
+            </>
           )}
 
           {timedOut && (phase === 'scan' || phase === 'approve') && (

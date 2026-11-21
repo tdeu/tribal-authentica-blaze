@@ -105,6 +105,12 @@ class WizardWallet {
     this.mgr.attachRelay(this.relay);
     this.set({ relay: 'connecting' });
     if (this.mgr.hasPath(RECEIVE)) this.onWalletReady();
+    // A stored session the wallet never finished (or has since dropped) must not leave the app
+    // half-connected: if the wallet hasn't answered within 20 s, forget it so "Connect" starts fresh.
+    const relay = this.relay;
+    setTimeout(() => {
+      if (this.relay === relay && !this.state.approved && !this.state.walletName && !this.state.qrUri) void this.disconnect();
+    }, 20_000);
     return true;
   }
 
