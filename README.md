@@ -99,6 +99,8 @@ first purchase was funded separately. Keeper and Sankofa payouts go to demo wall
 
 ## Wallets
 
+Sankofa is built on the May 2026 network upgrade (128-byte NFT commitments, new VM limits).
+
 The app connects with **WizardConnect** (`@wizardconnect/core` 0.2.5, `@wizardconnect/dapp` 0.2.2).
 
 | Wallet | Status |
@@ -114,7 +116,7 @@ Paytaca `main` f474603) on our mask 002 buy request: both return a fully signed 
 **Why not Selene yet:** each certificate is a 70-byte NFT commitment (mask ID, fingerprint, owner, price, last sale),
 which the May 2026 network upgrade allows (the limit went from 40 to 128 bytes). Selene (version of 14 Oct 2026,
 libauth 3.0.0) still refuses any commitment over 40 bytes before signing, and checks the signed transaction against
-the 2023 VM rules. Selene will work as soon as it moves to the 2026 rules; nothing in the contract needs to change.
+the 2023 VM rules, where the RoyaltyVault also exceeds the old 201-operation limit. Selene will work as soon as it moves to the 2026 rules; nothing in the contract needs to change.
 
 <a id="what-if-something-goes-wrong"></a>
 ## What if something goes wrong?
